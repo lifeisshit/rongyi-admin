@@ -1,0 +1,6 @@
+node_modules/
+package-lock.json
+.browserslistrc
+.eslintrc.js
+.idea/
+dist/
