@@ -52,12 +52,7 @@ export default {
         return false
       }
       //ajax提交表单
-      axios.get(API.Login, {
-          params: {
-            login: login,
-            password: password
-          }
-        })
+        axios.post(API.Login, 'login=' + login + '&password=' + password)
         .then((res) => {
           console.log('res is', res)
           //localStorage.setItem('AdmInCookies',login);

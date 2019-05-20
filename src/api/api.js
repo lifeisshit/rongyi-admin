@@ -1,7 +1,7 @@
 const API = {
-    OSSUrl: 'http://47.99.200.198/service/aliyun-oss/getSign',
-    Login: '/user/login',
-    Logout: '/user/logout',
+    // OSSUrl: 'http://47.99.200.198/service/aliyun-oss/getSign',
+    Login: '/sys-user/login',
+    Logout: '/sys-user/logout',
     Welcome: '/welcome',
     EditPageList: '/edit/pageList',
     EditInsertData: '/edit/insert',
@@ -39,7 +39,7 @@ const API = {
     SysMsgInsert: 'sysmsg/insert',
     SysMsgUpdate: 'sysmsg/update',
     SysMsgDelete: 'sysmsg/delete',
-    cacheItem: 'http://47.99.200.198:19080/service/edit/cacheItem' // service相关接口
+    // cacheItem: 'http://47.99.200.198:19080/service/edit/cacheItem' // service相关接口
 }
 
 export default API
