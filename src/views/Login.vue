@@ -55,11 +55,11 @@ export default {
         axios.post(API.Login, 'login=' + login + '&password=' + password)
         .then((res) => {
           console.log('res is', res)
-          //localStorage.setItem('AdmInCookies',login);
           this.$store.dispatch('setLoginUserId', {
             loginUserId: login
           })
           localStorage.setItem('loginUserId', login)
+          localStorage.setItem('loginUserRole', res.data.sysRoleInfo.name)
           this.$message({
             'message': '登录成功',
             'type': 'success'

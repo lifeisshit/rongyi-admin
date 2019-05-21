@@ -20,15 +20,17 @@
     </el-row>
     <el-row class="table-div">
       <el-table :data="tableData" border style="width: 100%">
+        <el-table-column type="index" label="序号" header-align="center" align="center">
+        </el-table-column>
         <el-table-column prop="login" label="账号">
         </el-table-column>
-        <el-table-column prop="nickName" label="昵称">
+        <el-table-column prop="name" label="昵称">
         </el-table-column>
         <el-table-column prop="phone" label="联系电话">
         </el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
-            <el-button @click="deleteRow(scope.row.id)" type="text" size="small">删除</el-button>
+            <!--<el-button @click="deleteRow(scope.row.id)" type="text" size="small">删除</el-button>-->
             <el-button @click="updateRow(scope.row)" type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
@@ -44,14 +46,17 @@
           <el-form-item label="账号:" prop="login">
             <el-input v-model="formData.login" placeHolder="请输入账号"></el-input>
           </el-form-item>
-          <el-form-item label="昵称:" prop="nickName">
-            <el-input v-model="formData.nickName" placeHolder="请输入昵称"></el-input>
+          <el-form-item label="昵称:" prop="name">
+            <el-input v-model="formData.name" placeHolder="请输入昵称"></el-input>
           </el-form-item>
           <el-form-item label="电话:" prop="phone">
             <el-input v-model="formData.phone" placeHolder="请输入手机号"></el-input>
           </el-form-item>
           <el-form-item label="密码:" prop="password" v-if="isAdd">
             <el-input v-model="formData.password" placeHolder="请输入密码"></el-input>
+          </el-form-item>
+          <el-form-item label="角色:" prop="roleId">
+            <el-input v-model="formData.roleId" placeHolder="请输入角色"></el-input>
           </el-form-item>
         </el-form>
       </el-col>
@@ -70,7 +75,7 @@ import axios from 'axios'
 import API from '../api/api.js'
 
 export default {
-  name: 'AdminUserList',
+  name: 'SysUserList',
   data() {
     return {
       tableData: [],
@@ -78,6 +83,7 @@ export default {
       keyword: '',
       listMode: true,
       isAdd: true,
+      roles: [],
       formData: {},
       formRule: {
         login: [{
@@ -85,7 +91,7 @@ export default {
           message: '请输入账号',
           trigger: 'blur'
         }],
-        nickName: [{
+        name: [{
           required: true,
           message: '请输入昵称',
           trigger: 'blur'
@@ -98,6 +104,11 @@ export default {
         password: [{
           required: true,
           message: '请输入密码',
+          trigger: 'blur'
+        }],
+        roleId: [{
+          required: true,
+          message: '请输入角色',
           trigger: 'blur'
         }]
       }
@@ -124,7 +135,7 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        axios.get(API.AdminUserDelete, {
+        axios.get(API.SysUserDelete, {
           params: {
             id: rId
           }
@@ -152,7 +163,7 @@ export default {
     updateRow(row) {
       this.formData.id = row.id
       this.formData.login = row.login
-      this.formData.nickName = row.nickName
+      this.formData.name = row.name
       this.formData.phone = row.phone
       this.isAdd = false
       this.listMode = false
@@ -171,13 +182,13 @@ export default {
       if (this.keyword && this.keyword.trim()) {
         params.keyword = this.keyword
       }
-      axios.get(API.AdminUserPageList, {
+      axios.get(API.SysUserPageList, {
         params
       }).then(res => {
         if (res.status !== 0) {
           this.$message.error('获取用户列表失败')
         } else {
-          this.tableData = res.data.list
+          this.tableData = res.data.dataList
           this.totalPage = res.data.totalPage
         }
       }).catch(() => this.$message.error('获取用户列表失败'))
@@ -185,7 +196,7 @@ export default {
     clickOnSubmit() {
       this.$refs.userForm.validate().then(() => {
         console.log(this.formData)
-        let api = this.isAdd ? API.AdminUserInsert : API.AdminUserUpdate
+        let api = this.isAdd ? API.SysUserInsert : API.SysUserUpdate
         axios.post(api, this.formData).then(res => {
           console.log(res)
           if (res.status !== 0) {
@@ -201,8 +212,20 @@ export default {
     currentPageChanged(cp) {
       this.getDataList(cp)
     },
+    getRoles(){
+      axios.get(API.SysRolePageList)
+        .then(res => {
+          console.log(res)
+          if (res.status !== 0) {
+            this.$message.error('获取角色列表失败')
+          } else {
+            this.roles = res.data.datalist
+          }
+        }).catch(() => this.$message.error('获取角色列表失败'))
+    }
   },
   mounted() {
+    this.getRoles()
     this.getDataList(1)
   }
 }

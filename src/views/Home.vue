@@ -128,8 +128,8 @@ export default {
     },
     hasRole(menu) {
       if (menu.role) {
-        const loginUserId = this.$store.getters.loginUserId
-        if (menu.role === 'SUPPER_ADMIN' && loginUserId !== 'admin') {
+        const loginUserRole = this.$store.getters.loginUserRole
+        if (menu.role.indexOf(loginUserRole) != -1) {
           return false
         }
       }
@@ -248,6 +248,7 @@ export default {
           loginUserId: ''
         })
         localStorage.removeItem('loginUserId')
+        localStorage.removeItem('loginUserRole')
         this.$message({
           'message': '您已安全退出登录',
           'type': 'success'

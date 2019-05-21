@@ -7,21 +7,48 @@ const state = {
         name: 'Welcome',
         icon: 'el-icon-d-arrow-right',
         title: '首页'
-    },
-    {
-        name: 'AdminUserManagement',
+    },{
+        name: 'SysUserManagement',
         icon: 'el-icon-tickets',
-        title: '后台用户管理',
-        role: 'SUPPER_ADMIN',
+        title: '系统管理',
+        role: 'sys_admin',
         subItems: [{
-            name: 'AdminUserList',
+            name: 'SysRoleList',
+            title: '系统角色'
+        },
+        {
+            name: 'SysUserList',
             // icon: 'el-icon-check',
-            title: '后台用户列表'
+            title: '系统用户'
         }]
+    },{
+        name: 'BusinessManagement',
+        icon: 'el-icon-tickets',
+        title: '业务管理',
+        role: 'sys_admin',
+        subItems: [{
+          name: 'FundList',
+          title: '资金方'
+        },{
+          name: 'ProjectList',
+          title: '项目方'
+        },{
+          name: 'SuccessCaseList',
+          title: '成功案例'
+        }]
+    },{
+      name: 'ClientManagement',
+      icon: 'el-icon-tickets',
+      title: '客户管理',
+      role: 'sys_admin',
+      subItems: [{
+        name: 'ClientList',
+        title: '客户列表'
+      }]
     }
     ],
     tabs: [],
-    tabComponents: ['Welcome', 'AdminUserList']
+    tabComponents: ['Welcome', 'SysUserList']
 }
 
 export default state
