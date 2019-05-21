@@ -23,6 +23,8 @@
       <el-table :data="tableData" border style="width: 100%">
         <el-table-column type="index" label="序号" width="100" header-align="center" align="center">
         </el-table-column>
+        <el-table-column prop="roleDesc" label="角色">
+        </el-table-column>
         <el-table-column prop="login" label="账号">
         </el-table-column>
         <el-table-column prop="name" label="昵称">
@@ -57,7 +59,10 @@
             <el-input v-model="formData.password" placeHolder="请输入密码"></el-input>
           </el-form-item>
           <el-form-item label="角色:" prop="roleId">
-            <el-input v-model="formData.roleId" placeHolder="请输入角色"></el-input>
+            <el-select v-model="formData.roleId" placeholder="请选择角色">
+              <el-option v-for="role in roles" :key="role.id" :label="role.desc" :value="role.id">
+              </el-option>
+            </el-select>
           </el-form-item>
         </el-form>
       </el-col>
@@ -83,6 +88,7 @@ export default {
       totalPage: 1,
       listMode: true,
       isAdd: true,
+      keyword: '',
       roles: [],
       formData: {},
       formRule: {
@@ -165,6 +171,8 @@ export default {
       this.formData.login = row.login
       this.formData.name = row.name
       this.formData.phone = row.phone
+      this.formData.password = row.password
+      this.formData.roleId = row.roleId
       this.isAdd = false
       this.listMode = false
     },
@@ -197,7 +205,15 @@ export default {
       this.$refs.userForm.validate().then(() => {
         console.log(this.formData)
         let api = this.isAdd ? API.SysUserInsert : API.SysUserUpdate
-        axios.post(api, this.formData).then(res => {
+        var qs = require('qs')
+        axios.post(api, qs.stringify({
+          'id': this.formData.id,
+          'login':this.formData.login,
+          'password': this.formData.password,
+          'name': this.formData.name,
+          'phone': this.formData.phone,
+          'roleId': this.formData.roleId
+        })).then(res => {
           console.log(res)
           if (res.status !== 0) {
             this.$message.error('保存失败')
@@ -219,7 +235,7 @@ export default {
           if (res.status !== 0) {
             this.$message.error('获取角色列表失败')
           } else {
-            this.roles = res.data.datalist
+            this.roles = res.data.dataList
           }
         }).catch(() => this.$message.error('获取角色列表失败'))
     }
