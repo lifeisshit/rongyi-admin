@@ -18,7 +18,6 @@ const state = {
         },
         {
             name: 'SysUserList',
-            // icon: 'el-icon-check',
             title: '系统用户'
         }]
     },{
@@ -40,7 +39,7 @@ const state = {
       name: 'ClientManagement',
       icon: 'el-icon-tickets',
       title: '客户管理',
-      role: 'sys_admin,sale_manager,sale_man',
+      role: 'sys_admin,sales_manager,sales_man',
       subItems: [{
         name: 'ClientList',
         title: '客户列表'
@@ -48,7 +47,7 @@ const state = {
     }
     ],
     tabs: [],
-    tabComponents: ['Welcome', 'SysUserList']
+    tabComponents: ['Welcome', 'SysRoleList', 'SysUserList', 'FundList', 'ProjectList', 'SuccessCaseList', 'ClientList']
 }
 
 export default state

@@ -18,9 +18,10 @@
         <el-button type="primary" icon="el-icon-circle-plus-outline" @click="addNewUser">新增用户</el-button>
       </el-col>
     </el-row>
+    <br>
     <el-row class="table-div">
       <el-table :data="tableData" border style="width: 100%">
-        <el-table-column type="index" label="序号" header-align="center" align="center">
+        <el-table-column type="index" label="序号" width="100" header-align="center" align="center">
         </el-table-column>
         <el-table-column prop="login" label="账号">
         </el-table-column>
@@ -42,7 +43,7 @@
   <div v-if="!listMode">
     <el-row>
       <el-col :span="12">
-        <el-form ref="userForm" :model="formData" :rules="formRule" label-width="100px" :key="'form' + isAdd">
+        <el-form ref="userForm" :model="formData" :rules="formRule" label-width="100px">
           <el-form-item label="账号:" prop="login">
             <el-input v-model="formData.login" placeHolder="请输入账号"></el-input>
           </el-form-item>
@@ -70,7 +71,7 @@
 </template>
 
 <script>
-import '../assets/css/admin-user-list.less'
+import '../assets/css/sys-user-list.less'
 import axios from 'axios'
 import API from '../api/api.js'
 
@@ -80,7 +81,6 @@ export default {
     return {
       tableData: [],
       totalPage: 1,
-      keyword: '',
       listMode: true,
       isAdd: true,
       roles: [],
