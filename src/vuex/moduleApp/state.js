@@ -40,7 +40,7 @@ const state = {
       name: 'ClientManagement',
       icon: 'el-icon-tickets',
       title: '客户管理',
-      role: 'sys_admin',
+      role: 'sys_admin,sale_manager,sale_man',
       subItems: [{
         name: 'ClientList',
         title: '客户列表'
