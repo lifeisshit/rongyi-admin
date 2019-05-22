@@ -129,7 +129,7 @@ export default {
     hasRole(menu) {
       if (menu.role) {
         const loginUserRole = this.$store.getters.loginUserRole
-        if (menu.role.indexOf(loginUserRole) != -1) {
+        if (menu.role.indexOf(loginUserRole) == -1) {
           return false
         }
       }
@@ -246,6 +246,9 @@ export default {
         //localStorage.removeItem('AdmInCookies')
         this.$store.dispatch('setLoginUserId', {
           loginUserId: ''
+        })
+        this.$store.dispatch('setLoginUserRole', {
+          loginUserRole: ''
         })
         localStorage.removeItem('loginUserId')
         localStorage.removeItem('loginUserRole')

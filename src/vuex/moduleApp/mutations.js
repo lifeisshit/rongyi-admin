@@ -7,6 +7,9 @@ const mutations = {
     [types.SET_LOGIN_USER_ID](state, loginUserId) {
         state.loginUserId = loginUserId
     },
+    [types.SET_LOGIN_USER_ROLE](state, loginUserRole) {
+      state.loginUserRole = loginUserRole
+    },
     // 设置是否全屏
     [types.SET_FULL_PAGE](state, isFullPage) {
         console.log("isFullPage: ", isFullPage);

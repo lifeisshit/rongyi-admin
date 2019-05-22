@@ -10,6 +10,7 @@ const API = {
     SysUserInsert:'/sys-user/add',
     SysUserUpdate:'/sys-user/update',
     SysUserDelete:'/sys-user/deleteById',
+    ClientPageList:'/user/pageList'
     // cacheItem: 'http://47.99.200.198:19080/service/edit/cacheItem' // service相关接口
 }
 

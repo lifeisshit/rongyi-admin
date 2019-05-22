@@ -7,6 +7,9 @@ const actions = {
     setLoginUserId: ({commit}, payload) => {
         commit(types.SET_LOGIN_USER_ID, payload.loginUserId)
     },
+    setLoginUserRole: ({commit}, payload) => {
+        commit(types.SET_LOGIN_USER_ROLE, payload.loginUserRole)
+    },
     setFullPage: ({commit}, payload) => {
         commit(types.SET_FULL_PAGE, payload.isFullPage)
     },

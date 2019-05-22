@@ -58,6 +58,9 @@ export default {
           this.$store.dispatch('setLoginUserId', {
             loginUserId: login
           })
+          this.$store.dispatch('setLoginUserRole', {
+            loginUserRole: res.data.sysRoleInfo.name
+          })
           localStorage.setItem('loginUserId', login)
           localStorage.setItem('loginUserRole', res.data.sysRoleInfo.name)
           this.$message({
