@@ -9,7 +9,7 @@ const development = process.env.NODE_ENV
 axios.defaults.timeout = 30000
 // local
 // axios.defaults.baseURL = development? 'http://47.99.200.198/admin' : '/admin'
-axios.defaults.baseURL = 'http://localhost:28080/sys'
+axios.defaults.baseURL = '/sys'
 
 axios.defaults.responseType = 'json'
 axios.defaults.withCredentials=true

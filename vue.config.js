@@ -9,14 +9,14 @@ module.exports = {
   },
   devServer: {
     proxy: {
-        // proxy all requests starting with /api to jsonplaceholder
-        '/sys': {
-            target: 'http://47.103.55.170/sys',   //代理接口
-                changeOrigin: true,
-                pathRewrite: {
-                '^/sys': ''    //代理的路径
-            }
+        // proxy all requests starting with /sys to
+      '/sys': {
+        target: 'http://localhost:28080/sys',   //代理接口
+        changeOrigin: true,
+        pathRewrite: {
+          '^/sys': '/'    //代理的路径
         }
+      }
     }
   }
 }

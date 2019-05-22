@@ -205,15 +205,7 @@ export default {
       this.$refs.userForm.validate().then(() => {
         console.log(this.formData)
         let api = this.isAdd ? API.SysUserInsert : API.SysUserUpdate
-        var qs = require('qs')
-        axios.post(api, qs.stringify({
-          'id': this.formData.id,
-          'login':this.formData.login,
-          'password': this.formData.password,
-          'name': this.formData.name,
-          'phone': this.formData.phone,
-          'roleId': this.formData.roleId
-        })).then(res => {
+        axios.post(api, this.formData).then(res => {
           console.log(res)
           if (res.status !== 0) {
             this.$message.error('保存失败')
