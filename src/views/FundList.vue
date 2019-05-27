@@ -118,8 +118,7 @@
         listMode: true,
         isAdd: true,
         keyword: '',
-        formData: {
-        },
+        formData: {},
         formRule: {
           title: [{
             required: true,
