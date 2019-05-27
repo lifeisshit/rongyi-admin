@@ -17,6 +17,7 @@
         <el-table-column prop="email" label="邮箱"></el-table-column>
         <el-table-column prop="userData.compName" label="公司"></el-table-column>
         <el-table-column prop="userData.department" label="部门"></el-table-column>
+        <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
       </el-table>
       <el-pagination class="pagination" layout="prev, pager, next" :page-count="totalPage" background @current-chage="currentPageChanged"></el-pagination>
     </el-row>

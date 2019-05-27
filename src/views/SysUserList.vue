@@ -31,6 +31,7 @@
         </el-table-column>
         <el-table-column prop="phone" label="联系电话">
         </el-table-column>
+        <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <!--<el-button @click="deleteRow(scope.row.id)" type="text" size="small">删除</el-button>-->
