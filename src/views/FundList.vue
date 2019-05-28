@@ -24,6 +24,11 @@
           <el-table-column type="index" label="序号" width="100" header-align="center" align="center">
           </el-table-column>
           <el-table-column prop="title" label="标题"></el-table-column>
+          <el-table-column label="资金方图片" width="150px">
+            <template slot-scope="scope">
+              <img :src="scope.row.img" width="100px" height="100px"/>
+            </template>
+          </el-table-column>
           <el-table-column prop="personName" label="人名"></el-table-column>
           <el-table-column prop="investAmount" label="投资资金"></el-table-column>
           <el-table-column prop="investWay" label="投资方式"></el-table-column>
@@ -46,6 +51,21 @@
           <el-form ref="fundForm" :model="formData" :rules="formRule" label-width="240px">
             <el-form-item label="标题:" prop="title">
               <el-input v-model="formData.title" placeHolder="请输入标题"></el-input>
+            </el-form-item>
+            <el-form-item label="资金方图片">
+              <el-upload accept=".jpg, .png"
+                         ref="fund_img"
+                         class="avatar-uploader"
+                         :action="ossHost"
+                         :data="ossFormData"
+                         :show-file-list="false"
+                         :on-change="changeCoverImgUpload"
+                         :on-remove="removeCoverImgUpload"
+                         :on-success="successCoverImgUpload"
+                         :before-upload="beforeCoverImgUpload">
+                <img v-if="fund_img" :src="fund_img" class="avatar" width="300px" height="300px">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
             </el-form-item>
             <el-form-item label="人名:" prop="personName">
               <el-input v-model="formData.personName" placeHolder="请输入人名"></el-input>
@@ -126,6 +146,11 @@
             message: '请输入标题',
             trigger: 'blur'
           }],
+          img: [{
+            required: false,
+            message: '请上传项目图片',
+            trigger: 'blur'
+          }],
           personName: [{
             required: true,
             message: '请输入人名',
@@ -192,12 +217,15 @@
             trigger: 'blur'
           }],
         },
-//        investTypes: InvestTypes,
-//        industries: Industries,
-//        regions: Regions,
-//        selectInvestTypes: [],
-//        selectIndustries: [],
-//        selectRegions: []
+        fund_img: '',
+        //oss data
+        accessid: '',
+        policy: '',
+        signature: '',
+        ossDir: '',
+        ossHost: '',
+        ossFormData: {},
+        newImgName: ''
       }
     },
     methods: {
@@ -246,6 +274,7 @@
       updateRow(row) {
         this.formData.id = row.id
         this.formData.title = row.title
+        this.formData.img = row.img
         this.formData.personName = row.personName
         this.formData.inventRegion = row.inventRegion
         this.formData.investIndustry = row.investIndustry
@@ -259,6 +288,7 @@
         this.formData.deliverCount = row.deliverCount
         this.formData.msgCount = row.msgCount
         this.formData.recommend = row.recommend
+        this.fund_img = this.getPictureFullPath(this.formData.img)
 
         this.isAdd = false
         this.listMode = false
@@ -292,9 +322,7 @@
       clickOnSubmit() {
 
         this.$refs.fundForm.validate().then(() => {
-//          this.formData.inventRegion = this.selectRegions
-//          this.formData.investIndustry = row.selectIndustries
-//          this.formData.investType = row.selectInvestTypes
+          this.formData.img = this.fund_img
           console.log(this.formData)
 
           let api = this.isAdd ? API.FundAdd : API.FundUpdate
@@ -316,9 +344,82 @@
       clickOnCancel() {
         this.listMode = true
       },
+      getAliyunOssSign() {
+        //获取oss认证
+        axios.get(API.OSSUrl).then((result) => {
+          if (!result || !result.data) {
+            this.$message.error('图片服务器连接异常！')
+            return
+          }
+          this.accessid = result.data.accessid
+          this.policy = result.data.policy
+          this.signature = result.data.signature
+          this.ossDir = result.data.dir
+          this.ossHost = result.data.host
+        });
+      },
+      changeCoverImgUpload(file, fileList) {
+        console.log(file);
+        console.log(fileList);
+      },
+      removeCoverImgUpload(res, file) {},
+      successCoverImgUpload(response, file, fileList) {
+        console.log('successCoverImgUpload' + response)
+      },
+      beforeCoverImgUpload(file) {
+        const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
+        const isLt5M = file.size / 1024 / 1024 < 5;
+        if (!isJPG) {
+          this.$message.error('上传图片只能是 JPG 或者 PNG 格式!')
+          return false
+        }
+        if (!isLt5M) {
+          this.$message.error('上传图片大小不能超过 5MB!')
+          return false
+        }
+
+        console.log('isAdd ', this.isAdd)
+        console.log('file ', file)
+        if (this.isAdd) {
+          this.newImgName = Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name;
+        } else {
+          this.newImgName = 'fund_' + this.formData.id + '.' + this.getFileSuffix(file.name);
+        }
+        this.fund_img = this.getPictureFullPath(this.newImgName)
+
+        this.ossFormData.OSSAccessKeyId = this.accessid
+        this.ossFormData.policy = this.policy
+        this.ossFormData.Signature = this.signature
+        this.ossFormData.key = this.ossDir + 'fund/' + this.newImgName
+      },
+      // 获取图片完整路径
+      getPictureFullPath(fileName) {
+        if (!fileName) {
+          return fileName
+        }
+        if (fileName.toLowerCase().startsWith('http://') || fileName.toLowerCase().startsWith('https://')) {
+          return fileName
+        }
+        return this.ossHost + '/' + this.ossDir + 'fund/' + fileName
+      },
+      // 获取图片名
+      getFileNameFromFullPath(fullPath) {
+        if (!fullPath) {
+          return fullPath
+        }
+        if (!fullPath.toLowerCase().startsWith('http://') && !fullPath.toLowerCase().startsWith('https://')) {
+          return fullPath
+        }
+        return fullPath.substring(fullPath.lastIndexOf('/') + 1)
+      },
+      // 获取图片后缀
+      getFileSuffix(fileName) {
+        return fileName.substring(fileName.lastIndexOf('.') + 1)
+      }
     },
     mounted: function () {
       this.getDataList(1)
+      this.getAliyunOssSign()
     }
   }
 </script>

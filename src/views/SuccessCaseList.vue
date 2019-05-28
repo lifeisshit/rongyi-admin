@@ -165,7 +165,8 @@
         signature: '',
         ossDir: '',
         ossHost: '',
-        ossFormData: {}
+        ossFormData: {},
+        newImgName: ''
       }
     },
     methods: {
@@ -222,12 +223,12 @@
         this.formData.enterTime = row.enterTime
         this.formData.successTime = row.successTime
         this.success_case_img = this.getPictureFullPath(this.formData.img)
+
         this.isAdd = false
         this.listMode = false
       },
       clickOnAddNew() {
         // 重置所有的formData
-        this.cover_img = ''
         this.formData = {}
         this.isAdd = true
         this.listMode = false
@@ -303,8 +304,7 @@
       },
       removeCoverImgUpload(res, file) {},
       successCoverImgUpload(response, file, fileList) {
-        console.log('successCoverImgUpload' + response)
-        this.success_case_img = this.getPictureFullPath(file.raw.name)
+        console.log('this.success_case_img:' + this.success_case_img)
       },
       beforeCoverImgUpload(file) {
         const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
@@ -318,10 +318,19 @@
           return false
         }
 
+        console.log('isAdd ', this.isAdd)
+        console.log('file ', file)
+        if (this.isAdd) {
+          this.newImgName = Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name;
+        } else {
+          this.newImgName = 'successCase_' + this.formData.id + '.' + this.getFileSuffix(file.name);
+        }
+        this.success_case_img = this.getPictureFullPath(this.newImgName)
+
         this.ossFormData.OSSAccessKeyId = this.accessid
         this.ossFormData.policy = this.policy
         this.ossFormData.Signature = this.signature
-        this.ossFormData.key = this.ossDir + 'successCase/' + file.name
+        this.ossFormData.key = this.ossDir + 'successCase/' + this.newImgName
       },
       // 获取图片完整路径
       getPictureFullPath(fileName) {
@@ -342,6 +351,10 @@
           return fullPath
         }
         return fullPath.substring(fullPath.lastIndexOf('/') + 1)
+      },
+      // 获取图片后缀
+      getFileSuffix(fileName) {
+        return fileName.substring(fileName.lastIndexOf('.') + 1)
       }
     },
     mounted() {
