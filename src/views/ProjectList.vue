@@ -111,6 +111,12 @@
             <el-form-item label="投资金额:（投资理财专用）" prop="investAmount">
               <el-input v-model="formData.investAmount" placeHolder="请输入投资金额"></el-input>
             </el-form-item>
+            <el-form-item label="是否推荐:" prop="recommend">
+              <el-select v-model="formData.recommend" placeholder="请选择是否推荐">
+                <el-option v-for="item in recommends" :label="item.label" :key="item.value" :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
           </el-form>
         </el-col>
       </el-row>
@@ -126,7 +132,7 @@
   import '../assets/css/project.less'
   import axios from 'axios'
   import API from '../api/api.js'
-  import { Regions, ProjectTypes } from '../common/constant.js'
+  import { Regions, ProjectTypes, Recommend } from '../common/constant.js'
 
   export default {
     name: "ProjectList",
@@ -135,6 +141,7 @@
         // some data
         regions: Regions,
         projectTypes: ProjectTypes,
+        recommends: Recommend,
         tableData: [],
         totalPage: 1,
         listMode: true,
@@ -247,6 +254,11 @@
             message: '请输入所在行业',
             trigger: 'blur'
           }],
+          recommend: [{
+            required: true,
+            message: '请选择是否设置为推荐项目',
+            trigger: 'blur'
+          }],
         }
       }
     },
@@ -316,6 +328,7 @@
         this.formData.financeWay = row.financeWay
         this.formData.region = row.region
         this.formData.industry = row.industry
+        this.formData.recommend = row.recommend
 
         this.isAdd = false
         this.listMode = false

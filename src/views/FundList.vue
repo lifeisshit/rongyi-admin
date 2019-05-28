@@ -51,15 +51,9 @@
               <el-input v-model="formData.personName" placeHolder="请输入人名"></el-input>
             </el-form-item>
             <el-form-item label="投资地区（最多只能选择五个）:" prop="inventRegion">
-              <!--<el-checkbox-group v-model="selectRegions" :max="5" :min="0">-->
-                <!--<el-checkbox v-for="item in regions" :label="item" :key="item">{{item}}</el-checkbox>-->
-              <!--</el-checkbox-group>-->
               <el-input v-model="formData.inventRegion" placeHolder="请输入投资地区"></el-input>
             </el-form-item>
             <el-form-item label="投资行业（最多只能选择五个）:" prop="investIndustry">
-              <!--<el-checkbox-group v-model="selectIndustries" :max="5" :min="0">-->
-                <!--<el-checkbox v-for="item in industries" :label="item" :key="item">{{item}}</el-checkbox>-->
-              <!--</el-checkbox-group>-->
               <el-input v-model="formData.investIndustry" placeHolder="投资行业"></el-input>
             </el-form-item>
             <el-form-item label="投资资金:" prop="investAmount">
@@ -92,6 +86,12 @@
             <el-form-item label="留言次数:" prop="msgCount">
               <el-input v-model="formData.msgCount" placeHolder="请输入留言次数" type="number"></el-input>
             </el-form-item>
+            <el-form-item label="是否推荐:" prop="recommend">
+              <el-select v-model="formData.recommend" placeholder="请选择是否推荐">
+                <el-option v-for="item in recommends" :label="item.label" :key="item.value" :value="item.value">
+                </el-option>
+              </el-select>
+            </el-form-item>
           </el-form>
         </el-col>
       </el-row>
@@ -107,12 +107,13 @@
   import '../assets/css/fund.less'
   import axios from 'axios'
   import API from '../api/api.js'
-  import { InvestTypes, Industries, Regions }  from '../common/constant.js'
+  import { InvestTypes, Industries, Regions, Recommend }  from '../common/constant.js'
 
   export default {
     name: "FundList",
     data() {
       return {
+        recommends: Recommend,
         tableData: [],
         totalPage: 1,
         listMode: true,
@@ -185,6 +186,11 @@
             message: '请输入最低回报要求：债权投资专用',
             trigger: 'blur'
           }],
+          recommend: [{
+            required: true,
+            message: '请选择是否设置为推荐项目',
+            trigger: 'blur'
+          }],
         },
 //        investTypes: InvestTypes,
 //        industries: Industries,
@@ -252,6 +258,7 @@
         this.formData.minReturnRequire = row.minReturnRequire
         this.formData.deliverCount = row.deliverCount
         this.formData.msgCount = row.msgCount
+        this.formData.recommend = row.recommend
 
         this.isAdd = false
         this.listMode = false

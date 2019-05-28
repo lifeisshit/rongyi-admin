@@ -57,4 +57,13 @@ const Regions = ['北京', '天津', '上海', '重庆', '浙江省', '福建省
 // 项目类型
 const ProjectTypes = ['项目融资', '资产交易', '政府招商', '投资理财']
 
-export { MemberObject, MemberType, MemberDuty, InvestTypes, Industries, Regions, ProjectTypes}
+// 是否推荐
+const Recommend = [{
+    value: 0,
+    label: '不推荐'
+  }, {
+    value: 1,
+    label: '推荐'
+  }]
+
+export { MemberObject, MemberType, MemberDuty, InvestTypes, Industries, Regions, ProjectTypes, Recommend}
