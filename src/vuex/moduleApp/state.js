@@ -44,11 +44,21 @@ const state = {
       subItems: [{
         name: 'ClientList',
         title: '客户列表'
+      },{
+        name: 'AppointmentProjectList',
+        title: '投递项目列表'
       }]
     }
     ],
     tabs: [],
-    tabComponents: ['Welcome', 'SysRoleList', 'SysUserList', 'FundList', 'ProjectList', 'SuccessCaseList', 'ClientList']
+    tabComponents: ['Welcome',
+      'SysRoleList',
+      'SysUserList',
+      'FundList',
+      'ProjectList',
+      'SuccessCaseList',
+      'ClientList',
+      'AppointmentProjectList']
 }
 
 export default state

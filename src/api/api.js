@@ -26,6 +26,7 @@ const API = {
   FundGet:'/fund/getById',
   FundUpdate:'/fund/update',
   FundPageList:'/fund/pageList',
+  AppointmentProjectPageList:'/appointment-project/pageList',
 }
 
 export default API
