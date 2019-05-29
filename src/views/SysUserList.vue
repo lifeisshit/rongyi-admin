@@ -27,7 +27,7 @@
         </el-table-column>
         <el-table-column prop="login" label="账号">
         </el-table-column>
-        <el-table-column prop="name" label="昵称">
+        <el-table-column prop="name" label="姓名">
         </el-table-column>
         <el-table-column prop="phone" label="联系电话">
         </el-table-column>
@@ -50,8 +50,8 @@
           <el-form-item label="账号:" prop="login">
             <el-input v-model="formData.login" placeHolder="请输入账号"></el-input>
           </el-form-item>
-          <el-form-item label="昵称:" prop="name">
-            <el-input v-model="formData.name" placeHolder="请输入昵称"></el-input>
+          <el-form-item label="姓名:" prop="name">
+            <el-input v-model="formData.name" placeHolder="请输入姓名"></el-input>
           </el-form-item>
           <el-form-item label="电话:" prop="phone">
             <el-input v-model="formData.phone" placeHolder="请输入手机号"></el-input>
@@ -91,7 +91,14 @@ export default {
       isAdd: true,
       keyword: '',
       roles: [],
-      formData: {},
+      formData: {
+        id: 0,
+        login: '',
+        name: '',
+        phone: '',
+        password: '',
+        roleId: 0
+      },
       formRule: {
         login: [{
           required: true,
@@ -136,7 +143,6 @@ export default {
       this.getDataList(1)
     },
     deleteRow(rId) {
-      console.log(rId)
       this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -204,10 +210,8 @@ export default {
     },
     clickOnSubmit() {
       this.$refs.userForm.validate().then(() => {
-        console.log(this.formData)
         let api = this.isAdd ? API.SysUserInsert : API.SysUserUpdate
         axios.post(api, this.formData).then(res => {
-          console.log(res)
           if (res.status !== 0) {
             this.$message.error('保存失败')
           } else {
@@ -224,7 +228,6 @@ export default {
     getRoles(){
       axios.get(API.SysRolePageList)
         .then(res => {
-          console.log(res)
           if (res.status !== 0) {
             this.$message.error('获取角色列表失败')
           } else {

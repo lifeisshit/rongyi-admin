@@ -115,7 +115,17 @@
         listMode: true,
         isAdd: true,
         keyword: '',
-        formData: {},
+        formData: {
+          id: 0,
+          title: '',
+          img: '',
+          info: '',
+          fundRequire: '',
+          successAmount: '',
+          viewCount: 0,
+          enterTime: '',
+          successTime: ''
+        },
         formRule: {
           fundRequire: [{
             required: true,
@@ -181,7 +191,6 @@
         this.getDataList(1)
       },
       deleteRow(rId) {
-        console.log(rId)
         this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -263,11 +272,9 @@
             return false;
           }
           this.formData.img = this.success_case_img
-          console.log(this.formData)
 
           let api = this.isAdd ? API.SuccessCaseAdd : API.SuccessCaseUpdate
           axios.post(api, this.formData).then(res => {
-            console.log(res)
             if (res.status !== 0) {
               this.$message.error('保存失败')
             } else {
@@ -298,14 +305,9 @@
           this.ossHost = result.data.host
         });
       },
-      changeCoverImgUpload(file, fileList) {
-        console.log(file);
-        console.log(fileList);
-      },
+      changeCoverImgUpload(file, fileList) {},
       removeCoverImgUpload(res, file) {},
-      successCoverImgUpload(response, file, fileList) {
-        console.log('this.success_case_img:' + this.success_case_img)
-      },
+      successCoverImgUpload(response, file, fileList) {},
       beforeCoverImgUpload(file) {
         const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
         const isLt5M = file.size / 1024 / 1024 < 5;
@@ -318,8 +320,6 @@
           return false
         }
 
-        console.log('isAdd ', this.isAdd)
-        console.log('file ', file)
         if (this.isAdd) {
           this.newImgName = Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name;
         } else {

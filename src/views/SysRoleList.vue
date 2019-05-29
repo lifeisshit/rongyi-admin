@@ -62,7 +62,11 @@
         listMode: true,
         isAdd: true,
         roles: [],
-        formData: {},
+        formData: {
+          id: 0,
+          name: '',
+          desc: ''
+        },
         formRule: {
           name: [{
             required: true,
@@ -117,7 +121,6 @@
       },
       clickOnSubmit() {
         this.$refs.roleForm.validate().then(() => {
-          console.log(this.formData)
           let api = this.isAdd ? API.SysRoleInsert : API.SysRoleUpdate
           var qs = require('qs')
           axios.post(api, qs.stringify({
@@ -125,7 +128,6 @@
             'name':this.formData.name,
             'desc': this.formData.desc
           })).then(res => {
-            console.log(res)
             if (res.status !== 0) {
               this.$message.error('保存失败')
             } else {

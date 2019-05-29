@@ -51,6 +51,7 @@
           <el-form ref="fundForm" :model="formData" :rules="formRule" label-width="240px">
             <el-form-item label="标题:" prop="title">
               <el-input v-model="formData.title" placeHolder="请输入标题"></el-input>
+              <!--<el-input v-model="aaa" placeHolder="请输入标题"></el-input>-->
             </el-form-item>
             <el-form-item label="资金方图片">
               <el-upload accept=".jpg, .png"
@@ -133,13 +134,31 @@
     name: "FundList",
     data() {
       return {
+        aaa:'',
         recommends: Recommend,
         tableData: [],
         totalPage: 1,
         listMode: true,
         isAdd: true,
         keyword: '',
-        formData: {},
+        formData: {
+          id: 0,
+          title: '',
+          img: '',
+          personName: '',
+          inventRegion: '',
+          investIndustry: '',
+          investAmount: '',
+          investType: '',
+          investPeriod: '',
+          investWay: '',
+          type: '',
+          riskRequire: '',
+          minReturnRequire: '',
+          deliverCount: '',
+          msgCount: '',
+          recommend: 0,
+        },
         formRule: {
           title: [{
             required: true,
@@ -240,7 +259,6 @@
         this.getDataList(1)
       },
       deleteRow(rId) {
-        console.log(rId)
         this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
           confirmButtonText: '确定',
           cancelButtonText: '取消',
@@ -272,6 +290,7 @@
         })
       },
       updateRow(row) {
+        console.log(row)
         this.formData.id = row.id
         this.formData.title = row.title
         this.formData.img = row.img
@@ -320,14 +339,10 @@
         this.getDataList(cp)
       },
       clickOnSubmit() {
-
         this.$refs.fundForm.validate().then(() => {
           this.formData.img = this.fund_img
-          console.log(this.formData)
-
           let api = this.isAdd ? API.FundAdd : API.FundUpdate
           axios.post(api, this.formData).then(res => {
-            console.log(res)
             if (res.status !== 0) {
               this.$message.error('保存失败')
             } else {
@@ -358,14 +373,9 @@
           this.ossHost = result.data.host
         });
       },
-      changeCoverImgUpload(file, fileList) {
-        console.log(file);
-        console.log(fileList);
-      },
+      changeCoverImgUpload(file, fileList) {},
       removeCoverImgUpload(res, file) {},
-      successCoverImgUpload(response, file, fileList) {
-        console.log('successCoverImgUpload' + response)
-      },
+      successCoverImgUpload(response, file, fileList) {},
       beforeCoverImgUpload(file) {
         const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
         const isLt5M = file.size / 1024 / 1024 < 5;
@@ -378,8 +388,6 @@
           return false
         }
 
-        console.log('isAdd ', this.isAdd)
-        console.log('file ', file)
         if (this.isAdd) {
           this.newImgName = Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name;
         } else {

@@ -54,7 +54,6 @@ export default {
       //ajax提交表单
         axios.post(API.Login, 'login=' + login + '&password=' + password)
         .then((res) => {
-          console.log('res is', res)
           this.$store.dispatch('setLoginUserId', {
             loginUserId: login
           })
