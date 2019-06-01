@@ -153,18 +153,18 @@
   import '../assets/css/fund.less'
   import axios from 'axios'
   import API from '../api/api.js'
-  import { InvestTypes, Industries, Regions, InvestPeriods, Recommend, InvestWays }  from '../common/constant.js'
+  import * as constant from '../common/constant.js'
 
   export default {
     name: "FundList",
     data() {
       return {
-        regions: Regions,
-        industries: Industries,
-        investTypes: InvestTypes,
-        investPeriods: InvestPeriods,
-        recommends: Recommend,
-        investWays: InvestWays,
+        regions: constant.Regions,
+        industries: constant.Industries,
+        investTypes: constant.InvestTypes,
+        investPeriods: constant.InvestPeriods,
+        recommends: constant.Recommend,
+        investWays: constant.InvestWays,
         tableData: [],
         totalPage: 1,
         listMode: true,
@@ -479,13 +479,13 @@
       successCoverImgUpload(response, file, fileList) {},
       beforeCoverImgUpload(file) {
         const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
-        const isLt5M = file.size / 1024 / 1024 < 5;
+        const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isJPG) {
           this.$message.error('上传图片只能是 JPG 或者 PNG 格式!')
           return false
         }
-        if (!isLt5M) {
-          this.$message.error('上传图片大小不能超过 5MB!')
+        if (!isLt2M) {
+          this.$message.error('上传图片大小不能超过 2MB!')
           return false
         }
 

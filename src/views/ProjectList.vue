@@ -64,11 +64,26 @@
                          :action="ossHost"
                          :data="ossFormData"
                          :show-file-list="false"
-                         :on-change="changeCoverImgUpload"
-                         :on-remove="removeCoverImgUpload"
-                         :on-success="successCoverImgUpload"
-                         :before-upload="beforeCoverImgUpload">
+                         :on-change="changeImgUpload"
+                         :on-remove="removeImgUpload"
+                         :on-success="successImgUpload"
+                         :before-upload="beforeImgUpload">
                 <img v-if="project_img" :src="project_img" class="avatar" width="300px" height="300px">
+                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+              </el-upload>
+            </el-form-item>
+            <el-form-item label="附件">
+              <el-upload accept=".jpg, .png"
+                         ref="attachment_img"
+                         class="avatar-uploader"
+                         :action="ossHost"
+                         :data="ossFormData"
+                         :show-file-list="false"
+                         :on-change="changeAttachmentUpload"
+                         :on-remove="removeAttachmentUpload"
+                         :on-success="successAttachmentUpload"
+                         :before-upload="beforeAttachmentUpload">
+                <img v-if="attachment_img" :src="attachment_img" class="avatar" width="300px" height="300px">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
@@ -87,19 +102,27 @@
               <el-input v-model="formData.msgNum" placeHolder="请输入留言次数" type="number"></el-input>
             </el-form-item>
             <el-form-item label="所在行业:（项目融资，政府招商专用）" prop="industry">
-              <el-input v-model="formData.industry" placeHolder="请输入所在行业"></el-input>
+              <el-select v-model="formData.industry" placeholder="请选择所在行业">
+                <el-option v-for="item in industries" :lable="item" :key="item" :value="item"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="融资金额:（项目融资专用）" prop="financeAmount">
-              <el-input v-model="formData.financeAmount" placeHolder="请输入融资金额"></el-input>
+              <el-select v-model="formData.financeAmount" placeholder="请选择融资金额">
+                <el-option v-for="item in amounts" :lable="item" :key="item" :value="item"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="融资方式:（项目融资专用）" prop="financeWay">
-              <el-input v-model="formData.financeWay" placeHolder="请输入融资方式"></el-input>
+              <el-select v-model="formData.financeWay" placeholder="请选择融资方式">
+                <el-option v-for="item in financeWays" :lable="item" :key="item" :value="item"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="融资用途:（项目融资专用）" prop="financeUse">
               <el-input v-model="formData.financeUse" placeHolder="请输入融资用途"></el-input>
             </el-form-item>
             <el-form-item label="项目阶段:（项目融资专用）" prop="projectPeriod">
-              <el-input v-model="formData.projectPeriod" placeHolder="请输入项目阶段"></el-input>
+              <el-select v-model="formData.projectPeriod" placeholder="请选择项目阶段">
+                <el-option v-for="item in projectPeriods" :lable="item" :key="item" :value="item"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="转让价格:（资产交易专用）" prop="transferPrice">
               <el-input v-model="formData.transferPrice" placeHolder="请输入转让价格"></el-input>
@@ -108,19 +131,27 @@
               <el-input v-model="formData.assetValue" placeHolder="请输入资产估价"></el-input>
             </el-form-item>
             <el-form-item label="交易类别:（资产交易专用）" prop="dealType">
-              <el-input v-model="formData.dealType" placeHolder="请输入交易类别"></el-input>
+              <el-checkbox-group v-model="formData.dealType" placeholder="请选择交易类别">
+                <el-checkbox v-for="item in dealTypes" :label="item" :key="item">{{item}}</el-checkbox>
+              </el-checkbox-group>
             </el-form-item>
             <el-form-item label="交易方式:（资产交易专用）" prop="dealWay">
-              <el-input v-model="formData.dealWay" placeHolder="请输入交易方式"></el-input>
+              <el-select v-model="formData.dealWay" placeholder="请选择交易方式">
+                <el-option v-for="item in dealWays" :lable="item" :key="item" :value="item"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="投资估算:（政府招商专用）" prop="investEstimate">
               <el-input v-model="formData.investEstimate" placeHolder="请输入投资估算"></el-input>
             </el-form-item>
             <el-form-item label="招商方式:（政府招商专用）" prop="attractWay">
-              <el-input v-model="formData.attractWay" placeHolder="请输入招商方式"></el-input>
+              <el-select v-model="formData.attractWay" placeholder="请选择招商方式">
+                <el-option v-for="item in attractWays" :lable="item" :key="item" :value="item"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="产品类型:（投资理财专用）" prop="productType">
-              <el-input v-model="formData.productType" placeHolder="请输入产品类型"></el-input>
+              <el-select v-model="formData.productType" placeholder="请选择产品类型">
+                <el-option v-for="item in productTypes" :lable="item" :key="item" :value="item"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="投资门槛:（投资理财专用）" prop="investThreshold">
               <el-input v-model="formData.investThreshold" placeHolder="请输入投资门槛"></el-input>
@@ -129,13 +160,27 @@
               <el-input v-model="formData.investTime" placeHolder="请输入投资期限"></el-input>
             </el-form-item>
             <el-form-item label="投资金额:（投资理财专用）" prop="investAmount">
-              <el-input v-model="formData.investAmount" placeHolder="请输入投资金额"></el-input>
+              <el-select v-model="formData.investAmount" placeholder="请选择投资金额">
+                <el-option v-for="item in amounts" :lable="item" :key="item" :value="item"></el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="是否推荐:" prop="recommend">
               <el-select v-model="formData.recommend" placeholder="请选择是否推荐">
                 <el-option v-for="item in recommends" :label="item.label" :key="item.value" :value="item.value">
                 </el-option>
               </el-select>
+            </el-form-item>
+            <el-form-item label="去年营业额:" prop="lastYearTurnover">
+              <el-input v-model="formData.lastYearTurnover" placeHolder="请输入去年营业额"></el-input>
+            </el-form-item>
+            <el-form-item label="项目描述:" prop="projectDesc">
+              <el-input type="textarea" :rows="8" v-model="formData.projectDesc" placeHolder="请输入项目描述"></el-input>
+            </el-form-item>
+            <el-form-item label="其他备注:" prop="otherComment">
+              <el-input type="textarea" :rows="8" v-model="formData.otherComment" placeHolder="请输入其他备注"></el-input>
+            </el-form-item>
+            <el-form-item label="标签:" prop="tag">
+              <el-input v-model="formData.tag" placeHolder="请输入标签"></el-input>
             </el-form-item>
           </el-form>
         </el-col>
@@ -152,16 +197,24 @@
   import '../assets/css/project.less'
   import axios from 'axios'
   import API from '../api/api.js'
-  import { Regions, ProjectTypes, Recommend } from '../common/constant.js'
+  import * as constant from '../common/constant.js'
 
   export default {
     name: "ProjectList",
     data() {
       return {
         // some data
-        regions: Regions,
-        projectTypes: ProjectTypes,
-        recommends: Recommend,
+        regions: constant.Regions,
+        projectTypes: constant.ProjectTypes,
+        recommends: constant.Recommend,
+        industries: constant.Industries,
+        amounts: constant.Amounts,
+        financeWays: constant.FinanceWays,
+        projectPeriods: constant.ProjectPeriods,
+        dealTypes: constant.DealTypes,
+        dealWays: constant.DealWays,
+        attractWays: constant.AttractWays,
+        productTypes: constant.ProjectTypes,
         tableData: [],
         totalPage: 1,
         listMode: true,
@@ -172,6 +225,7 @@
           type: '',
           title: '',
           img: '',
+          attachment: '',
           personName: '',
           talkNum: 0,
           msgNum: 0,
@@ -184,14 +238,18 @@
           productType: '',
           attractWay: '',
           dealWay: '',
-          dealType: '',
+          dealType: [],
           projectPeriod: '',
           financeUse: '',
           financeAmount: '',
           financeWay: '',
           region: '',
           industry: '',
-          recommend: 0
+          recommend: 0,
+          projectDesc: '',
+          otherComment: '',
+          tag: '',
+          lastYearTurnover: '',
         },
         formRule: {
           type: [{
@@ -207,6 +265,11 @@
           img: [{
             required: false,
             message: '请上传项目图片',
+            trigger: 'blur'
+          }],
+          attachment: [{
+            required: false,
+            message: '请上传附件图片',
             trigger: 'blur'
           }],
           personName: [{
@@ -309,8 +372,29 @@
             message: '请选择是否设置为推荐项目',
             trigger: 'blur'
           }],
+          projectDesc: [{
+            required: true,
+            message: '请输入项目描述',
+            trigger: 'blur'
+          }],
+          otherComment: [{
+            required: true,
+            message: '请输入其他备注',
+            trigger: 'blur'
+          }],
+          tag: [{
+            required: true,
+            message: '请选择标签',
+            trigger: 'blur'
+          }],
+          lastYearTurnover: [{
+            required: false,
+            message: '请输入去年营业额',
+            trigger: 'blur'
+          }],
         },
         project_img: '',
+        attachment_img: '',
         //oss data
         accessid: '',
         policy: '',
@@ -318,7 +402,8 @@
         ossDir: '',
         ossHost: '',
         ossFormData: {},
-        newImgName: ''
+        newImgName: '',
+        newAttachmentName: '',
       }
     },
     methods: {
@@ -380,7 +465,7 @@
         this.formData.productType = row.productType
         this.formData.attractWay = row.attractWay
         this.formData.dealWay = row.dealWay
-        this.formData.dealType = row.dealType
+        this.formData.dealType = (row.dealType || '').trim().split(',')
         this.formData.projectPeriod = row.projectPeriod
         this.formData.financeUse = row.financeUse
         this.formData.financeAmount = row.financeAmount
@@ -388,14 +473,50 @@
         this.formData.region = row.region
         this.formData.industry = row.industry
         this.formData.recommend = row.recommend
+        this.formData.projectDesc = row.projectDesc
+        this.formData.otherComment = row.otherComment
+        this.formData.tag = row.tag
+        this.formData.lastYearTurnover = row.lastYearTurnover
+
         this.project_img = this.getPictureFullPath(this.formData.img)
+        this.attachment_img = this.getPictureFullPath(this.formData.attachment)
 
         this.isAdd = false
         this.listMode = false
       },
       clickOnAddNew() {
         // 重置所有的formData
-        this.formData = {}
+        this.formData = {
+          id: 0,
+          type: '',
+          title: '',
+          img: '',
+          attachment: '',
+          personName: '',
+          talkNum: 0,
+          msgNum: 0,
+          investTime: '',
+          investThreshold: '',
+          investEstimate: '',
+          assetValue: '',
+          transferPrice: '',
+          investAmount: '',
+          productType: '',
+          attractWay: '',
+          dealWay: '',
+          dealType: [],
+          projectPeriod: '',
+          financeUse: '',
+          financeAmount: '',
+          financeWay: '',
+          region: '',
+          industry: '',
+          recommend: 0,
+          projectDesc: '',
+          otherComment: '',
+          tag: '',
+          lastYearTurnover: '',
+        }
         this.isAdd = true
         this.listMode = false
       },
@@ -422,6 +543,9 @@
       clickOnSubmit() {
         this.$refs.projectForm.validate().then(() => {
           this.formData.img = this.project_img
+          this.formData.attachment = this.attachment_img
+          this.formData.dealType = this.formData.dealType.join(',')
+
           let api = this.isAdd ? API.ProjectAdd : API.ProjectUpdate
           axios.post(api, this.formData).then(res => {
             if (res.status !== 0) {
@@ -454,18 +578,18 @@
           this.ossHost = result.data.host
         });
       },
-      changeCoverImgUpload(file, fileList) {},
-      removeCoverImgUpload(res, file) {},
-      successCoverImgUpload(response, file, fileList) {},
-      beforeCoverImgUpload(file) {
+      changeImgUpload(file, fileList) {},
+      removeImgUpload(res, file) {},
+      successImgUpload(response, file, fileList) {},
+      beforeImgUpload(file) {
         const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
-        const isLt5M = file.size / 1024 / 1024 < 5;
+        const isLt2M = file.size / 1024 / 1024 < 2;
         if (!isJPG) {
           this.$message.error('上传图片只能是 JPG 或者 PNG 格式!')
           return false
         }
-        if (!isLt5M) {
-          this.$message.error('上传图片大小不能超过 5MB!')
+        if (!isLt2M) {
+          this.$message.error('上传图片大小不能超过 2MB!')
           return false
         }
 
@@ -480,6 +604,33 @@
         this.ossFormData.policy = this.policy
         this.ossFormData.Signature = this.signature
         this.ossFormData.key = this.ossDir + 'project/' + this.newImgName
+      },
+      changeAttachmentUpload(file, fileList) {},
+      removeAttachmentUpload(res, file) {},
+      successAttachmentUpload(response, file, fileList) {},
+      beforeAttachmentUpload(file) {
+        const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
+        const isLt2M = file.size / 1024 / 1024 < 2;
+        if (!isJPG) {
+          this.$message.error('上传附件只能是 JPG 或者 PNG 格式!')
+          return false
+        }
+        if (!isLt2M) {
+          this.$message.error('上传附件大小不能超过 2MB!')
+          return false
+        }
+
+        if (this.isAdd) {
+          this.newAttachmentName = Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name;
+        } else {
+          this.newAttachmentName = 'project_attachment_' + this.formData.id + '.' + this.getFileSuffix(file.name);
+        }
+        this.attachment_img = this.getPictureFullPath(this.newAttachmentName)
+
+        this.ossFormData.OSSAccessKeyId = this.accessid
+        this.ossFormData.policy = this.policy
+        this.ossFormData.Signature = this.signature
+        this.ossFormData.key = this.ossDir + 'project/' + this.newAttachmentName
       },
       // 获取图片完整路径
       getPictureFullPath(fileName) {
