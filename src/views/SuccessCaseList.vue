@@ -52,7 +52,7 @@
     </div>
     <div v-if="!listMode">
       <el-row>
-        <el-col :span="12">
+        <el-col :span="18">
           <el-form ref="successCaseForm" :model="formData" :rules="formRule" label-width="120px">
             <el-form-item label="标题:" prop="title">
               <el-input v-model="formData.title" placeHolder="请输入标题"></el-input>

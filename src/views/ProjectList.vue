@@ -46,7 +46,7 @@
     </div>
     <div v-if="!listMode">
       <el-row>
-        <el-col :span="12">
+        <el-col :span="18">
           <el-form ref="projectForm" :model="formData" :rules="formRule" label-width="280px">
             <el-form-item label="项目类型:" prop="type">
               <el-select v-model="formData.type" placeholder="请选择项目类型">

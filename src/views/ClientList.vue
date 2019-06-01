@@ -28,7 +28,6 @@
   import '../assets/css/sys-user-list.less'
   import axios from 'axios'
   import API from '../api/api.js'
-  import { MemberObject, MemberType, MemberDuty } from '../common/constant'
 
   export default {
     name: "ClientList",

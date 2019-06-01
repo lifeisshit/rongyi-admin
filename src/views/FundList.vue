@@ -47,11 +47,10 @@
     </div>
     <div v-if="!listMode">
       <el-row>
-        <el-col :span="12">
+        <el-col :span="18">
           <el-form ref="fundForm" :model="formData" :rules="formRule" label-width="240px">
             <el-form-item label="标题:" prop="title">
               <el-input v-model="formData.title" placeHolder="请输入标题"></el-input>
-              <!--<el-input v-model="aaa" placeHolder="请输入标题"></el-input>-->
             </el-form-item>
             <el-form-item label="资金方图片">
               <el-upload accept=".jpg, .png"
@@ -72,25 +71,33 @@
               <el-input v-model="formData.personName" placeHolder="请输入人名"></el-input>
             </el-form-item>
             <el-form-item label="投资地区（最多只能选择五个）:" prop="inventRegion">
-              <el-input v-model="formData.inventRegion" placeHolder="请输入投资地区"></el-input>
+              <el-checkbox-group v-model="formData.inventRegion" :min="1" :max="5">
+                <el-checkbox v-for="item in regions" :label="item" :key="item">{{item}}</el-checkbox>
+              </el-checkbox-group>
             </el-form-item>
             <el-form-item label="投资行业（最多只能选择五个）:" prop="investIndustry">
-              <el-input v-model="formData.investIndustry" placeHolder="投资行业"></el-input>
+              <el-checkbox-group v-model="formData.investIndustry" :min="1" :max="5">
+                <el-checkbox v-for="item in industries" :label="item" :key="item">{{item}}</el-checkbox>
+              </el-checkbox-group>
             </el-form-item>
             <el-form-item label="投资资金:" prop="investAmount">
               <el-input v-model="formData.investAmount" placeHolder="请输入投资资金"></el-input>
             </el-form-item>
             <el-form-item label="投资类型:（股权投资专用，最多只能选择五个）" prop="investType">
-              <!--<el-checkbox-group v-model="selectInvestTypes" :max="5" :min="0">-->
-                <!--<el-checkbox v-for="item in investTypes" :label="item" :key="item">{{item}}</el-checkbox>-->
-              <!--</el-checkbox-group>-->
-              <el-input v-model="formData.investType" placeHolder="请输入投资类型"></el-input>
+              <el-checkbox-group v-model="formData.investType" :min="1" :max="5">
+                <el-checkbox v-for="item in investTypes" :label="item" :key="item">{{item}}</el-checkbox>
+              </el-checkbox-group>
             </el-form-item>
             <el-form-item label="投资阶段:（股权投资专用）" prop="investPeriod">
-              <el-input v-model="formData.investPeriod" placeHolder="请输入投资阶段"></el-input>
+              <el-checkbox-group v-model="formData.investPeriod">
+                <el-checkbox v-for="item in investPeriods" :label="item" :key="item">{{item}}</el-checkbox>
+              </el-checkbox-group>
             </el-form-item>
             <el-form-item label="投资方式:" prop="investWay">
-              <el-input v-model="formData.investWay" placeHolder="请输入投资方式"></el-input>
+              <el-select v-model="formData.investWay" placeholder="请选择投资方式">
+                <el-option v-for="item in investWays" :label="item.label" :key="item.value" :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
             <el-form-item label="资金类型:" prop="type">
               <el-input v-model="formData.type" placeHolder="请输入资金类型"></el-input>
@@ -113,6 +120,24 @@
                 </el-option>
               </el-select>
             </el-form-item>
+            <el-form-item label="资金主体:" prop="moneySubject">
+              <el-input v-model="formData.moneySubject" placeHolder="请输入资金主体"></el-input>
+            </el-form-item>
+            <el-form-item label="资金主体所在地区:" prop="moneySubjectRegion">
+              <el-input v-model="formData.moneySubjectRegion" placeHolder="请输入资金主体所在地区"></el-input>
+            </el-form-item>
+            <el-form-item label="投资期限:" prop="investDeadline">
+              <el-input v-model="formData.investDeadline" placeHolder="请输入投资期限"></el-input>
+            </el-form-item>
+            <el-form-item label="前期费用:" prop="earlyCost">
+              <el-input v-model="formData.earlyCost" placeHolder="请输入前期费用"></el-input>
+            </el-form-item>
+            <el-form-item label="需提供资料:" prop="provideData">
+              <el-input v-model="formData.provideData" placeHolder="请输入需提供资料"></el-input>
+            </el-form-item>
+            <el-form-item label="投资要求概述:" prop="investRequireDesc">
+              <el-input type="textarea" :rows="12" v-model="formData.investRequireDesc" placeHolder="请输入投资要求概述"></el-input>
+            </el-form-item>
           </el-form>
         </el-col>
       </el-row>
@@ -128,14 +153,18 @@
   import '../assets/css/fund.less'
   import axios from 'axios'
   import API from '../api/api.js'
-  import { InvestTypes, Industries, Regions, Recommend }  from '../common/constant.js'
+  import { InvestTypes, Industries, Regions, InvestPeriods, Recommend, InvestWays }  from '../common/constant.js'
 
   export default {
     name: "FundList",
     data() {
       return {
-        aaa:'',
+        regions: Regions,
+        industries: Industries,
+        investTypes: InvestTypes,
+        investPeriods: InvestPeriods,
         recommends: Recommend,
+        investWays: InvestWays,
         tableData: [],
         totalPage: 1,
         listMode: true,
@@ -146,11 +175,11 @@
           title: '',
           img: '',
           personName: '',
-          inventRegion: '',
-          investIndustry: '',
+          inventRegion: [],
+          investIndustry: [],
           investAmount: '',
-          investType: '',
-          investPeriod: '',
+          investType: [],
+          investPeriod: [],
           investWay: '',
           type: '',
           riskRequire: '',
@@ -158,6 +187,12 @@
           deliverCount: '',
           msgCount: '',
           recommend: 0,
+          moneySubject: '',
+          moneySubjectRegion: '',
+          investDeadline: '',
+          earlyCost: '',
+          provideData: '',
+          investRequireDesc: '',
         },
         formRule: {
           title: [{
@@ -235,6 +270,36 @@
             message: '请选择是否设置为推荐项目',
             trigger: 'blur'
           }],
+          moneySubject: [{
+            required: true,
+            message: '请输入资金主体',
+            trigger: 'blur'
+          }],
+          moneySubjectRegion: [{
+            required: true,
+            message: '请输入资金主体所在地区',
+            trigger: 'blur'
+          }],
+          investDeadline: [{
+            required: true,
+            message: '请输入投资期限',
+            trigger: 'blur'
+          }],
+          earlyCost: [{
+            required: true,
+            message: '请输入前期费用',
+            trigger: 'blur'
+          }],
+          provideData: [{
+            required: true,
+            message: '请输入需提供资料',
+            trigger: 'blur'
+          }],
+          investRequireDesc: [{
+            required: true,
+            message: '请输入投资要求概述',
+            trigger: 'blur'
+          }],
         },
         fund_img: '',
         //oss data
@@ -295,11 +360,11 @@
         this.formData.title = row.title
         this.formData.img = row.img
         this.formData.personName = row.personName
-        this.formData.inventRegion = row.inventRegion
-        this.formData.investIndustry = row.investIndustry
+        this.formData.inventRegion = (row.inventRegion || '').trim().split(',')
+        this.formData.investIndustry = (row.investIndustry || '').trim().split(',')
         this.formData.investAmount = row.investAmount
-        this.formData.investType = row.investType
-        this.formData.investPeriod = row.investPeriod
+        this.formData.investType = (row.investType || '').trim().split(',')
+        this.formData.investPeriod = (row.investPeriod || '').trim().split(',')
         this.formData.investWay = row.investWay
         this.formData.type = row.type
         this.formData.riskRequire = row.riskRequire
@@ -307,6 +372,13 @@
         this.formData.deliverCount = row.deliverCount
         this.formData.msgCount = row.msgCount
         this.formData.recommend = row.recommend
+        this.formData.moneySubject = row.moneySubject
+        this.formData.moneySubjectRegion = row.moneySubjectRegion
+        this.formData.investDeadline = row.investDeadline
+        this.formData.earlyCost = row.earlyCost
+        this.formData.provideData = row.provideData
+        this.formData.investRequireDesc = row.investRequireDesc
+
         this.fund_img = this.getPictureFullPath(this.formData.img)
 
         this.isAdd = false
@@ -314,7 +386,30 @@
       },
       clickOnAddNew() {
         // 重置所有的formData
-        this.formData = {}
+        this.formData = {
+          id: 0,
+          title: '',
+          img: '',
+          personName: '',
+          inventRegion: [],
+          investIndustry: [],
+          investAmount: '',
+          investType: [],
+          investPeriod: [],
+          investWay: '',
+          type: '',
+          riskRequire: '',
+          minReturnRequire: '',
+          deliverCount: '',
+          msgCount: '',
+          recommend: 0,
+          moneySubject: '',
+          moneySubjectRegion: '',
+          investDeadline: '',
+          earlyCost: '',
+          provideData: '',
+          investRequireDesc: '',
+        }
         this.isAdd = true
         this.listMode = false
       },
@@ -330,6 +425,7 @@
           if (res.status !== 0) {
             this.$message.error('获取成功案例列表失败')
           } else {
+            console.log(res.data.dataList)
             this.tableData = res.data.dataList
             this.totalPage = res.data.totalPage
           }
@@ -341,6 +437,11 @@
       clickOnSubmit() {
         this.$refs.fundForm.validate().then(() => {
           this.formData.img = this.fund_img
+          this.formData.inventRegion = this.formData.inventRegion.join(',')
+          this.formData.investIndustry = this.formData.investIndustry.join(',')
+          this.formData.investType = this.formData.investType.join(',')
+          this.formData.investPeriod = this.formData.investPeriod.join(',')
+
           let api = this.isAdd ? API.FundAdd : API.FundUpdate
           axios.post(api, this.formData).then(res => {
             if (res.status !== 0) {
