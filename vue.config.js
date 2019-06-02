@@ -1,7 +1,7 @@
 const development = process.env.NODE_ENV !== 'production'
 
 module.exports = {
-  publicPath: development ? '' : '/pc',
+  // publicPath: development ? '' : '',
   configureWebpack: config => {
     if (development) {
       config.devtool = 'source-map'
