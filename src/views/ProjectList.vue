@@ -612,12 +612,7 @@
           return false
         }
 
-        if (this.isAdd) {
-          this.newImgName = 'img_' + Date.now() + '_' + Math.floor(Math.random() * 10000) + '_' + file.name
-        } else {
-          this.newImgName = this.getFileNameFromFullPath(this.projectImg)
-        }
-
+        this.newImgName = 'img_' + Date.now() + '_' + Math.floor(Math.random() * 10000) + '_' + file.name
         this.ossFormData.OSSAccessKeyId = this.accessid
         this.ossFormData.policy = this.policy
         this.ossFormData.Signature = this.signature
@@ -642,13 +637,7 @@
           return false
         }
 
-        if (this.isAdd) {
-          this.newAttachmentName = 'atm_' + Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name
-        } else {
-          this.newAttachmentName = this.getFileNameFromFullPath(this.attachmentImg)
-        }
-        this.attachmentImg = this.getPictureFullPath(this.newAttachmentName)
-
+        this.newAttachmentName = 'atm_' + Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name
         this.ossFormData.OSSAccessKeyId = this.accessid
         this.ossFormData.policy = this.policy
         this.ossFormData.Signature = this.signature
