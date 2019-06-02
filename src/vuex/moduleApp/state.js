@@ -9,34 +9,6 @@ const state = {
         icon: 'el-icon-d-arrow-right',
         title: '首页'
     },{
-        name: 'SysUserManagement',
-        icon: 'el-icon-tickets',
-        title: '系统管理',
-        role: 'sys_admin',
-        subItems: [{
-            name: 'SysRoleList',
-            title: '系统角色'
-        },
-        {
-            name: 'SysUserList',
-            title: '系统用户'
-        }]
-    },{
-        name: 'BusinessManagement',
-        icon: 'el-icon-tickets',
-        title: '业务管理',
-        role: 'sys_admin',
-        subItems: [{
-          name: 'FundList',
-          title: '资金方'
-        },{
-          name: 'ProjectList',
-          title: '项目方'
-        },{
-          name: 'SuccessCaseList',
-          title: '成功案例'
-        }]
-    },{
       name: 'ClientManagement',
       icon: 'el-icon-tickets',
       title: '客户管理',
@@ -48,6 +20,34 @@ const state = {
         name: 'AppointmentProjectList',
         title: '投递项目列表'
       }]
+    },{
+      name: 'BusinessManagement',
+      icon: 'el-icon-tickets',
+      title: '业务管理',
+      role: 'sys_admin',
+      subItems: [{
+        name: 'FundList',
+        title: '资金方'
+      },{
+        name: 'ProjectList',
+        title: '项目方'
+      },{
+        name: 'SuccessCaseList',
+        title: '成功案例'
+      }]
+    },{
+      name: 'SysUserManagement',
+      icon: 'el-icon-tickets',
+      title: '系统管理',
+      role: 'sys_admin',
+      subItems: [{
+        name: 'SysRoleList',
+        title: '系统角色'
+      },
+        {
+          name: 'SysUserList',
+          title: '系统用户'
+        }]
     }
     ],
     tabs: [],
