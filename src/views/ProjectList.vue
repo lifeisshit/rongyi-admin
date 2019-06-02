@@ -59,7 +59,7 @@
             </el-form-item>
             <el-form-item label="项目图片">
               <el-upload accept=".jpg, .png"
-                         ref="project_img"
+                         ref="projectImg"
                          class="avatar-uploader"
                          :action="ossHost"
                          :data="ossFormData"
@@ -68,13 +68,13 @@
                          :on-remove="removeImgUpload"
                          :on-success="successImgUpload"
                          :before-upload="beforeImgUpload">
-                <img v-if="project_img" :src="project_img" class="avatar" width="300px" height="300px">
+                <img v-if="projectImg" :src="projectImg" class="avatar" width="300px" height="300px">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
             <el-form-item label="附件">
               <el-upload accept=".jpg, .png"
-                         ref="attachment_img"
+                         ref="attachmentImg"
                          class="avatar-uploader"
                          :action="ossHost"
                          :data="ossFormData"
@@ -83,7 +83,7 @@
                          :on-remove="removeAttachmentUpload"
                          :on-success="successAttachmentUpload"
                          :before-upload="beforeAttachmentUpload">
-                <img v-if="attachment_img" :src="attachment_img" class="avatar" width="300px" height="300px">
+                <img v-if="attachmentImg" :src="attachmentImg" class="avatar" width="300px" height="300px">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
@@ -393,8 +393,8 @@
             trigger: 'blur'
           }],
         },
-        project_img: '',
-        attachment_img: '',
+        projectImg: '',
+        attachmentImg: '',
         //oss data
         accessid: '',
         policy: '',
@@ -478,8 +478,8 @@
         this.formData.tag = row.tag
         this.formData.lastYearTurnover = row.lastYearTurnover
 
-        this.project_img = this.getPictureFullPath(this.formData.img)
-        this.attachment_img = this.getPictureFullPath(this.formData.attachment)
+        this.projectImg = this.getPictureFullPath(this.formData.img)
+        this.attachmentImg = this.getPictureFullPath(this.formData.attachment)
 
         this.isAdd = false
         this.listMode = false
@@ -542,8 +542,8 @@
       },
       clickOnSubmit() {
         this.$refs.projectForm.validate().then(() => {
-          this.formData.img = this.project_img
-          this.formData.attachment = this.attachment_img
+          this.formData.img = this.projectImg
+          this.formData.attachment = this.attachmentImg
           this.formData.dealType = this.formData.dealType.join(',')
 
           let api = this.isAdd ? API.ProjectAdd : API.ProjectUpdate
@@ -578,27 +578,45 @@
           this.ossHost = result.data.host
         });
       },
+      removeOriginFile(fileName) {
+        axios.get(API.OSSUrlDelete, {
+          params: {
+            bucketName: 'rongy',
+            dir: 'edit/project',
+            fileName: this.getFileNameFromFullPath(fileName)
+          }
+        }).then(res => {
+          if (res.status !== 0) {
+            this.$message.error(res.msg)
+          }
+        }).catch(() => {
+          this.$message.error('删除失败')
+        })
+      },
       changeImgUpload(file, fileList) {},
       removeImgUpload(res, file) {},
-      successImgUpload(response, file, fileList) {},
+      successImgUpload(response, file, fileList) {
+        this.$message.info('文件上传成功')
+        this.removeOriginFile(this.projectImg)
+        this.projectImg = this.getPictureFullPath(this.newImgName)
+      },
       beforeImgUpload(file) {
         const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        const isLt5M = file.size / 1024 / 1024 < 5;
         if (!isJPG) {
           this.$message.error('上传图片只能是 JPG 或者 PNG 格式!')
           return false
         }
-        if (!isLt2M) {
-          this.$message.error('上传图片大小不能超过 2MB!')
+        if (!isLt5M) {
+          this.$message.error('上传图片大小不能超过 5MB!')
           return false
         }
 
         if (this.isAdd) {
-          this.newImgName = Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name;
+          this.newImgName = 'img_' + Date.now() + '_' + Math.floor(Math.random() * 10000) + '_' + file.name
         } else {
-          this.newImgName = 'project_' + this.formData.id + '.' + this.getFileSuffix(file.name);
+          this.newImgName = this.getFileNameFromFullPath(this.projectImg)
         }
-        this.project_img = this.getPictureFullPath(this.newImgName)
 
         this.ossFormData.OSSAccessKeyId = this.accessid
         this.ossFormData.policy = this.policy
@@ -607,25 +625,29 @@
       },
       changeAttachmentUpload(file, fileList) {},
       removeAttachmentUpload(res, file) {},
-      successAttachmentUpload(response, file, fileList) {},
+      successAttachmentUpload(response, file, fileList) {
+        this.$message.info('文件上传成功')
+        this.removeOriginFile(this.attachmentImg)
+        this.attachmentImg = this.getPictureFullPath(this.newAttachmentName)
+      },
       beforeAttachmentUpload(file) {
         const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        const isLt5M = file.size / 1024 / 1024 < 5;
         if (!isJPG) {
           this.$message.error('上传附件只能是 JPG 或者 PNG 格式!')
           return false
         }
-        if (!isLt2M) {
-          this.$message.error('上传附件大小不能超过 2MB!')
+        if (!isLt5M) {
+          this.$message.error('上传附件大小不能超过 5MB!')
           return false
         }
 
         if (this.isAdd) {
-          this.newAttachmentName = Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name;
+          this.newAttachmentName = 'atm_' + Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name
         } else {
-          this.newAttachmentName = 'project_attachment_' + this.formData.id + '.' + this.getFileSuffix(file.name);
+          this.newAttachmentName = this.getFileNameFromFullPath(this.attachmentImg)
         }
-        this.attachment_img = this.getPictureFullPath(this.newAttachmentName)
+        this.attachmentImg = this.getPictureFullPath(this.newAttachmentName)
 
         this.ossFormData.OSSAccessKeyId = this.accessid
         this.ossFormData.policy = this.policy

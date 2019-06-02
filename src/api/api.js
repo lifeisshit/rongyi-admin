@@ -1,5 +1,6 @@
 const API = {
   OSSUrl: '/aliyun-oss/getSign',
+  OSSUrlDelete: '/aliyun-oss/deleteObject',
   Login: '/sys-user/login',
   Logout: '/sys-user/logout',
   Welcome: '/welcome',

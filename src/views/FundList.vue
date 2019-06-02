@@ -54,7 +54,7 @@
             </el-form-item>
             <el-form-item label="资金方图片">
               <el-upload accept=".jpg, .png"
-                         ref="fund_img"
+                         ref="fundImg"
                          class="avatar-uploader"
                          :action="ossHost"
                          :data="ossFormData"
@@ -63,7 +63,7 @@
                          :on-remove="removeCoverImgUpload"
                          :on-success="successCoverImgUpload"
                          :before-upload="beforeCoverImgUpload">
-                <img v-if="fund_img" :src="fund_img" class="avatar" width="300px" height="300px">
+                <img v-if="fundImg" :src="fundImg" class="avatar" width="300px" height="300px">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
@@ -301,7 +301,8 @@
             trigger: 'blur'
           }],
         },
-        fund_img: '',
+        fundImg: '',
+        newImgName: '',
         //oss data
         accessid: '',
         policy: '',
@@ -309,7 +310,6 @@
         ossDir: '',
         ossHost: '',
         ossFormData: {},
-        newImgName: ''
       }
     },
     methods: {
@@ -379,7 +379,7 @@
         this.formData.provideData = row.provideData
         this.formData.investRequireDesc = row.investRequireDesc
 
-        this.fund_img = this.getPictureFullPath(this.formData.img)
+        this.fundImg = this.getPictureFullPath(this.formData.img)
 
         this.isAdd = false
         this.listMode = false
@@ -436,7 +436,7 @@
       },
       clickOnSubmit() {
         this.$refs.fundForm.validate().then(() => {
-          this.formData.img = this.fund_img
+          this.formData.img = this.fundImg
           this.formData.inventRegion = this.formData.inventRegion.join(',')
           this.formData.investIndustry = this.formData.investIndustry.join(',')
           this.formData.investType = this.formData.investType.join(',')
@@ -474,28 +474,41 @@
           this.ossHost = result.data.host
         });
       },
+      removeOriginFile(fileName) {
+        axios.get(API.OSSUrlDelete, {
+          params: {
+            bucketName: 'rongy',
+            dir: 'edit/fund',
+            fileName: this.getFileNameFromFullPath(fileName)
+          }
+        }).then(res => {
+          if (res.status !== 0) {
+            this.$message.error(res.msg)
+          }
+        }).catch(() => {
+          this.$message.error('删除失败')
+        })
+      },
       changeCoverImgUpload(file, fileList) {},
       removeCoverImgUpload(res, file) {},
-      successCoverImgUpload(response, file, fileList) {},
+      successCoverImgUpload(response, file, fileList) {
+        this.$message.info('文件上传成功')
+        this.removeOriginFile(this.fundImg)
+        this.fundImg = this.getPictureFullPath(this.newImgName)
+      },
       beforeCoverImgUpload(file) {
         const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
-        const isLt2M = file.size / 1024 / 1024 < 2;
+        const isLt5M = file.size / 1024 / 1024 < 5;
         if (!isJPG) {
           this.$message.error('上传图片只能是 JPG 或者 PNG 格式!')
           return false
         }
-        if (!isLt2M) {
-          this.$message.error('上传图片大小不能超过 2MB!')
+        if (!isLt5M) {
+          this.$message.error('上传图片大小不能超过 5MB!')
           return false
         }
 
-        if (this.isAdd) {
-          this.newImgName = Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name;
-        } else {
-          this.newImgName = 'fund_' + this.formData.id + '.' + this.getFileSuffix(file.name);
-        }
-        this.fund_img = this.getPictureFullPath(this.newImgName)
-
+        this.newImgName = 'img_' + Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name
         this.ossFormData.OSSAccessKeyId = this.accessid
         this.ossFormData.policy = this.policy
         this.ossFormData.Signature = this.signature

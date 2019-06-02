@@ -59,7 +59,7 @@
             </el-form-item>
             <el-form-item label="案例图片">
               <el-upload accept=".jpg, .png"
-                         ref="success_case_img"
+                         ref="successCaseImg"
                          class="avatar-uploader"
                          :action="ossHost"
                          :data="ossFormData"
@@ -68,7 +68,7 @@
                          :on-remove="removeCoverImgUpload"
                          :on-success="successCoverImgUpload"
                          :before-upload="beforeCoverImgUpload">
-                <img v-if="success_case_img" :src="success_case_img" class="avatar" width="300px" height="300px">
+                <img v-if="successCaseImg" :src="successCaseImg" class="avatar" width="300px" height="300px">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
@@ -168,7 +168,8 @@
             trigger: 'blur'
           }],
         },
-        success_case_img: '',
+        successCaseImg: '',
+        newImgName: '',
         //oss data
         accessid: '',
         policy: '',
@@ -176,7 +177,6 @@
         ossDir: '',
         ossHost: '',
         ossFormData: {},
-        newImgName: ''
       }
     },
     methods: {
@@ -231,7 +231,7 @@
         this.formData.viewCount = row.viewCount
         this.formData.enterTime = row.enterTime
         this.formData.successTime = row.successTime
-        this.success_case_img = this.getPictureFullPath(this.formData.img)
+        this.successCaseImg = this.getPictureFullPath(this.formData.img)
 
         this.isAdd = false
         this.listMode = false
@@ -267,11 +267,11 @@
       clickOnSubmit() {
         this.$refs.successCaseForm.validate().then(() => {
           // 获取图片
-          if (!this.success_case_img) {
+          if (!this.successCaseImg) {
             this.$message({ type: "error", message: "请先上传封面图片" });
             return false;
           }
-          this.formData.img = this.success_case_img
+          this.formData.img = this.successCaseImg
 
           let api = this.isAdd ? API.SuccessCaseAdd : API.SuccessCaseUpdate
           axios.post(api, this.formData).then(res => {
@@ -305,9 +305,28 @@
           this.ossHost = result.data.host
         });
       },
+      removeOriginFile(fileName) {
+        axios.get(API.OSSUrlDelete, {
+          params: {
+            bucketName: 'rongy',
+            dir: 'edit/successCase',
+            fileName: this.getFileNameFromFullPath(fileName)
+          }
+        }).then(res => {
+          if (res.status !== 0) {
+            this.$message.error(res.msg)
+          }
+        }).catch(() => {
+          this.$message.error('删除失败')
+        })
+      },
       changeCoverImgUpload(file, fileList) {},
       removeCoverImgUpload(res, file) {},
-      successCoverImgUpload(response, file, fileList) {},
+      successCoverImgUpload(response, file, fileList) {
+        this.$message.info('文件上传成功')
+        this.removeOriginFile(this.successCaseImg)
+        this.successCaseImg = this.getPictureFullPath(this.newImgName)
+      },
       beforeCoverImgUpload(file) {
         const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
         const isLt5M = file.size / 1024 / 1024 < 5;
@@ -320,13 +339,7 @@
           return false
         }
 
-        if (this.isAdd) {
-          this.newImgName = Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name;
-        } else {
-          this.newImgName = 'successCase_' + this.formData.id + '.' + this.getFileSuffix(file.name);
-        }
-        this.success_case_img = this.getPictureFullPath(this.newImgName)
-
+        this.newImgName = 'img_' + Date.now() + Math.floor(Math.random() * 10000) + '_' + file.name
         this.ossFormData.OSSAccessKeyId = this.accessid
         this.ossFormData.policy = this.policy
         this.ossFormData.Signature = this.signature
