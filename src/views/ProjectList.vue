@@ -529,7 +529,7 @@
           otherComment: '',
           tag: '',
           lastYearTurnover: '',
-          material: '',
+          material: [],
         }
         this.isAdd = true
         this.listMode = false

@@ -62,4 +62,7 @@ export const InvestWays = [{
 }, {
   value: '债权投资',
   label: '债权投资'
+}, {
+  value: '其它投资',
+  label: '其它投资'
 }]
