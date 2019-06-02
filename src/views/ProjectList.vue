@@ -87,6 +87,11 @@
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
+            <el-form-item label="提供材料:" prop="material">
+              <el-checkbox-group v-model="formData.material" placeholder="请选择提供材料">
+              <el-checkbox v-for="item in provideMaterials" :label="item" :key="item">{{item}}</el-checkbox>
+              </el-checkbox-group>
+            </el-form-item>
             <el-form-item label="人名:" prop="personName">
               <el-input v-model="formData.personName" placeHolder="请输入人名"></el-input>
             </el-form-item>
@@ -215,6 +220,7 @@
         dealWays: constant.DealWays,
         attractWays: constant.AttractWays,
         productTypes: constant.ProjectTypes,
+        provideMaterials: constant.ProvideMaterials,
         tableData: [],
         totalPage: 1,
         listMode: true,
@@ -226,6 +232,7 @@
           title: '',
           img: '',
           attachment: '',
+          material: [],
           personName: '',
           talkNum: 0,
           msgNum: 0,
@@ -392,6 +399,11 @@
             message: '请输入去年营业额',
             trigger: 'blur'
           }],
+          material: [{
+            required: false,
+            message: '请选择提供材料',
+            trigger: 'blur'
+          }],
         },
         projectImg: '',
         attachmentImg: '',
@@ -477,6 +489,7 @@
         this.formData.otherComment = row.otherComment
         this.formData.tag = row.tag
         this.formData.lastYearTurnover = row.lastYearTurnover
+        this.formData.material = (row.material || '').trim().split(',')
 
         this.projectImg = this.getPictureFullPath(this.formData.img)
         this.attachmentImg = this.getPictureFullPath(this.formData.attachment)
@@ -516,6 +529,7 @@
           otherComment: '',
           tag: '',
           lastYearTurnover: '',
+          material: '',
         }
         this.isAdd = true
         this.listMode = false
@@ -545,6 +559,7 @@
           this.formData.img = this.projectImg
           this.formData.attachment = this.attachmentImg
           this.formData.dealType = this.formData.dealType.join(',')
+          this.formData.material = this.formData.material.join(',')
 
           let api = this.isAdd ? API.ProjectAdd : API.ProjectUpdate
           axios.post(api, this.formData).then(res => {

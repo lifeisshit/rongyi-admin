@@ -43,6 +43,9 @@ export const AttractWays = ['合资', '独资', 'BT或BOT', '其它合作方式'
 // 产品类型
 export const ProductTypes = ['银行理财', '信托产品', '有限合伙', '阳光私募', '私募股权', '券商集合', '一对多', '私募债']
 
+// 提供材料
+export const ProvideMaterials = ['商业/项目计划书', '公司证件', '相关财务资料', '其他材料']
+
 // 是否推荐
 export const Recommend = [{
   value: 0,
