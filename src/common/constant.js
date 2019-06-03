@@ -22,7 +22,7 @@ export const Regions = ['北京', '天津', '上海', '重庆', '浙江省', '�
 export const ProjectTypes = ['项目融资', '资产交易', '政府招商', '投资理财']
 
 // 融资方式
-export const FinanceWays = ['项目融资', '资产交易', '政府招商', '投资理财']
+export const FinanceWays = ['债权融资', '股权融资', '整体转让', '其他融资']
 
 // 投资阶段
 export const InvestPeriods = ['种子期', '初创期', '成长期', '扩张期', '成熟期', 'Pre-IPO']
