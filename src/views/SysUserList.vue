@@ -197,9 +197,7 @@ export default {
       if (this.keyword && this.keyword.trim()) {
         params.keyword = this.keyword
       }
-      axios.get(API.SysUserPageList, {
-        params
-      }).then(res => {
+      axios.get(API.SysUserPageList, params).then(res => {
         if (res.status !== 0) {
           this.$message.error('获取用户列表失败')
         } else {

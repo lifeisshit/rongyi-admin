@@ -1,4 +1,5 @@
 const API = {
+  AbsOSSUrl: 'http://localhost:28080/sys/aliyun-oss/getSign',
   OSSUrl: '/aliyun-oss/getSign',
   OSSUrlDelete: '/aliyun-oss/deleteObject',
   Login: '/sys-user/login',
@@ -27,6 +28,11 @@ const API = {
   FundGet:'/fund/getById',
   FundUpdate:'/fund/update',
   FundPageList:'/fund/pageList',
+  NewsAdd:'/news/add',
+  NewsDelete:'/news/deleteById',
+  NewsGet:'/news/getById',
+  NewsUpdate:'/news/update',
+  NewsPageList:'/news/pageList',
   AppointmentProjectPageList:'/appointment-project/pageList',
 }
 

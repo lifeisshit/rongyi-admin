@@ -4,7 +4,8 @@
       <el-row>
         <el-col :span="4">
           <el-tooltip placement="right" content="刷新">
-            <el-button icon="el-icon-refresh" circle size="mini" type="primary" plain @click="clickOnRefresh"></el-button>
+            <el-button icon="el-icon-refresh" circle size="mini" type="primary" plain
+                       @click="clickOnRefresh"></el-button>
           </el-tooltip>
         </el-col>
         <el-col :span="8">
@@ -15,7 +16,7 @@
           <el-button type="primary" icon="el-icon-search" @click="clickOnSearch">搜索</el-button>
         </el-col>
         <el-col :span="8">
-          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="clickOnAddNew">新增案例</el-button>
+          <el-button type="primary" icon="el-icon-circle-plus-outline" @click="clickOnAddNew">新增资讯</el-button>
         </el-col>
       </el-row>
       <br>
@@ -25,18 +26,10 @@
           </el-table-column>
           <el-table-column prop="title" label="标题">
           </el-table-column>
-          <el-table-column label="案例图片" width="150px">
+          <el-table-column label="资讯图片" width="150px">
             <template slot-scope="scope">
               <img :src="scope.row.img" width="100px" height="100px"/>
             </template>
-          </el-table-column>
-          <el-table-column prop="fundRequire" label="资金需求">
-          </el-table-column>
-          <el-table-column prop="successAmount" label="成功融资金额">
-          </el-table-column>
-          <el-table-column prop="enterTime" label="项目入驻时间">
-          </el-table-column>
-          <el-table-column prop="successTime" label="成功融资时间">
           </el-table-column>
           <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
           <el-table-column fixed="right" label="操作" width="100">
@@ -46,20 +39,21 @@
             </template>
           </el-table-column>
         </el-table>
-        <el-pagination class="pagination" layout="prev, pager, next" :page-count="totalPage" background @current-change="currentPageChanged">
+        <el-pagination class="pagination" layout="prev, pager, next" :page-count="totalPage" background
+                       @current-change="currentPageChanged">
         </el-pagination>
       </el-row>
     </div>
     <div v-if="!listMode">
       <el-row>
         <el-col :span="18">
-          <el-form ref="successCaseForm" :model="formData" :rules="formRule" label-width="120px">
+          <el-form ref="newsForm" :model="formData" :rules="formRule" label-width="120px">
             <el-form-item label="标题:" prop="title">
               <el-input v-model="formData.title" placeHolder="请输入标题"></el-input>
             </el-form-item>
-            <el-form-item label="案例图片">
+            <el-form-item label="资讯图片">
               <el-upload accept=".jpg, .png"
-                         ref="successCaseImg"
+                         ref="newsImg"
                          class="avatar-uploader"
                          :action="ossHost"
                          :data="ossFormData"
@@ -68,27 +62,28 @@
                          :on-remove="removeCoverImgUpload"
                          :on-success="successCoverImgUpload"
                          :before-upload="beforeCoverImgUpload">
-                <img v-if="successCaseImg" :src="successCaseImg" class="avatar" width="300px" height="300px">
+                <img v-if="newsImg" :src="newsImg" class="avatar" width="300px" height="300px">
                 <i v-else class="el-icon-plus avatar-uploader-icon"></i>
               </el-upload>
             </el-form-item>
-            <el-form-item label="项目信息:" prop="info">
-              <el-input type="textarea" :rows="8" v-model="formData.info" placeHolder="请输入项目信息"></el-input>
+            <el-form-item label="资讯内容:">
+              <!--<el-input type="textarea" :rows="8" v-model="formData.content" placeHolder="请输入项目信息"></el-input>-->
+              <UEditor :config=config ref="ueditor" :id="'1'"></UEditor>
             </el-form-item>
-            <el-form-item label="资金需求:" prop="fundRequire">
-              <el-input v-model="formData.fundRequire" placeHolder="请输入资金需求"></el-input>
+            <el-form-item label="阅读次数:" prop="viewCount">
+              <el-input v-model="formData.readCount" placeHolder="请输入阅读次数" type="number"></el-input>
             </el-form-item>
-            <el-form-item label="成功融资金额:" prop="successAmount">
-              <el-input v-model="formData.successAmount" placeHolder="请输入成功融资金额"></el-input>
+            <el-form-item label="是否推荐:" prop="recommend">
+              <el-select v-model="formData.recommend" placeholder="请选择是否推荐">
+                <el-option v-for="item in recommends" :label="item.label" :key="item.value" :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
-            <el-form-item label="查看次数:" prop="viewCount">
-              <el-input v-model="formData.viewCount" placeHolder="请输入查看次数" type="number"></el-input>
-            </el-form-item>
-            <el-form-item label="项目入驻时间:" prop="enterTime">
-              <el-date-picker v-model="formData.enterTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请输入项目入驻时间"></el-date-picker>
-            </el-form-item>
-            <el-form-item label="成功融资时间:" prop="successTime">
-              <el-date-picker v-model="formData.successTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请输入项目入驻时间"></el-date-picker>
+            <el-form-item label="是否热门:" prop="hot">
+              <el-select v-model="formData.hot" placeholder="请选择是否热门">
+                <el-option v-for="item in hots" :label="item.label" :key="item.value" :value="item.value">
+                </el-option>
+              </el-select>
             </el-form-item>
           </el-form>
         </el-col>
@@ -105,9 +100,14 @@
   import '../assets/css/success-case.less'
   import axios from 'axios'
   import API from '../api/api.js'
+  import * as constant from '../common/constant'
+  import UEditor from '../components/ueditor/ueditor.vue'
 
   export default {
     name: "SuccessCaseList",
+    components: {
+      UEditor,
+    },
     data() {
       return {
         tableData: [],
@@ -115,36 +115,26 @@
         listMode: true,
         isAdd: true,
         keyword: '',
+        recommends: constant.Recommend,
+        hots: constant.Hot,
         formData: {
           id: 0,
           title: '',
           img: '',
-          info: '',
-          fundRequire: '',
-          successAmount: '',
-          viewCount: 0,
-          enterTime: '',
-          successTime: ''
+          content: '',
+          readCount: 0,
+          recommend: 0,
+          hot: 0,
         },
         formRule: {
-          fundRequire: [{
-            required: true,
-            message: '请输入资金需求',
-            trigger: 'blur'
-          }],
           img: [{
             required: true,
-            message: '请上传案例图片',
+            message: '请上传资讯图片',
             trigger: 'blur'
           }],
-          info: [{
+          content: [{
             required: true,
-            message: '请输入项目信息',
-            trigger: 'blur'
-          }],
-          successAmount: [{
-            required: true,
-            message: '请输入成功融资金额',
+            message: '请输入资讯内容',
             trigger: 'blur'
           }],
           title: [{
@@ -152,23 +142,53 @@
             message: '请输入标题',
             trigger: 'blur'
           }],
-          viewCount: [{
+          readCount: [{
             required: true,
-            message: '请输入查看次数',
+            message: '请输入阅读次数',
             trigger: 'blur'
           }],
-          enterTime: [{
+          recommend: [{
             required: true,
-            message: '请选择项目入驻时间',
+            message: '请选择是否推荐',
             trigger: 'blur'
           }],
-          successTime: [{
+          hot: [{
             required: true,
-            message: '请选择成功融资时间',
+            message: '请选择是否热门',
             trigger: 'blur'
           }],
         },
-        successCaseImg: '',
+        config: {
+          //可以在此处定义工具栏的内容
+          // toolbars: [
+          //  ['fullscreen', 'undo', 'redo','|','bold', 'italic', 'underline',
+          //  '|','superscript','subscript','|', 'insertorderedlist', 'insertunorderedlist',
+          //  '|','fontfamily','fontsize','justifyleft','justifyright','justifycenter','justifyjustify']
+          // ],
+          toolbars: [
+            [
+              'fullscreen', 'source', '|', 'undo', 'redo', '|',
+              'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+              'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+              'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+              'directionalityltr', 'directionalityrtl', 'indent', '|',
+              'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+              'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+              'simpleupload', 'insertvideo', 'map', 'insertframe', 'inserttable', 'deletetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol'
+            ]
+          ],
+          autoHeightEnabled: false,
+          autoFloatEnabled: true,
+          initialContent: '', //初始化编辑器的内容,也可以通过textarea/script给值，看官网例子
+          autoClearinitialContent: false, //是否自动清除编辑器初始内容，注意：如果focus属性设置为true,这个也为真，那么编辑器一上来就会触发导致初始化的内容看不到了
+          initialFrameWidth: null,
+          initialFrameHeight: 350,
+          BaseUrl: '',
+          UEDITOR_HOME_URL: 'ueditor/',
+          ossUrl: API.AbsOSSUrl,
+          sectionIndex: 1
+        },
+        newsImg: '',
         newImgName: '',
         //oss data
         accessid: '',
@@ -196,7 +216,7 @@
           cancelButtonText: '取消',
           type: 'warning'
         }).then(() => {
-          axios.get(API.SuccessCaseDelete, {
+          axios.get(API.NewsDelete, {
             params: {
               id: rId
             }
@@ -225,13 +245,11 @@
         this.formData.id = row.id
         this.formData.title = row.title
         this.formData.img = row.img
-        this.formData.info = row.info
-        this.formData.fundRequire = row.fundRequire
-        this.formData.successAmount = row.successAmount
-        this.formData.viewCount = row.viewCount
-        this.formData.enterTime = row.enterTime
-        this.formData.successTime = row.successTime
-        this.successCaseImg = this.getPictureFullPath(this.formData.img)
+        this.formData.readCount = row.readCount
+        this.formData.recommend = row.recommend
+        this.formData.hot = row.hot
+        this.newsImg = this.getPictureFullPath(this.formData.img)
+        this.config.initialContent = row.content
 
         this.isAdd = false
         this.listMode = false
@@ -239,44 +257,52 @@
       clickOnAddNew() {
         // 重置所有的formData
         this.formData = {}
+        this.newsImg = ''
+        this.config.initialContent =''
         this.isAdd = true
         this.listMode = false
       },
       getDataList(cp) {
         const params = {
           pageNum: cp,
-          pageSize: 20
+          pageSize: 20,
+          type: 0
         }
         if (this.keyword && this.keyword.trim()) {
           params.keyword = this.keyword
         }
-        axios.get(API.SuccessCasePageList, params).then(res => {
+        axios.post(API.NewsPageList, params).then(res => {
           if (res.status !== 0) {
-            this.$message.error('获取成功案例列表失败')
+            this.$message.error('获取资讯列表失败')
           } else {
             this.tableData = res.data.dataList
             this.totalPage = res.data.totalPage
           }
-        }).catch(() => this.$message.error('获取成功案例列表失败'))
+        }).catch(() => this.$message.error('获取资讯列表失败'))
       },
       currentPageChanged(cp) {
         this.getDataList(cp)
       },
       clickOnSubmit() {
-        this.$refs.successCaseForm.validate().then(() => {
+        this.$refs.newsForm.validate().then(() => {
           // 获取图片
-          if (!this.successCaseImg) {
-            this.$message({ type: "error", message: "请先上传封面图片" });
+          if (!this.newsImg) {
+            this.$message({type: "error", message: "请先上传资讯图片"});
             return false;
           }
-          this.formData.img = this.successCaseImg
+          this.formData.img = this.newsImg
 
-          let api = this.isAdd ? API.SuccessCaseAdd : API.SuccessCaseUpdate
+          const content = this.$refs.ueditor.getUEContent()
+          this.formData.content = content
+
+          this.formData.type = 0
+
+          let api = this.isAdd ? API.NewsAdd : API.NewsUpdate
           axios.post(api, this.formData).then(res => {
             if (res.status !== 0) {
               this.$message.error('保存失败')
             } else {
-              this.$message.success(res.msg)
+              this.$message.success('保存成功')
               this.getDataList(1)
               this.listMode = true
             }
@@ -307,7 +333,7 @@
         axios.get(API.OSSUrlDelete, {
           params: {
             bucketName: 'rongy',
-            dir: 'edit/successCase',
+            dir: 'edit/news',
             fileName: this.getFileNameFromFullPath(fileName)
           }
         }).then(res => {
@@ -318,12 +344,14 @@
           this.$message.error('删除失败')
         })
       },
-      changeCoverImgUpload(file, fileList) {},
-      removeCoverImgUpload(res, file) {},
+      changeCoverImgUpload(file, fileList) {
+      },
+      removeCoverImgUpload(res, file) {
+      },
       successCoverImgUpload(response, file, fileList) {
         this.$message.info('文件上传成功')
-        this.removeOriginFile(this.successCaseImg)
-        this.successCaseImg = this.getPictureFullPath(this.newImgName)
+        this.removeOriginFile(this.newsImg)
+        this.newsImg = this.getPictureFullPath(this.newImgName)
       },
       beforeCoverImgUpload(file) {
         const isJPG = (file.type === 'image/jpeg' || file.type === 'image/png');
@@ -341,7 +369,7 @@
         this.ossFormData.OSSAccessKeyId = this.accessid
         this.ossFormData.policy = this.policy
         this.ossFormData.Signature = this.signature
-        this.ossFormData.key = this.ossDir + 'successCase/' + this.newImgName
+        this.ossFormData.key = this.ossDir + 'news/' + this.newImgName
       },
       // 获取图片完整路径
       getPictureFullPath(fileName) {
@@ -351,7 +379,7 @@
         if (fileName.toLowerCase().startsWith('http://') || fileName.toLowerCase().startsWith('https://')) {
           return fileName
         }
-        return this.ossHost + '/' + this.ossDir + 'successCase/' + fileName
+        return this.ossHost + '/' + this.ossDir + 'news/' + fileName
       },
       // 获取图片名
       getFileNameFromFullPath(fullPath) {

@@ -72,9 +72,7 @@
         if (this.keyword && this.keyword.trim()) {
           params.keyword = this.keyword
         }
-        axios.post(API.AppointmentProjectPageList, {
-          params
-        }).then(res => {
+        axios.post(API.AppointmentProjectPageList, params).then(res => {
           if (res.status !== 0) {
             this.$message.error('获取成功案例列表失败')
           } else {

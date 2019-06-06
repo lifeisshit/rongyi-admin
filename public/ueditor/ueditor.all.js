@@ -24539,7 +24539,10 @@
                     // console.log("me.options.moduleIndex: ", me.options.moduleIndex);
 
                     //从oss获取认证并且上传至oss
+
+                  console.log(me.options.ossUrl)
                     $.get(me.options.ossUrl,{},function(ret){
+                      console.log(ret)
                         if(!ret || ret.status != 0) {
                             console.log("oss服务器连接异常");
                             return;
@@ -24553,7 +24556,7 @@
                         formData.append('policy', sign['policy']);
                         formData.append('Signature', sign['signature']);
                         // formData.append('dir', sign['dir']);
-                        formData.append('key', sign['dir'] + "area_content" + me.options.moduleIndex + "/" + object_name);
+                        formData.append('key', sign['dir'] + "area_content" + (me.options.moduleIndex || '') + "/" + object_name);
                         // 添加文件
                         formData.append('file', form[0].files[0]);
 
@@ -24564,7 +24567,7 @@
                             contentType: false,
                             type: 'POST'
                         }).success(function (data) {
-                            var link = sign['host'] + "/" + sign['dir'] + "area_content" + me.options.moduleIndex + "/" + object_name;
+                            var link = sign['host'] + "/" + sign['dir'] + "area_content" + (me.options.moduleIndex || '') + "/" + object_name;
                             var loader = me.document.getElementById(loadingId);
                             loader.setAttribute('src', link);
                             loader.setAttribute('_src', link);

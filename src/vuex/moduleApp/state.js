@@ -36,6 +36,19 @@ const state = {
         title: '成功案例'
       }]
     },{
+      name: 'NewsManagement',
+      icon: 'el-icon-tickets',
+      title: '资讯管理',
+      role: 'sys_admin',
+      subItems: [{
+        name: 'SlideNewsList',
+        title: '资讯幻灯片'
+      },
+        {
+          name: 'NewsList',
+          title: '资讯列表'
+        }]
+    },{
       name: 'SysUserManagement',
       icon: 'el-icon-tickets',
       title: '系统管理',
@@ -58,7 +71,9 @@ const state = {
       'ProjectList',
       'SuccessCaseList',
       'ClientList',
-      'AppointmentProjectList']
+      'AppointmentProjectList',
+      'SlideNewsList',
+      'NewsList']
 }
 
 export default state

@@ -55,6 +55,15 @@ export const Recommend = [{
   label: '推荐'
 }]
 
+// 是否热门
+export const Hot = [{
+  value: 0,
+  label: '不热门'
+}, {
+  value: 1,
+  label: '热门'
+}]
+
 // 投资方式
 export const InvestWays = [{
   value: '股权投资',
