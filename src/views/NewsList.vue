@@ -128,7 +128,7 @@
         },
         formRule: {
           img: [{
-            required: true,
+            required: false,
             message: '请上传资讯图片',
             trigger: 'blur'
           }],
