@@ -286,10 +286,10 @@
       clickOnSubmit() {
         this.$refs.newsForm.validate().then(() => {
           // 获取图片
-          if (!this.newsImg) {
+          /*if (!this.newsImg) {
             this.$message({type: "error", message: "请先上传资讯图片"});
             return false;
-          }
+          }*/
           this.formData.img = this.newsImg
 
           const content = this.$refs.ueditor.getUEContent()
