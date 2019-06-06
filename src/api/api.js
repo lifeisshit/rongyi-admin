@@ -1,5 +1,5 @@
 const API = {
-  AbsOSSUrl: 'http://localhost:28080/sys/aliyun-oss/getSign',
+  AbsOSSUrl: 'http://47.103.55.170:28080/sys/aliyun-oss/getSign',
   OSSUrl: '/aliyun-oss/getSign',
   OSSUrlDelete: '/aliyun-oss/deleteObject',
   Login: '/sys-user/login',
