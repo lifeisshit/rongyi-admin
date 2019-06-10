@@ -1,5 +1,5 @@
 <template>
-  <div class="appointment-project-list">
+  <div class="finance-needs-list">
     <div v-if="listMode">
       <el-row>
         <el-col :span="4">
@@ -19,15 +19,8 @@
       <el-row>
         <el-table :data="tableData" border style="width: 100%">
           <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
-          <el-table-column prop="contact" label="联系人"></el-table-column>
           <el-table-column prop="phone" label="联系人手机"></el-table-column>
-          <el-table-column prop="title" label="投递标题"></el-table-column>
-          <el-table-column prop="description" label="项目描述"></el-table-column>
-          <el-table-column prop="user.name" label="投递人姓名"></el-table-column>
-          <el-table-column prop="user.phone" label="投递人电话"></el-table-column>
-          <el-table-column prop="user.phone" label="投递人性别"></el-table-column>
-          <el-table-column prop="fund.personName" label="资金方姓名"></el-table-column>
-          <el-table-column prop="fund.title" label="资金方标题"></el-table-column>
+          <el-table-column prop="amount" label="融资金额"></el-table-column>
           <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
         </el-table>
         <el-pagination class="pagination" layout="prev, pager, next" :page-count="totalPage" background @current-change="currentPageChanged">
@@ -38,12 +31,12 @@
 </template>
 
 <script>
-  import '../assets/css/appointment-project.less'
+  import '../assets/css/finance-needs.less'
   import axios from 'axios'
   import API from '../api/api.js'
 
   export default {
-    name: "AppointmentProjectList",
+    name: "FinanceNeedsList",
     data() {
       return {
         tableData: [],
@@ -72,14 +65,16 @@
         if (this.keyword && this.keyword.trim()) {
           params.keyword = this.keyword
         }
-        axios.post(API.AppointmentProjectPageList, params).then(res => {
+        axios.get(API.FinanceNeedsPageList, {
+          params: params
+        }).then(res => {
           if (res.status !== 0) {
-            this.$message.error('获取约谈项目列表失败')
+            this.$message.error('获取列表失败')
           } else {
             this.tableData = res.data.dataList
             this.totalPage = res.data.totalPage
           }
-        }).catch(() => this.$message.error('获取约谈项目列表失败'))
+        }).catch(() => this.$message.error('获取列表失败'))
       },
       currentPageChanged(cp) {
         this.getDataList(cp)

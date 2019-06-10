@@ -34,6 +34,7 @@ const API = {
   NewsUpdate:'/news/update',
   NewsPageList:'/news/pageList',
   AppointmentProjectPageList:'/appointment-project/pageList',
+  FinanceNeedsPageList:'/finance-needs/pageList',
 }
 
 export default API

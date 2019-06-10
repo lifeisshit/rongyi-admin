@@ -423,13 +423,13 @@
         }
         axios.post(API.FundPageList, params).then(res => {
           if (res.status !== 0) {
-            this.$message.error('获取成功案例列表失败')
+            this.$message.error('获取资金列表失败')
           } else {
             console.log(res.data.dataList)
             this.tableData = res.data.dataList
             this.totalPage = res.data.totalPage
           }
-        }).catch(() => this.$message.error('获取成功案例列表失败'))
+        }).catch(() => this.$message.error('获取资金列表失败'))
       },
       currentPageChanged(cp) {
         this.getDataList(cp)

@@ -544,12 +544,12 @@
         }
         axios.post(API.ProjectPageList, params).then(res => {
           if (res.status !== 0) {
-            this.$message.error('获取成功案例列表失败')
+            this.$message.error('获取项目列表失败')
           } else {
             this.tableData = res.data.dataList
             this.totalPage = res.data.totalPage
           }
-        }).catch(() => this.$message.error('获取成功案例列表失败'))
+        }).catch(() => this.$message.error('获取项目列表失败'))
       },
       currentPageChanged(cp) {
         this.getDataList(cp)

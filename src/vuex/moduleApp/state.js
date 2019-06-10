@@ -19,6 +19,9 @@ const state = {
       },{
         name: 'AppointmentProjectList',
         title: '投递项目列表'
+      },{
+        name: 'FinanceNeedsList',
+        title: '融资需求列表'
       }]
     },{
       name: 'BusinessManagement',
@@ -72,6 +75,7 @@ const state = {
       'SuccessCaseList',
       'ClientList',
       'AppointmentProjectList',
+      'FinanceNeedsList',
       'SlideNewsList',
       'NewsList']
 }
