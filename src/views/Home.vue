@@ -128,7 +128,10 @@ export default {
     },
     hasRole(menu) {
       if (menu.role) {
-        const loginUserRole = this.$store.getters.loginUserRole
+        let loginUserRole = this.$store.getters.loginUserRole
+        if (!loginUserRole || !loginUserRole) {
+          loginUserRole = localStorage.getItem('loginUserRole')
+        }
         if (menu.role.indexOf(loginUserRole) == -1) {
           return false
         }
