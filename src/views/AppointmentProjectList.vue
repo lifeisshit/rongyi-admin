@@ -8,7 +8,7 @@
           </el-tooltip>
         </el-col>
         <el-col :span="8">
-          <el-input v-model="keyword" class="keyword" placeholder="根据标题搜索">
+          <el-input v-model="keyword" class="keyword" placeholder="根据手机，标题，姓名搜索">
           </el-input>
         </el-col>
         <el-col :span="4">
@@ -22,7 +22,6 @@
           <el-table-column prop="contact" label="联系人"></el-table-column>
           <el-table-column prop="phone" label="联系人手机"></el-table-column>
           <el-table-column prop="title" label="投递标题"></el-table-column>
-          <el-table-column prop="description" label="项目描述"></el-table-column>
           <el-table-column prop="user.name" label="投递人姓名"></el-table-column>
           <el-table-column prop="user.phone" label="投递人电话"></el-table-column>
           <el-table-column prop="user.phone" label="投递人性别"></el-table-column>

@@ -8,7 +8,7 @@
         </el-tooltip>
       </el-col>
       <el-col :span="8">
-        <el-input v-model="keyword" class="keyword" placeholder="根据登录名,昵称搜索">
+        <el-input v-model="keyword" class="keyword" placeholder="根据账号，姓名，电话搜索">
         </el-input>
       </el-col>
       <el-col :span="4">
@@ -197,7 +197,9 @@ export default {
       if (this.keyword && this.keyword.trim()) {
         params.keyword = this.keyword
       }
-      axios.get(API.SysUserPageList, params).then(res => {
+      axios.get(API.SysUserPageList, {
+        params: params
+      }).then(res => {
         if (res.status !== 0) {
           this.$message.error('获取用户列表失败')
         } else {

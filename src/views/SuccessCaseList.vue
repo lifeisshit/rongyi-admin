@@ -250,7 +250,9 @@
         if (this.keyword && this.keyword.trim()) {
           params.keyword = this.keyword
         }
-        axios.get(API.SuccessCasePageList, params).then(res => {
+        axios.get(API.SuccessCasePageList, {
+          params: params
+        }).then(res => {
           if (res.status !== 0) {
             this.$message.error('获取成功案例列表失败')
           } else {

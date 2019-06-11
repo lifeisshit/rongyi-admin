@@ -8,7 +8,7 @@
           </el-tooltip>
         </el-col>
         <el-col :span="8">
-          <el-input v-model="keyword" class="keyword" placeholder="根据标题搜索">
+          <el-input v-model="keyword" class="keyword" placeholder="根据电话搜索">
           </el-input>
         </el-col>
         <el-col :span="4">
@@ -19,7 +19,7 @@
       <el-row>
         <el-table :data="tableData" border style="width: 100%">
           <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
-          <el-table-column prop="phone" label="联系人手机"></el-table-column>
+          <el-table-column prop="phone" label="联系人电话"></el-table-column>
           <el-table-column prop="amount" label="融资金额"></el-table-column>
           <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
         </el-table>
