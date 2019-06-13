@@ -73,12 +73,12 @@
         }
         axios.post(API.AppointmentProjectPageList, params).then(res => {
           if (res.status !== 0) {
-            this.$message.error('获取约谈项目列表失败')
+            this.$message.error('获取投递项目列表失败')
           } else {
             this.tableData = res.data.dataList
             this.totalPage = res.data.totalPage
           }
-        }).catch(() => this.$message.error('获取约谈项目列表失败'))
+        }).catch(() => this.$message.error('获取投递项目列表失败'))
       },
       currentPageChanged(cp) {
         this.getDataList(cp)
