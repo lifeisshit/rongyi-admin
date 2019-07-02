@@ -37,6 +37,12 @@ const state = {
       },{
         name: 'SuccessCaseList',
         title: '成功案例'
+      },{
+        name: 'InvestorList',
+        title: '投资人'
+      },{
+        name: 'InvestOrgList',
+        title: '投资机构'
       }]
     },{
       name: 'NewsManagement',
@@ -77,7 +83,9 @@ const state = {
       'AppointmentProjectList',
       'FinanceNeedsList',
       'SlideNewsList',
-      'NewsList']
+      'NewsList',
+      'InvestorList',
+      'InvestOrgList']
 }
 
 export default state

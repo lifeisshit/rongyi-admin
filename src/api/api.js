@@ -35,6 +35,16 @@ const API = {
   NewsPageList:'/news/pageList',
   AppointmentProjectPageList:'/appointment-project/pageList',
   FinanceNeedsPageList:'/finance-needs/pageList',
+  InvestorAdd:'/investor/add',
+  InvestorDelete:'/investor/deleteById',
+  InvestorGet:'/investor/getById',
+  InvestorUpdate:'/investor/update',
+  InvestorPageList:'/investor/pageList',
+  InvestOrgAdd:'/invest-org/add',
+  InvestOrgDelete:'/invest-org/deleteById',
+  InvestOrgGet:'/invest-org/getById',
+  InvestOrgUpdate:'/invest-org/update',
+  InvestOrgPageList:'/invest-org/pageList',
 }
 
 export default API
