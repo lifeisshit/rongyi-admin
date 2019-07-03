@@ -11,17 +11,17 @@ const state = {
     },{
       name: 'ClientManagement',
       icon: 'el-icon-tickets',
-      title: '客户管理',
+      title: '公司客户',
       role: 'sys_admin,sales_mgr',
       subItems: [{
         name: 'ClientList',
-        title: '客户列表'
+        title: '客户'
       },{
         name: 'AppointmentProjectList',
-        title: '投递项目列表'
+        title: '投递项目'
       },{
         name: 'FinanceNeedsList',
-        title: '融资需求列表'
+        title: '融资需求'
       }]
     },{
       name: 'BusinessManagement',
