@@ -12,7 +12,7 @@ const state = {
       name: 'ClientManagement',
       icon: 'el-icon-tickets',
       title: '公司客户',
-      role: 'sys_admin,sales_mgr',
+      role: 'sys_admin,gen_mgr',
       subItems: [{
         name: 'ClientList',
         title: '客户'
@@ -27,7 +27,7 @@ const state = {
       name: 'BusinessManagement',
       icon: 'el-icon-tickets',
       title: '业务管理',
-      role: 'sys_admin,sales_mgr,sales_man',
+      role: 'sys_admin,sales_mgr,sales_man,gen_mgr',
       subItems: [{
         name: 'FundList',
         title: '资金方'
@@ -48,7 +48,7 @@ const state = {
       name: 'NewsManagement',
       icon: 'el-icon-tickets',
       title: '资讯管理',
-      role: 'sys_admin,sales_mgr,sales_man',
+      role: 'sys_admin,sales_mgr,sales_man,gen_mgr',
       subItems: [{
         name: 'SlideNewsList',
         title: '资讯幻灯片'
