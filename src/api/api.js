@@ -12,6 +12,7 @@ const API = {
   SysUserInsert:'/sys-user/add',
   SysUserUpdate:'/sys-user/update',
   SysUserDelete:'/sys-user/deleteById',
+  SysUserGrabHighSeasClient:'/sys-user/grabHighSeasClient',
   ClientPageList:'/user/pageList',
   SuccessCaseAdd:'/success-case/add',
   SuccessCaseDelete:'/success-case/deleteById',

@@ -15,7 +15,7 @@ const state = {
       role: 'sys_admin,gen_mgr',
       subItems: [{
         name: 'ClientList',
-        title: '客户'
+        title: '所有公司客户'
       },{
         name: 'AppointmentProjectList',
         title: '投递项目'
@@ -39,7 +39,7 @@ const state = {
       role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
       subItems: [{
         name: 'HighSeasClientList',
-        title: '所有客户'
+        title: '所有公海客户'
       }]
     },{
       name: 'BusinessManagement',
@@ -103,7 +103,8 @@ const state = {
       'SlideNewsList',
       'NewsList',
       'InvestorList',
-      'InvestOrgList']
+      'InvestOrgList',
+      'HighSeasClientList']
 }
 
 export default state

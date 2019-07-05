@@ -75,3 +75,6 @@ export const InvestWays = [{
   value: '其它投资',
   label: '其它投资'
 }]
+
+// 客户类型
+export const ClientTypes = ['', '新客户', '潜在客户', '重点客户', '预收费客户', '铁单客户', '收费会员', '过期会员', '公海客户']
