@@ -24,10 +24,28 @@ const state = {
         title: '融资需求'
       }]
     },{
+      name: 'MyClientManagement',
+      icon: 'el-icon-tickets',
+      title: '我的客户',
+      role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
+      subItems: [{
+        name: 'MyClientList',
+        title: '所有客户'
+      }]
+    },{
+      name: 'HighSeasClientManagement',
+      icon: 'el-icon-tickets',
+      title: '公海客户',
+      role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
+      subItems: [{
+        name: 'HighSeasClientList',
+        title: '所有客户'
+      }]
+    },{
       name: 'BusinessManagement',
       icon: 'el-icon-tickets',
       title: '业务管理',
-      role: 'sys_admin,sales_mgr,sales_man,gen_mgr',
+      role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
       subItems: [{
         name: 'FundList',
         title: '资金方'
@@ -48,7 +66,7 @@ const state = {
       name: 'NewsManagement',
       icon: 'el-icon-tickets',
       title: '资讯管理',
-      role: 'sys_admin,sales_mgr,sales_man,gen_mgr',
+      role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
       subItems: [{
         name: 'SlideNewsList',
         title: '资讯幻灯片'
