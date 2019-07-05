@@ -83,7 +83,7 @@
         this.getDataList(cp)
       },
       formatterType(row, column) {
-        return this.clientTypes[row.type]
+        return this.clientTypes[row.type - 1]
       }
     },
     mounted: function () {
