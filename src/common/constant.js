@@ -80,3 +80,7 @@ export const InvestWays = [{
 export const ClientTypes = ['新客户', '潜在客户', '重点客户', '预收费客户', '铁单客户', '收费会员', '过期会员', '公海客户']
 // 客户来源
 export const ClientSources = ['搜索引擎', '报纸', '朋友介绍', '公众号', '其他']
+// 客户职位
+export const ClientDuties = ['经理', '总监', '副总经理', '总经理', '董事长', '其他职位']
+// 性别
+export const Genders = ['男', '女']

@@ -30,7 +30,7 @@ const state = {
       role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
       subItems: [{
         name: 'MyClientList',
-        title: '所有客户'
+        title: '所有我的客户'
       }, {
           name: 'AddClient',
           title: '新增客户'
