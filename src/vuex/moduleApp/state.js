@@ -31,6 +31,9 @@ const state = {
       subItems: [{
         name: 'MyClientList',
         title: '所有客户'
+      }, {
+          name: 'AddClient',
+          title: '新增客户'
       }]
     },{
       name: 'HighSeasClientManagement',
@@ -91,7 +94,8 @@ const state = {
     }
     ],
     tabs: [],
-    tabComponents: ['Welcome',
+    tabComponents: [
+      'Welcome',
       'SysRoleList',
       'SysUserList',
       'FundList',
@@ -104,7 +108,9 @@ const state = {
       'NewsList',
       'InvestorList',
       'InvestOrgList',
-      'HighSeasClientList']
+      'HighSeasClientList',
+      'AddClient'
+    ]
 }
 
 export default state
