@@ -10,7 +10,7 @@ const state = {
         title: '首页'
     },{
       name: 'ClientManagement',
-      icon: 'el-icon-tickets',
+      icon: 'el-icon-phone',
       title: '公司客户',
       role: 'sys_admin,gen_mgr',
       subItems: [{
@@ -25,7 +25,7 @@ const state = {
       }]
     },{
       name: 'MyClientManagement',
-      icon: 'el-icon-tickets',
+      icon: 'el-icon-star-on',
       title: '我的客户',
       role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
       subItems: [{
@@ -34,7 +34,7 @@ const state = {
       }]
     },{
       name: 'HighSeasClientManagement',
-      icon: 'el-icon-tickets',
+      icon: 'el-icon-goods',
       title: '公海客户',
       role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
       subItems: [{
@@ -43,7 +43,7 @@ const state = {
       }]
     },{
       name: 'BusinessManagement',
-      icon: 'el-icon-tickets',
+      icon: 'el-icon-edit',
       title: '业务管理',
       role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
       subItems: [{
@@ -64,7 +64,7 @@ const state = {
       }]
     },{
       name: 'NewsManagement',
-      icon: 'el-icon-tickets',
+      icon: 'el-icon-news',
       title: '资讯管理',
       role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
       subItems: [{
@@ -77,7 +77,7 @@ const state = {
         }]
     },{
       name: 'SysUserManagement',
-      icon: 'el-icon-tickets',
+      icon: 'el-icon-setting',
       title: '系统管理',
       role: 'sys_admin',
       subItems: [{
