@@ -37,7 +37,13 @@
             </el-select>
           </el-form-item>
           <el-form-item label="所在地区:" prop="region">
-            <FormCitySelect @change="onRegionChange"></FormCitySelect>
+            <FormCitySelect
+                ref="citySelect"
+                :province="formData.province"
+                :city="formData.city"
+                :region="formData.region"
+                @change="onRegionChange"
+            ></FormCitySelect>
           </el-form-item>
           <el-form-item label="企业介绍:" prop="compDes">
             <el-input type="textarea" :rows="5" v-model="formData.compDes" placeHolder="请输入企业介绍"></el-input>
@@ -71,7 +77,7 @@
     </el-row>
     <el-row class="submit-div">
       <el-button type="primary" @click="clickOnSubmit">提交</el-button>
-      <el-button type="primary" @click="clickOnCancel">取消</el-button>
+      <el-button type="primary" @click="onResetClick">重置</el-button>
     </el-row>
   </div>
 </template>
@@ -134,6 +140,10 @@
             required: true,
             message: '请输入手机号',
             trigger: 'blur'
+          }, {
+            message: '请输入正确的手机号',
+            trigger: 'blur',
+            pattern: /^\d{11}$/
           }],
           industry: [{
             required: true,
@@ -172,8 +182,15 @@
           }).catch(err => console.log(err))
         }).catch(err => console.log(err))
       },
-      // 取消
-      clickOnCancel() {},
+      // 重置
+      onResetClick() {
+        this.formData.province = ''
+        this.formData.city = ''
+        this.formData.region = ''
+        this.$refs.addClientForm.resetFields()
+        // 清空省市区选择框
+        this.$refs.citySelect.resetValue()
+      },
       // 地区变化事件
       onRegionChange(selectAddr) {
         this.formData.province = selectAddr.province

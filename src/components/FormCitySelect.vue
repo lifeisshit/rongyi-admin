@@ -29,12 +29,26 @@
 
   export default {
     name: "FormCitySelect",
+    props: {
+      province: {
+        type: String,
+        default: ''
+      },
+      city: {
+        type: String,
+        default: ''
+      },
+      region: {
+        type: String,
+        default: ''
+      }
+    },
     data() {
       return {
         publicForm: {
-          province: '',
-          city: '',
-          region: ''
+          province: this.province,
+          city: this.city,
+          region: this.region
         },
         provinces: allRegion,
         citys: [],
@@ -44,7 +58,6 @@
       }
     },
     mounted() {
-
     },
     methods: {
       getProv: function (prov) {
@@ -83,6 +96,11 @@
         this.isShowError = true
         this.$emit('change', this.publicForm)
       },
+      resetValue: function () {
+        this.publicForm.province = '';
+        this.publicForm.city = '';
+        this.publicForm.region = '';
+      }
     }
   };
 </script>
