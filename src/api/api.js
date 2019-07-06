@@ -14,9 +14,6 @@ const API = {
   SysUserDelete:'/sys-user/deleteById',
   SysUserGrabHighSeasClient:'/sys-user/grabHighSeasClient',
   SysUserListSales: '/sys-user/listSales',
-  ClientPageList:'/user/pageList',
-  ClientAssignOwner: '/user/assignOwner',
-  ClientPushToHighSeas: '/user/pushToHighSeas',
   SuccessCaseAdd:'/success-case/add',
   SuccessCaseDelete:'/success-case/deleteById',
   SuccessCaseGet:'/success-case/getById',
@@ -49,6 +46,12 @@ const API = {
   InvestOrgGet:'/invest-org/getById',
   InvestOrgUpdate:'/invest-org/update',
   InvestOrgPageList:'/invest-org/pageList',
+  // ================用户管理================
+  ClientAdd: '/user/add', // 新增用户
+  ClientAssignOwner: '/user/assignOwner', // 分配销售人员
+  ClientGetById: '/user/getById', // 根据id获取记录
+  ClientPageList: '/user/pageList', // 列表
+  ClientPushToHighSeas: '/user/pushToHighSeas', // 设置为公海客户
 }
 
 export default API

@@ -5,7 +5,7 @@
         <el-form ref="addClientForm" :model="formData" :rules="formRule" label-width="120px">
           <el-form-item label="客戶类型:" prop="type" class="inline-item">
             <el-select v-model="formData.type" placeholder="请选择客戶类型">
-              <el-option v-for="item in clientTypes" :label="item" :key="item" :value="item">
+              <el-option v-for="(item, index) in clientTypes" :label="item" :key="index" :value="index+1">
               </el-option>
             </el-select>
           </el-form-item>
@@ -36,8 +36,8 @@
               </el-option>
             </el-select>
           </el-form-item>
-          <el-form-item label="所在地区:">
-            <FormCitySelect></FormCitySelect>
+          <el-form-item label="所在地区:" prop="region">
+            <FormCitySelect @change="onRegionChange"></FormCitySelect>
           </el-form-item>
           <el-form-item label="企业介绍:" prop="compDes">
             <el-input type="textarea" :rows="5" v-model="formData.compDes" placeHolder="请输入企业介绍"></el-input>
@@ -149,6 +149,11 @@
             required: true,
             message: '请选择客户来源',
             trigger: 'blur'
+          }],
+          region: [{
+            required: true,
+            trigger: 'blur',
+            message: '请选择完整的省市区'
           }]
         }
       }
@@ -156,28 +161,25 @@
     methods: {
       // 保存
       clickOnSubmit() {
-        this.$refs.successCaseForm.validate().then(() => {
-          // 获取图片
-          if (!this.successCaseImg) {
-            this.$message({ type: "error", message: "请先上传封面图片" });
-            return false;
-          }
-          this.formData.img = this.successCaseImg
-
-          let api = this.isAdd ? API.SuccessCaseAdd : API.SuccessCaseUpdate
-          axios.post(api, this.formData).then(res => {
+        console.log(this.formData)
+        this.$refs.addClientForm.validate().then(() => {
+          axios.post(API.ClientAdd, this.formData).then(res => {
             if (res.status !== 0) {
-              this.$message.error('保存失败')
+              this.$message.error(res.msg)
             } else {
-              this.$message.success(res.msg)
-              this.getDataList(1)
-              this.listMode = true
+              this.$message.success('新增成功')
             }
           }).catch(err => console.log(err))
         }).catch(err => console.log(err))
       },
       // 取消
-      clickOnCancel() {}
+      clickOnCancel() {},
+      // 地区变化事件
+      onRegionChange(selectAddr) {
+        this.formData.province = selectAddr.province
+        this.formData.city = selectAddr.city
+        this.formData.region = selectAddr.region
+      }
     }
   }
 </script>
