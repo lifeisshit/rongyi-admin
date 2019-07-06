@@ -49,7 +49,7 @@
             <el-input type="textarea" :rows="5" v-model="formData.compDes" placeHolder="请输入企业介绍"></el-input>
           </el-form-item>
           <el-form-item label="备注:" prop="comment">
-            <el-input type="textarea" :rows="5" v-model="formData.comment" placeHolder="请输入企业介绍"></el-input>
+            <el-input type="textarea" :rows="5" v-model="formData.comment" placeHolder="请输入备注"></el-input>
           </el-form-item>
           <el-form-item label="姓名:" prop="name" class="inline-item">
             <el-input v-model="formData.name" placeHolder="请输入姓名"></el-input>
@@ -64,7 +64,7 @@
             <el-input v-model="formData.phone" placeHolder="请输入手机号"></el-input>
           </el-form-item>
           <el-form-item label="职务:" prop="duty" class="inline-item">
-            <el-select v-model="formData.duty" placeholder="请选择来源">
+            <el-select v-model="formData.duty" placeholder="请选择职务">
               <el-option v-for="item in clientDuties" :label="item" :key="item" :value="item">
               </el-option>
             </el-select>

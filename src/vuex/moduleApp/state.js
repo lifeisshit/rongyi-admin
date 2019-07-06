@@ -109,7 +109,8 @@ const state = {
       'InvestorList',
       'InvestOrgList',
       'HighSeasClientList',
-      'AddClient'
+      'AddClient',
+      'MyClientList'
     ]
 }
 
