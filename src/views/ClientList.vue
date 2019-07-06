@@ -19,15 +19,36 @@
       <el-table :data="tableData" border stype="width: 100%">
         <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
         <el-table-column prop="type" label="类型" :formatter="formatterType"></el-table-column>
+        <el-table-column prop="owner.name" label="所属销售"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column prop="gender" label="性别"></el-table-column>
         <el-table-column prop="phone" label="电话"></el-table-column>
         <el-table-column prop="userData.compName" label="公司"></el-table-column>
         <el-table-column prop="userData.department" label="部门"></el-table-column>
-        <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
+        <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
+        <el-table-column fixed="right" label="操作" width="100">
+          <template slot-scope="scope">
+            <el-button @click="assignClient(scope.row)" type="primary" size="small">分 配</el-button>
+          </template>
+        </el-table-column>
       </el-table>
       <el-pagination class="pagination" layout="prev, pager, next" :page-count="totalPage" background @current-chage="currentPageChanged"></el-pagination>
     </el-row>
+
+    <el-dialog title="分配销售人员" :visible.sync="dialogFormVisible" :modal-append-to-body='false' width="30%">
+      <el-form :model="form">
+        <el-form-item label="销售人员">
+          <el-select v-model="form.salesmanId" placeholder="销售人员" width="20%">
+            <el-option v-for="item in salesList" :key="item.id" :label="item.name" :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="assignToSales">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -44,7 +65,13 @@
         tableData: [],
         totalPage: 1,
         keyword: '',
-        clientTypes: constant.ClientTypes
+        clientTypes: constant.ClientTypes,
+        dialogFormVisible: false,
+        form: {
+        },
+        salesList: [],
+        assignClientId: 0,
+        currentPage: 1
       }
     },
     methods: {
@@ -76,13 +103,55 @@
         this.getDataList(1)
       },
       currentPageChanged(cp) {
+        this.currentPage = cp
         this.getDataList(cp)
       },
       formatterType(row, column) {
         return this.clientTypes[row.type - 1]
+      },
+      getSalesList() {
+        axios.get(API.SysUserListSales)
+          .then(res => {
+            if (res.status != 0) {
+              this.$message.error('获取销售人员列表失败')
+            } else {
+              this.salesList = res.data
+            }
+          })
+          .catch(() => {
+            this.$message.error('获取销售人员列表失败')
+          })
+      },
+      assignClient(row) {
+        this.assignClientId = row.id
+        this.dialogFormVisible = true
+      },
+      assignToSales() {
+        if (!this.form.salesmanId) {
+          this.$message.warning('请选择销售人员')
+          return
+        }
+        const params = {
+          userId: this.assignClientId,
+          ownerId: this.form.salesmanId
+        }
+        let qs = require('qs')
+        axios.post(API.ClientAssignOwner, qs.stringify(params)).then((res) => {
+          if (res.status != 0) {
+            this.$message.error('分配失败')
+          } else {
+            this.$message.success('分配成功')
+            this.getDataList(this.currentPage)
+          }
+        }).catch(() => {
+          this.$message.error('分配失败')
+        })
+
+        this.dialogFormVisible = false
       }
     },
     mounted: function () {
+      this.getSalesList()
       this.getDataList(1)
     }
   }
