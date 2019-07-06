@@ -16,6 +16,7 @@ const API = {
   SysUserListSales: '/sys-user/listSales',
   ClientPageList:'/user/pageList',
   ClientAssignOwner: '/user/assignOwner',
+  ClientPushToHighSeas: '/user/pushToHighSeas',
   SuccessCaseAdd:'/success-case/add',
   SuccessCaseDelete:'/success-case/deleteById',
   SuccessCaseGet:'/success-case/getById',

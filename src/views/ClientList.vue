@@ -26,9 +26,10 @@
         <el-table-column prop="userData.compName" label="公司"></el-table-column>
         <el-table-column prop="userData.department" label="部门"></el-table-column>
         <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column fixed="right" label="操作" width="180">
           <template slot-scope="scope">
             <el-button @click="assignClient(scope.row)" type="primary" size="small">分 配</el-button>
+            <el-button @click="pushToHighSeas(scope.row)" type="primary" size="small">设为公海</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -138,7 +139,7 @@
         let qs = require('qs')
         axios.post(API.ClientAssignOwner, qs.stringify(params)).then((res) => {
           if (res.status != 0) {
-            this.$message.error('分配失败')
+            this.$message.error(res.msg)
           } else {
             this.$message.success('分配成功')
             this.getDataList(this.currentPage)
@@ -148,6 +149,31 @@
         })
 
         this.dialogFormVisible = false
+      },
+      pushToHighSeas(row) {
+        this.$confirm(`确定将"${row.name}"设置为公海客户吗?`, '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          let qs = require('qs')
+          const params = {
+            userId: row.id
+          }
+          axios.post(API.ClientPushToHighSeas, qs.stringify(params)).then(res => {
+            if (res.status !== 0) {
+              this.$message.error(res.msg)
+            } else {
+              this.$message.success('设置成功')
+              this.getDataList(this.currentPage)
+            }
+          }).catch(() => {
+            this.$message.error('设置失败')
+          })
+
+        }).catch(() => {
+          this.$message.info('已取消')
+        })
       }
     },
     mounted: function () {
