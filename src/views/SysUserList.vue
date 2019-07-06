@@ -130,11 +130,7 @@ export default {
   },
   methods: {
     clickOnSearch() {
-      if (!this.keyword || !this.keyword.trim()) {
-        this.$message.warning('请输入搜索关键字')
-      } else {
-        this.getDataList(1)
-      }
+      this.getDataList(1)
     },
     clickOnCancel() {
       this.listMode = true

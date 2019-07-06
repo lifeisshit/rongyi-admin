@@ -28,7 +28,6 @@
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button @click="grab(scope.row)" type="text" size="small">抓取</el-button>
-            <!--<el-button @click="updateRow(scope.row)" type="text" size="small">编辑</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -75,11 +74,7 @@
           })
       },
       clickOnSearch() {
-        if (!this.keyword || !this.keyword.trim()) {
-          this.$message.warning('请输入搜索关键字')
-        } else {
-          this.getDataList(1)
-        }
+        this.getDataList(1)
       },
       clickOnRefresh() {
         this.getDataList(1)
