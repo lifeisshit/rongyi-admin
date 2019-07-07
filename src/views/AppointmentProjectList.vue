@@ -1,8 +1,8 @@
 <template>
   <div class="appointment-project-list">
     <div v-if="listMode">
-      <el-row>
-        <el-col :span="4">
+      <el-row :gutter="20">
+        <el-col :span="1">
           <el-tooltip placement="right" content="刷新">
             <el-button icon="el-icon-refresh" circle size="mini" type="primary" plain @click="clickOnRefresh"></el-button>
           </el-tooltip>

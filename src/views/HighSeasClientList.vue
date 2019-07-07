@@ -1,7 +1,7 @@
 <template>
   <div class="high-seas-client">
-    <el-row>
-      <el-col :span="2">
+    <el-row :gutter="20">
+      <el-col :span="1">
         <el-tooltip placement="right" content="刷新">
           <el-button icon="el-icon-refresh" circle size="mini" type="primary" plain @click="clickOnRefresh"/>
         </el-tooltip>
