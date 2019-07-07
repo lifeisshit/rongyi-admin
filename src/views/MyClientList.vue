@@ -28,7 +28,8 @@
           <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
           <el-table-column fixed="right" label="操作" width="100">
             <template slot-scope="scope">
-              <el-button @click="grab(scope.row)" type="text" size="small">抓取</el-button>
+              <el-button @click="grab(scope.row)" type="text" size="small">编辑</el-button>
+              <el-button @click="grab(scope.row)" type="text" size="small">跟踪</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -45,14 +46,14 @@
           </el-select>
         </el-form-item>
         <el-form-item label="跟踪方式:">
-          <el-radio-group v-model="traceFormData.traceType">
+          <el-radio-group v-model="traceFormData.way">
             <el-radio label="电话"></el-radio>
             <el-radio label="总经理批注"></el-radio>
             <el-radio label="其他"></el-radio>
           </el-radio-group>
         </el-form-item>
         <el-form-item label="报价情况:">
-          <el-radio-group v-model="traceFormData.isOffer">
+          <el-radio-group v-model="traceFormData.offerSituation">
             <el-radio label="未报价"></el-radio>
             <el-radio label="已报价"></el-radio>
           </el-radio-group>
@@ -60,18 +61,21 @@
         <el-form-item label="备注:" prop="comment">
           <el-input type="textarea" :rows="5" v-model="traceFormData.comment" placeHolder="请输入备注"></el-input>
         </el-form-item>
-        <el-form-item label="下次跟踪提醒:" prop="nextTraceTime">
-          <el-date-picker v-model="traceFormData.nextTraceTime" type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请输入下次跟踪提醒时间"></el-date-picker>
+        <el-form-item label="下次跟踪提醒:" prop="nextRemind">
+          <el-date-picker v-model="traceFormData.nextRemind" type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请输入下次跟踪提醒时间"></el-date-picker>
         </el-form-item>
-        <el-form-item label="沟通详情:" prop="type" class="inline-item">
-          <el-select v-model="traceFormData.type" placeholder="请选择客戶类型">
-            <el-option v-for="(item, index) in clientTypes" :label="item" :key="index" :value="index+1">
+        <el-form-item label="沟通详情:" prop="firstCommuDetail" class="inline-item">
+          <el-select v-model="traceFormData.firstCommuDetail" placeholder="请选择是否接通" @change="onFirstCommuChange">
+            <el-option v-for="(item, index) in communicationTypes" :label="item.name" :key="index" :value="item.name">
             </el-option>
           </el-select>
-          <el-select v-model="traceFormData.type" placeholder="请选择客戶类型">
-            <el-option v-for="(item, index) in clientTypes" :label="item" :key="index" :value="index+1">
+          <el-select v-model="traceFormData.secondCommuDetail" placeholder="请选择接听详情" @change="onSecondCommuChange">
+            <el-option v-for="(item, index) in commu2List" :label="item.name" :key="index" :value="item.name">
             </el-option>
           </el-select>
+          <el-checkbox-group v-model="traceFormData.thirdCommuDetail">
+            <el-checkbox v-for="(item, index) in commu3List" :label="item.name" :key="index"></el-checkbox>
+          </el-checkbox-group>
         </el-form-item>
       </el-form>
     </div>
@@ -82,23 +86,32 @@
   import '../assets/css/high-seas-client.less'
   import axios from 'axios'
   import API from '../api/api.js'
-  import { ClientTypes } from '../common/constant'
+  import { ClientTypes, CommunicationTypes } from '../common/constant'
 
   export default {
     name: "MyClientList",
     data() {
       return {
         clientTypes: ClientTypes,
-        listMode: true,
+        communicationTypes: CommunicationTypes,
+        commu2List: [],
+        commu3List: [],
+        listMode: false,
         tableData: [],
         totalPage: 1,
         keyword: '',
         traceFormData: {
-          traceType: 1,
-          type: 1,
-          isOffer: 0,
-          comment: '',
-          nextTraceTime: ''
+          clientType: 0,
+          comment: "",
+          firstCommuDetail: "",
+          highSeas: false,
+          nextRemind: "",
+          offerSituation: "",
+          ownerId: localStorage.getItem('loginUserId'),
+          secondCommuDetail: "",
+          thirdCommuDetail: "",
+          userId: 0,
+          way: ""
         },
         traceFormRule: {}
       }
@@ -164,9 +177,49 @@
             message: '已取消抓取'
           })
         })
+      },
+      // 沟通详情一级菜单变化
+      onFirstCommuChange() {
+        this.commu2List = this.getSecondCommus(this.traceFormData.firstCommuDetail)
+        this.traceFormData.secondCommuDetail = ''
+        this.traceFormData.thirdCommuDetail = ''
+        this.commu3List = []
+      },
+      // 沟通详情二级菜单变化
+      onSecondCommuChange() {
+        this.commu3List = this.getThirdCommus(this.traceFormData.firstCommuDetail, this.traceFormData.secondCommuDetail)
+        this.traceFormData.thirdCommuDetail = ''
+      },
+      // 获取第二级沟通详情
+      getSecondCommus(firstName) {
+        for(let i = 0, len = CommunicationTypes.length; i < len; i++) {
+          if(firstName === CommunicationTypes[i].name) {
+            return CommunicationTypes[i].sub || []
+          }
+        }
+        return []
+      },
+      // 获取第三级沟通详情
+      getThirdCommus(firstName, secondName) {
+        // 遍历第一级
+        for(let i = 0, len = CommunicationTypes.length; i < len; i++) {
+          if(firstName === CommunicationTypes[i].name) {
+            let subs = CommunicationTypes[i].sub
+            if(!subs || !subs.length) {
+              return []
+            }
+            // 遍历第二级
+            for(let j = 0, len2 = subs.length; j < len2; j++) {
+              if(secondName === subs[j].name) {
+                return subs[j].sub || []
+              }
+            }
+          }
+        }
+        return []
       }
     },
-    mounted: function () {
+    mounted () {
       this.getDataList(1)
     }
   }
