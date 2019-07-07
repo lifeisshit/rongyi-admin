@@ -89,7 +89,7 @@
     data() {
       return {
         clientTypes: ClientTypes,
-        listMode: false,
+        listMode: true,
         tableData: [],
         totalPage: 1,
         keyword: '',
@@ -105,11 +105,10 @@
     },
     methods: {
       getDataList(cp) {
-        console.log(this.$store.getters.loginUserId);
         const params = {
           pageNum: cp,
           pageSize: 20,
-          ownerLogin: this.$store.getters.loginUserId
+          ownerId: localStorage.getItem('loginUserId')
         }
         if (this.keyword && this.keyword.trim()) {
           params.keyword = this.keyword

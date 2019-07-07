@@ -4,6 +4,7 @@
 
 // ===========ModuleApp===========
 export const SET_LOGIN_USER_ID = 'SET_LOGIN_USER_ID'
+export const SET_LOGIN_USER_NAME = 'SET_LOGIN_USER_NAME'
 export const SET_LOGIN_USER_ROLE = 'SET_LOGIN_USER_ROLE'
 export const SET_FULL_PAGE = 'SET_FULL_PAGE'
 export const SET_MENU_LIST = 'SET_MENU_LIST'

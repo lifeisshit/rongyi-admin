@@ -1,5 +1,6 @@
 const state = {
     loginUserId: '',
+    loginUserName: '',
     loginUserRole: '',
     // 当前页面是否全屏, true-全屏 false-在tab页中打开
     isFullPage: false,

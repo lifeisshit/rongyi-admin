@@ -54,14 +54,18 @@ export default {
       //ajax提交表单
         axios.post(API.Login, 'login=' + login + '&password=' + password)
         .then((res) => {
-          this.$store.dispatch('setLoginUserId', {
-            loginUserId: login
+          this.$store.dispatch('setLoginUserName', {
+            loginUserName: login
           })
           this.$store.dispatch('setLoginUserRole', {
             loginUserRole: res.data.sysRoleInfo.name
           })
-          localStorage.setItem('loginUserId', login)
+          this.$store.dispatch('loginUserId', {
+            loginUserId: res.data.sysUserInfo.id
+          })
+          localStorage.setItem('loginUserName', login)
           localStorage.setItem('loginUserRole', res.data.sysRoleInfo.name)
+          localStorage.setItem('loginUserId', res.data.sysUserInfo.id)
           this.$message({
             'message': '登录成功',
             'type': 'success'

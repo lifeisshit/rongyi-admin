@@ -7,7 +7,7 @@
       </div>
       <div class="header-right">
         <div class="top_welcome">
-          <i class="iconfont icon-yonghu"></i><span id="adminName">{{loginUserId}}</span>欢迎您登录；
+          <i class="iconfont icon-yonghu"></i><span id="adminName">{{loginUserName}}</span>欢迎您登录；
           <a href="javascript:" @click="loginOut()"><i class="iconfont icon-tuichu"></i>退出</a>
         </div>
       </div>
@@ -103,25 +103,25 @@ export default {
         return this.$store.getters.tabComponents
       }
     },
-    loginUserId: {
+    loginUserName: {
       get() {
-        return this.$store.getters.loginUserId
+        return this.$store.getters.loginUserName
       }
     }
   },
   methods: {
     checkLogin() {
-      let loginUserId = this.$store.getters.loginUserId
-      if (!loginUserId || !loginUserId) {
-        // 从缓存获取loginUserId
-        loginUserId = localStorage.getItem('loginUserId')
-        if (!loginUserId || !loginUserId) {
+      let loginUserName = this.$store.getters.loginUserName
+      if (!loginUserName || !loginUserName) {
+        // 从缓存获取loginUserName
+        loginUserName = localStorage.getItem('loginUserName')
+        if (!loginUserName || !loginUserName) {
           this.$router.push({
             name: 'login'
           })
         } else {
-          this.$store.dispatch('setLoginUserId', {
-            loginUserId
+          this.$store.dispatch('setLoginUserName', {
+            loginUserName
           })
         }
       }
@@ -247,13 +247,17 @@ export default {
       // 退出登录
       axios.get(API.Logout).then(() => {
         //localStorage.removeItem('AdmInCookies')
-        this.$store.dispatch('setLoginUserId', {
+        this.$store.dispatch('setLoginUserName', {
           loginUserId: ''
+        })
+        this.$store.dispatch('setLoginUserId', {
+          loginUserName: ''
         })
         this.$store.dispatch('setLoginUserRole', {
           loginUserRole: ''
         })
         localStorage.removeItem('loginUserId')
+        localStorage.removeItem('loginUserName')
         localStorage.removeItem('loginUserRole')
         this.$message({
           'message': '您已安全退出登录',
