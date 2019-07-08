@@ -84,6 +84,10 @@ export const ClientSources = ['搜索引擎', '报纸', '朋友介绍', '公众�
 export const ClientDuties = ['经理', '总监', '副总经理', '总经理', '董事长', '其他职位']
 // 性别
 export const Genders = ['男', '女']
+// 跟踪方式
+export const TraceWays = ['电话', '总经理批注', '其他']
+// 报价情况
+export const OfferSituations = ['未报价', '已报价']
 // 沟通类型
 export const CommunicationTypes = [{
   name: '接通',

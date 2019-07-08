@@ -171,7 +171,7 @@
     methods: {
       // 保存
       clickOnSubmit() {
-        console.log(this.formData)
+        // console.log(this.formData)
         this.$refs.addClientForm.validate().then(() => {
           axios.post(API.ClientAdd, this.formData).then(res => {
             if (res.status !== 0) {
