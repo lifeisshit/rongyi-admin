@@ -5,7 +5,7 @@
         <el-form ref="addClientForm" :model="formData" :rules="formRule" label-width="120px">
           <el-form-item label="客戶类型:" prop="type" class="inline-item">
             <el-select v-model="formData.type" placeholder="请选择客戶类型">
-              <el-option v-for="(item, index) in clientTypes" :label="item" :key="index" :value="index+1">
+              <el-option v-for="(item, index) in clientTypes" :label="item.label" :key="index" :value="item.value">
               </el-option>
             </el-select>
           </el-form-item>

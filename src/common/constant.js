@@ -77,7 +77,31 @@ export const InvestWays = [{
 }]
 
 // 客户类型
-export const ClientTypes = ['新客户', '潜在客户', '重点客户', '预收费客户', '铁单客户', '收费会员', '过期会员', '公海客户']
+export const ClientTypes = [{
+  value: 1,
+  label: '新客户'
+}, {
+  value: 2,
+  label: '潜在客户'
+}, {
+  value: 3,
+  label: '重点客户'
+}, {
+  value: 4,
+  label: '预收费客户'
+}, {
+  value: 5,
+  label: '铁单客户'
+}, {
+  value: 6,
+  label: '收费会员'
+}, {
+  value: 7,
+  label: '过期会员'
+}, {
+  value: 8,
+  label: '公海客户'
+}]
 // 客户来源
 export const ClientSources = ['搜索引擎', '报纸', '朋友介绍', '公众号', '其他']
 // 客户职位

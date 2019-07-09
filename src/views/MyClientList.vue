@@ -1,17 +1,24 @@
 <template>
   <div class="my-client-list">
     <div v-if="pageMode === 'list'">
-      <el-row>
-        <el-col :span="2">
+      <el-row :gutter="20">
+        <el-col :span="1">
           <el-tooltip placement="right" content="刷新">
             <el-button icon="el-icon-refresh" circle size="mini" type="primary" plain @click="clickOnRefresh"/>
           </el-tooltip>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-input v-model="keyword" class="keyword" placeholder="根据姓名，电话搜索">
           </el-input>
         </el-col>
         <el-col :span="4">
+          <el-select v-model="clientType" placeholder="请选择用户类型">
+            <el-option label="全部" value="0"></el-option>
+            <el-option v-for="item in clientTypes" :key="item.value" :label="item.label" :value="item.value">
+            </el-option>
+          </el-select>
+        </el-col>
+        <el-col :span="2">
           <el-button type="primary" icon="el-icon-search" @click="clickOnSearch">搜索</el-button>
         </el-col>
       </el-row>
@@ -43,7 +50,7 @@
           <el-form ref="traceForm" :model="traceFormData" :rules="traceFormRule" label-width="120px">
             <el-form-item label="客戶类型:" prop="clientType">
               <el-select v-model="traceFormData.clientType" placeholder="请选择客戶类型">
-                <el-option v-for="(item, index) in clientTypes" :label="item" :key="index" :value="index+1">
+                <el-option v-for="(item, index) in clientTypes" :label="item.label" :key="index" :value="item.value">
                 </el-option>
               </el-select>
             </el-form-item>
@@ -110,6 +117,7 @@
         tableData: [],
         totalPage: 1,
         keyword: '',
+        clientType: null,
         thirdCommuChecks: [],
         traceFormData: {
           clientType: 1,
@@ -190,7 +198,10 @@
         if (this.keyword && this.keyword.trim()) {
           params.keyword = this.keyword
         }
-        axios.get(API.ClientPageList, {params: params})
+        if (this.clientType && this.clientType > 0) {
+          params.type = this.clientType
+        }
+        axios.post(API.ClientPageList, params)
           .then(res => {
             if (res.status != 0) {
               this.$message.error('获取客户列表失败')

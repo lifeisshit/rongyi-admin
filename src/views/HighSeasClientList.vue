@@ -60,7 +60,7 @@
         if (this.keyword && this.keyword.trim()) {
           params.keyword = this.keyword
         }
-        axios.get(API.ClientPageList, {params: params})
+        axios.post(API.ClientPageList, params)
           .then(res => {
             if (res.status != 0) {
               this.$message.error('获取公海客户列表失败')
