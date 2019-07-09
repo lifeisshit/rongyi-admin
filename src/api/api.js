@@ -48,6 +48,7 @@ const API = {
   InvestOrgPageList:'/invest-org/pageList',
   // ================用户管理================
   ClientAdd: '/user/add', // 新增用户
+  ClientUpdate: '/user/updateUserInfo', // 修改用户信息
   ClientAssignOwner: '/user/assignOwner', // 分配销售人员
   ClientGetById: '/user/getById', // 根据id获取记录
   ClientPageList: '/user/pageList', // 列表

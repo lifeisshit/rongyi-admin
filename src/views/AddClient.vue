@@ -77,7 +77,7 @@
     </el-row>
     <el-row class="submit-div">
       <el-button type="primary" @click="clickOnSubmit">提交</el-button>
-      <el-button type="primary" @click="onResetClick">重置</el-button>
+      <el-button type="primary" @click="onResetClick">{{ this.initRecord ? '关闭' : '重置' }}</el-button>
     </el-row>
   </div>
 </template>
@@ -90,11 +90,13 @@
   import { ClientTypes, Industries, Amounts, ClientSources, ClientDuties, Genders } from '../common/constant'
 
   export default {
-    name: 'Welcome',
+    name: 'AddClient',
     components: {
       FormCitySelect
     },
+    props: ['initRecord'],
     data() {
+      console.log(this.initRecord)
       return {
         clientTypes: ClientTypes,
         industries: Industries,
@@ -103,22 +105,22 @@
         clientDuties: ClientDuties,
         genders: Genders,
         formData: {
-          type: '',
-          phone: '',
-          industry: '',
-          registerAmount: '',
-          compDes: '',
-          compName: '',
-          turnover: '',
-          comment: '',
-          gender: '',
-          duty: '',
-          name: '',
-          address: '',
-          province: '',
-          city: '',
-          region: '',
-          source: ''
+          type: this.initRecord && this.initRecord.type,
+          phone: this.initRecord && this.initRecord.phone,
+          industry: this.initRecord && this.initRecord.userData.industry,
+          registerAmount: this.initRecord && this.initRecord.userData.registerAmount,
+          compDes: this.initRecord && this.initRecord.userData.compDes,
+          compName: this.initRecord && this.initRecord.userData.compName,
+          turnover: this.initRecord && this.initRecord.userData.turnover,
+          comment: this.initRecord && this.initRecord.userData.comment,
+          gender: this.initRecord && this.initRecord.gender,
+          duty: this.initRecord && this.initRecord.userData.duty,
+          name: this.initRecord && this.initRecord.name,
+          address: this.initRecord && this.initRecord.userData.address,
+          province: this.initRecord && this.initRecord.userData.province,
+          city: this.initRecord && this.initRecord.userData.city,
+          region: this.initRecord && this.initRecord.userData.region,
+          source: this.initRecord && this.initRecord.userData.source
         },
         formRule: {
           compName: [{
@@ -171,16 +173,29 @@
     methods: {
       // 保存
       clickOnSubmit() {
+        var url = this.initRecord ? API.ClientUpdate : API.ClientAdd;
+        var msg = this.initRecord ? '修改' : '新增';
+        // 如果是修改，则需要填写userId
+        if(this.initRecord) {
+          this.formData.userId = this.initRecord.id;
+        }
         // console.log(this.formData)
         this.$refs.addClientForm.validate().then(() => {
-          axios.post(API.ClientAdd, this.formData).then(res => {
+          axios.post(url, this.formData).then(res => {
             if (res.status !== 0) {
               this.$message.error(res.msg)
             } else {
-              this.$message.success('新增成功')
+              this.$message.success(msg + '成功')
+              this.$emit('onSubmit')
             }
-          }).catch(err => console.log(err))
-        }).catch(err => console.log(err))
+          }).catch(err => {
+            console.log(err)
+            this.$message.error(msg + '失败')
+          })
+        }).catch(err => {
+          console.log(err)
+          // this.$message.error(msg + '失败')
+        })
       },
       // 重置
       onResetClick() {
@@ -190,6 +205,7 @@
         this.$refs.addClientForm.resetFields()
         // 清空省市区选择框
         this.$refs.citySelect.resetValue()
+        this.$emit('onCancel')
       },
       // 地区变化事件
       onRegionChange(selectAddr) {

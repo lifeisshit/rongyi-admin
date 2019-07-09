@@ -52,11 +52,13 @@
                        @current-chage="currentPageChanged"></el-pagination>
       </el-row>
     </div>
+    <div v-if="pageMode === 'edit'">
+      <add-client :initRecord="selectedRow" @onSubmit="onEditSubmit" @onCancel="onEditClose"></add-client>
+    </div>
     <div v-if="pageMode === 'trace'">
       <el-row class="trace-table">
         <el-table :data="traceList" border stype="width: 100%">
           <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
-          <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column prop="way" label="跟踪方式"></el-table-column>
           <el-table-column prop="offerSituation" label="报价情况"></el-table-column>
           <el-table-column prop="firstCommuDetail" label="沟通详情1"></el-table-column>
@@ -126,9 +128,13 @@
   import API from '../api/api.js'
   import { Industries, ClientTypes, CommunicationTypes, TraceWays, OfferSituations } from '../common/constant'
   import { find, forEach } from 'lodash'
+  import AddClient from './AddClient'
 
   export default {
     name: "MyClientList",
+    components: {
+      AddClient
+    },
     data() {
       return {
         clientTypes: ClientTypes,
@@ -147,7 +153,7 @@
         industry: null,
         industries: Industries,
         thirdCommuChecks: [],
-        selectUserId: '',
+        selectedRow: {},
         traceList: [],
         traceFormData: {
           clientType: 1,
@@ -200,7 +206,7 @@
         const result = find(this.commu2List, {'name': this.traceFormData.secondCommuDetail})
         this.traceFormData.highSeas = result ? (result.isToHighSeas ? true : false) : false
         this.traceFormData.thirdCommuDetail = this.thirdCommuChecks.join(',')
-        this.traceFormData.userId = this.selectUserId
+        this.traceFormData.userId = this.selectedRow.id
         // console.log(this.traceFormData)
         this.$refs.traceForm.validate().then(() => {
           axios.post(API.TraceAdd, this.traceFormData).then(res => {
@@ -220,7 +226,7 @@
       resetTraceForm() {
         this.$refs.traceForm.resetFields()
         this.thirdCommuChecks = []
-        this.selectUserId = ''
+        this.selectedRow = {}
       },
       getDataList(cp) {
         const params = {
@@ -261,19 +267,19 @@
       },
       // 编辑
       onEditClick(row) {
-        this.selectUserId = row.id
+        this.selectedRow = row
         this.pageMode = 'edit'
       },
       // 跟踪
       onTraceClick(row) {
-        this.selectUserId = row.id
+        this.selectedRow = row
         this.pageMode = 'trace'
         this.getTraceList()
       },
       // 获取跟踪列表信息
       getTraceList() {
         const params = {
-          userId: this.selectUserId,
+          userId: this.selectedRow.id,
           ownerId: localStorage.getItem('loginUserId')
         }
         axios.get(API.TracePageList, {params: params})
@@ -287,6 +293,17 @@
           .catch(() => {
             this.$message.error('获取跟踪列表失败')
           })
+      },
+      // 编辑提交
+      onEditSubmit() {
+        this.pageMode = 'list'
+        this.selectedRow = {}
+        this.getDataList(1)
+      },
+      // 编辑关闭
+      onEditClose() {
+        this.pageMode = 'list'
+        this.selectedRow = {}
       },
       // 沟通详情一级菜单变化
       onFirstCommuChange() {
