@@ -53,6 +53,7 @@ const API = {
   ClientGetById: '/user/getById', // 根据id获取记录
   ClientPageList: '/user/pageList', // 列表
   ClientPushToHighSeas: '/user/pushToHighSeas', // 设置为公海客户
+  StatisticsClientInfo: '/user/statisticsClientInfo', // 客户统计信息
   // ================追踪客户记录================
   TracePageList: '/trace-rec/pageList', // 列表
   TraceAdd: '/trace-rec/trace', // 添加跟踪记录
