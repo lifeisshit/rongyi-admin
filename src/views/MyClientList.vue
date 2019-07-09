@@ -28,8 +28,8 @@
           <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
           <el-table-column fixed="right" label="操作" width="100">
             <template slot-scope="scope">
-              <el-button @click="grab(scope.row)" type="text" size="small">编辑</el-button>
-              <el-button @click="grab(scope.row)" type="text" size="small">跟踪</el-button>
+              <el-button @click="onEditClick(scope.row)" type="text" size="small">编辑</el-button>
+              <el-button @click="onTraceClick(scope.row)" type="text" size="small">跟踪</el-button>
             </template>
           </el-table-column>
         </el-table>
@@ -38,51 +38,69 @@
       </el-row>
     </div>
     <div v-if="pageMode === 'trace'">
-      <el-row>
-        <el-col :span="18">
-          <el-form ref="traceForm" :model="traceFormData" :rules="traceFormRule" label-width="120px">
-            <el-form-item label="客戶类型:" prop="clientType">
-              <el-select v-model="traceFormData.clientType" placeholder="请选择客戶类型">
-                <el-option v-for="(item, index) in clientTypes" :label="item" :key="index" :value="index+1">
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="跟踪方式:" prop="way">
-              <el-radio-group v-model="traceFormData.way">
-                <el-radio v-for="item in traceWays" :label="item" :key="item"></el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="报价情况:" prop="offerSituation">
-              <el-radio-group v-model="traceFormData.offerSituation">
-                <el-radio v-for="item in offerSituations" :label="item" :key="item"></el-radio>
-              </el-radio-group>
-            </el-form-item>
-            <el-form-item label="备注:" prop="comment">
-              <el-input type="textarea" :rows="5" v-model="traceFormData.comment" placeHolder="请输入备注"></el-input>
-            </el-form-item>
-            <el-form-item label="下次跟踪提醒:" prop="nextRemind">
-              <el-date-picker v-model="traceFormData.nextRemind" type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请输入下次跟踪提醒时间"></el-date-picker>
-            </el-form-item>
-            <el-form-item label="沟通详情:" prop="secondCommuDetail">
-              <el-select v-model="traceFormData.firstCommuDetail" placeholder="请选择是否接通" @change="onFirstCommuChange">
-                <el-option v-for="(item, index) in communicationTypes" :label="item.name" :key="index" :value="item.name">
-                </el-option>
-              </el-select>
-              <el-select v-model="traceFormData.secondCommuDetail" placeholder="请选择接听详情" @change="onSecondCommuChange" class="second-commu">
-                <el-option v-for="(item, index) in commu2List" :label="item.name" :key="index" :value="item.name">
-                </el-option>
-              </el-select>
-              <el-checkbox-group v-model="thirdCommuChecks" class="third-commu">
-                <el-checkbox v-for="(item, index) in commu3List" :label="item.name" :key="index"></el-checkbox>
-              </el-checkbox-group>
-            </el-form-item>
-          </el-form>
-        </el-col>
+      <el-row class="trace-table">
+        <el-table :data="traceList" border stype="width: 100%">
+          <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
+          <el-table-column prop="name" label="姓名"></el-table-column>
+          <el-table-column prop="way" label="跟踪方式"></el-table-column>
+          <el-table-column prop="offerSituation" label="报价情况"></el-table-column>
+          <el-table-column prop="firstCommuDetail" label="沟通详情1"></el-table-column>
+          <el-table-column prop="secondCommuDetail" label="沟通详情2"></el-table-column>
+          <el-table-column prop="thirdCommuDetail" label="沟通详情3"></el-table-column>
+          <el-table-column prop="comment" label="备注"></el-table-column>
+          <el-table-column prop="nextRemind" label="下次跟踪提醒"></el-table-column>
+        </el-table>
       </el-row>
-      <el-row class="submit-div">
-        <el-button type="primary" @click="traceClickOnSubmit">提交</el-button>
-        <el-button type="primary" @click="traceClickOnCancel">关闭</el-button>
-      </el-row>
+      <el-card>
+        <div slot="header" class="clearfix">
+          <span>新增跟踪信息</span>
+        </div>
+        <el-row>
+          <el-col :span="18">
+            <el-form ref="traceForm" :model="traceFormData" :rules="traceFormRule" label-width="120px">
+              <el-form-item label="客戶类型:" prop="clientType">
+                <el-select v-model="traceFormData.clientType" placeholder="请选择客戶类型">
+                  <el-option v-for="(item, index) in clientTypes" :label="item" :key="index" :value="index+1">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+              <el-form-item label="跟踪方式:" prop="way">
+                <el-radio-group v-model="traceFormData.way">
+                  <el-radio v-for="item in traceWays" :label="item" :key="item"></el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="报价情况:" prop="offerSituation">
+                <el-radio-group v-model="traceFormData.offerSituation">
+                  <el-radio v-for="item in offerSituations" :label="item" :key="item"></el-radio>
+                </el-radio-group>
+              </el-form-item>
+              <el-form-item label="备注:" prop="comment">
+                <el-input type="textarea" :rows="5" v-model="traceFormData.comment" placeHolder="请输入备注"></el-input>
+              </el-form-item>
+              <el-form-item label="下次跟踪提醒:" prop="nextRemind">
+                <el-date-picker v-model="traceFormData.nextRemind" type="datetime" format="yyyy-MM-dd HH:mm:ss" value-format="yyyy-MM-dd HH:mm:ss" placeholder="请输入下次跟踪提醒时间"></el-date-picker>
+              </el-form-item>
+              <el-form-item label="沟通详情:" prop="secondCommuDetail">
+                <el-select v-model="traceFormData.firstCommuDetail" placeholder="请选择是否接通" @change="onFirstCommuChange">
+                  <el-option v-for="(item, index) in communicationTypes" :label="item.name" :key="index" :value="item.name">
+                  </el-option>
+                </el-select>
+                <el-select v-model="traceFormData.secondCommuDetail" placeholder="请选择接听详情" @change="onSecondCommuChange" class="second-commu">
+                  <el-option v-for="(item, index) in commu2List" :label="item.name" :key="index" :value="item.name">
+                  </el-option>
+                </el-select>
+                <el-checkbox-group v-model="thirdCommuChecks" class="third-commu">
+                  <el-checkbox v-for="(item, index) in commu3List" :label="item.name" :key="index"></el-checkbox>
+                </el-checkbox-group>
+              </el-form-item>
+            </el-form>
+          </el-col>
+        </el-row>
+        <el-row class="submit-div">
+          <el-button type="primary" @click="traceClickOnSubmit">提交</el-button>
+          <el-button type="primary" @click="traceClickOnCancel">关闭</el-button>
+        </el-row>
+      </el-card>
     </div>
   </div>
 </template>
@@ -103,7 +121,7 @@
         traceWays: TraceWays,
         offerSituations: OfferSituations,
         pageModes: ['list', 'add', 'update', 'trace'],
-        pageMode: 'trace',
+        pageMode: 'list',
         commu2List: [],
         commu3List: [],
         listMode: false,
@@ -111,6 +129,8 @@
         totalPage: 1,
         keyword: '',
         thirdCommuChecks: [],
+        selectUserId: '',
+        traceList: [],
         traceFormData: {
           clientType: 1,
           comment: "",
@@ -121,7 +141,7 @@
           ownerId: localStorage.getItem('loginUserId'),
           secondCommuDetail: "",
           thirdCommuDetail: '',
-          userId: 0,
+          userId: '',
           way: TraceWays[0]
         },
         traceFormRule: {
@@ -162,14 +182,16 @@
         const result = find(this.commu2List, {'name': this.traceFormData.secondCommuDetail})
         this.traceFormData.highSeas = result ? (result.isToHighSeas ? true : false) : false
         this.traceFormData.thirdCommuDetail = this.thirdCommuChecks.join(',')
+        this.traceFormData.userId = this.selectUserId
         // console.log(this.traceFormData)
         this.$refs.traceForm.validate().then(() => {
           axios.post(API.TraceAdd, this.traceFormData).then(res => {
-            if (!res.status) {
+            if (res.status !== 0) {
               this.$message.error(res.msg)
             } else {
               this.$message.success('新增成功')
               // 刷新跟踪列表
+              this.getTraceList()
               // 新增成功，重置表单
               this.resetTraceForm()
             }
@@ -180,6 +202,7 @@
       resetTraceForm() {
         this.$refs.traceForm.resetFields()
         this.thirdCommuChecks = []
+        this.selectUserId = ''
       },
       getDataList(cp) {
         const params = {
@@ -212,35 +235,34 @@
       currentPageChanged(cp) {
         this.getDataList(cp)
       },
-      grab(row) {
-        this.$confirm('确定要抓取此客户到"我的客户"吗？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          axios.get(API.SysUserGrabHighSeasClient, {
-            params: {
-              userId: row.id
-            }
-          }).then(res => {
-            if (res.status !== 0) {
-              this.$message.error(res.msg)
+      // 编辑
+      onEditClick(row) {
+        this.selectUserId = row.id
+        this.pageMode = 'edit'
+      },
+      // 跟踪
+      onTraceClick(row) {
+        this.selectUserId = row.id
+        this.pageMode = 'trace'
+        this.getTraceList()
+      },
+      // 获取跟踪列表信息
+      getTraceList() {
+        const params = {
+          userId: this.selectUserId,
+          ownerId: localStorage.getItem('loginUserId')
+        }
+        axios.get(API.TracePageList, {params: params})
+          .then(res => {
+            if (res.status != 0) {
+              this.$message.error('获取跟踪列表失败')
             } else {
-              this.$message({
-                type: 'success',
-                message: '抓取成功!'
-              })
+              this.traceList = res.data.dataList
             }
-            this.getDataList(1)
-          }).catch(() => {
-            this.$message.error('抓取失败')
           })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消抓取'
+          .catch(() => {
+            this.$message.error('获取跟踪列表失败')
           })
-        })
       },
       // 沟通详情一级菜单变化
       onFirstCommuChange() {
