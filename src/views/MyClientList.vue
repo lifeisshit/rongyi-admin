@@ -33,6 +33,7 @@
       <el-row class="table-div">
         <el-table :data="tableData" border stype="width: 100%">
           <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
+          <el-table-column prop="type" label="客户类型" :formatter="formatterType"></el-table-column>
           <el-table-column prop="phone" label="电话"></el-table-column>
           <el-table-column prop="name" label="姓名"></el-table-column>
           <el-table-column prop="gender" label="性别"></el-table-column>
@@ -264,6 +265,9 @@
       },
       currentPageChanged(cp) {
         this.getDataList(cp)
+      },
+      formatterType(row) {
+        return this.clientTypes[row.type - 1].label
       },
       // 编辑
       onEditClick(row) {
