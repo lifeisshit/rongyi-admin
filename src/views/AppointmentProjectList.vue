@@ -19,8 +19,8 @@
       <el-row>
         <el-table :data="tableData" border style="width: 100%">
           <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
+          <el-table-column prop="phone" label="联系人电话"></el-table-column>
           <el-table-column prop="contact" label="联系人"></el-table-column>
-          <el-table-column prop="phone" label="联系人手机"></el-table-column>
           <el-table-column prop="title" label="投递标题"></el-table-column>
           <el-table-column prop="user.name" label="投递人姓名"></el-table-column>
           <el-table-column prop="user.phone" label="投递人电话"></el-table-column>

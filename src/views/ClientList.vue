@@ -33,13 +33,13 @@
       <el-table :data="tableData" border stype="width: 100%">
         <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
         <el-table-column prop="type" label="类型" :formatter="formatterType"></el-table-column>
-        <el-table-column prop="owner.name" label="所属销售"></el-table-column>
+        <el-table-column prop="phone" label="电话"></el-table-column>
         <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column prop="gender" label="性别"></el-table-column>
-        <el-table-column prop="phone" label="电话"></el-table-column>
         <el-table-column prop="userData.industry" label="行业"></el-table-column>
         <el-table-column prop="userData.compName" label="公司"></el-table-column>
         <el-table-column prop="userData.department" label="部门"></el-table-column>
+        <el-table-column prop="owner.name" label="所属销售"></el-table-column>
         <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
         <el-table-column fixed="right" label="操作" width="180">
           <template slot-scope="scope">
