@@ -7,13 +7,20 @@
         </el-tooltip>
       </el-col>
       <el-col :span="4">
-        <el-input v-model="keyword" class="keyword" placeholder="根据姓名，电话搜索">
+        <el-input v-model="keyword" class="keyword" placeholder="根据姓名，电话，公司搜索">
         </el-input>
       </el-col>
-      <el-col :span="4">
-        <el-select v-model="clientType" placeholder="请选择用户类型">
-          <el-option label="全部" value="0"></el-option>
+      <el-col :span="3">
+        <el-select v-model="clientType" placeholder="请选择客户类型">
+          <el-option label="全部客户" value="0"></el-option>
           <el-option v-for="item in clientTypes" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="3">
+        <el-select v-model="industry" placeholder="请选择行业">
+          <el-option label="全部行业" value=""></el-option>
+          <el-option v-for="(item, index) in industries" :key="index" :label="item" :value="item">
           </el-option>
         </el-select>
       </el-col>
@@ -30,6 +37,7 @@
         <el-table-column prop="name" label="姓名"></el-table-column>
         <el-table-column prop="gender" label="性别"></el-table-column>
         <el-table-column prop="phone" label="电话"></el-table-column>
+        <el-table-column prop="userData.industry" label="行业"></el-table-column>
         <el-table-column prop="userData.compName" label="公司"></el-table-column>
         <el-table-column prop="userData.department" label="部门"></el-table-column>
         <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
@@ -75,6 +83,8 @@
         keyword: '',
         clientType: null,
         clientTypes: constant.ClientTypes,
+        industry: null,
+        industries: constant.Industries,
         dialogFormVisible: false,
         form: {
         },
@@ -94,6 +104,9 @@
         }
         if (this.clientType && this.clientType > 0) {
           params.type = this.clientType
+        }
+        if (this.industry) {
+          params.industry = this.industry
         }
         axios.post(API.ClientPageList, params)
           .then(res => {

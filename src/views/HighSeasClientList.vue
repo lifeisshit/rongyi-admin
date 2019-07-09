@@ -6,9 +6,16 @@
           <el-button icon="el-icon-refresh" circle size="mini" type="primary" plain @click="clickOnRefresh"/>
         </el-tooltip>
       </el-col>
-      <el-col :span="8">
-        <el-input v-model="keyword" class="keyword" placeholder="根据姓名，电话搜索">
+      <el-col :span="4">
+        <el-input v-model="keyword" class="keyword" placeholder="根据姓名，电话，公司搜索">
         </el-input>
+      </el-col>
+      <el-col :span="3">
+        <el-select v-model="industry" placeholder="请选择行业">
+          <el-option label="全部行业" value=""></el-option>
+          <el-option v-for="(item, index) in industries" :key="index" :label="item" :value="item">
+          </el-option>
+        </el-select>
       </el-col>
       <el-col :span="4">
         <el-button type="primary" icon="el-icon-search" @click="clickOnSearch">搜索</el-button>
@@ -22,6 +29,7 @@
         <el-table-column prop="gender" label="性别"></el-table-column>
         <el-table-column prop="phone" label="电话"></el-table-column>
         <el-table-column prop="email" label="邮箱"></el-table-column>
+        <el-table-column prop="userData.industry" label="行业"></el-table-column>
         <el-table-column prop="userData.compName" label="公司"></el-table-column>
         <el-table-column prop="userData.department" label="部门"></el-table-column>
         <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
@@ -40,6 +48,7 @@
   import '../assets/css/high-seas-client.less'
   import axios from 'axios'
   import API from '../api/api.js'
+  import * as constant from '../common/constant'
 
   export default {
     name: "HighSeasClientList",
@@ -48,6 +57,8 @@
         tableData: [],
         totalPage: 1,
         keyword: '',
+        industry: null,
+        industries: constant.Industries,
       }
     },
     methods: {
@@ -59,6 +70,9 @@
         }
         if (this.keyword && this.keyword.trim()) {
           params.keyword = this.keyword
+        }
+        if (this.industry) {
+          params.industry = this.industry
         }
         axios.post(API.ClientPageList, params)
           .then(res => {
