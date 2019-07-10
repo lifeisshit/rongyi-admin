@@ -97,6 +97,9 @@
     props: ['initRecord'],
     data() {
       console.log(this.initRecord)
+      const initRecord = this.initRecord
+      const userData = initRecord && initRecord.userData
+
       return {
         clientTypes: ClientTypes,
         industries: Industries,
@@ -105,22 +108,22 @@
         clientDuties: ClientDuties,
         genders: Genders,
         formData: {
-          type: this.initRecord && this.initRecord.type,
-          phone: this.initRecord && this.initRecord.phone,
-          industry: this.initRecord && this.initRecord.userData.industry,
-          registerAmount: this.initRecord && this.initRecord.userData.registerAmount,
-          compDes: this.initRecord && this.initRecord.userData.compDes,
-          compName: this.initRecord && this.initRecord.userData.compName,
-          turnover: this.initRecord && this.initRecord.userData.turnover,
-          comment: this.initRecord && this.initRecord.userData.comment,
-          gender: this.initRecord && this.initRecord.gender,
-          duty: this.initRecord && this.initRecord.userData.duty,
-          name: this.initRecord && this.initRecord.name,
-          address: this.initRecord && this.initRecord.userData.address,
-          province: this.initRecord && this.initRecord.userData.province,
-          city: this.initRecord && this.initRecord.userData.city,
-          region: this.initRecord && this.initRecord.userData.region,
-          source: this.initRecord && this.initRecord.userData.source
+          type: initRecord && initRecord.type || '',
+          phone: initRecord && initRecord.phone || '',
+          industry: userData && userData.industry || '',
+          registerAmount: userData && userData.registerAmount || '',
+          compDes: userData && userData.compDes || '',
+          compName: userData && userData.compName || '',
+          turnover: userData && userData.turnover || '',
+          comment: userData && userData.comment || '',
+          gender: initRecord && initRecord.gender || '',
+          duty: userData && userData.duty || '',
+          name: initRecord && initRecord.name || '',
+          address: userData && userData.address || '',
+          province: userData && userData.province || '',
+          city: userData && userData.city || '',
+          region: userData && userData.region || '',
+          source: userData && userData.source || '',
         },
         formRule: {
           compName: [{
