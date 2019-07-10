@@ -7,7 +7,7 @@
             <el-button icon="el-icon-refresh" circle size="mini" type="primary" plain @click="clickOnRefresh"></el-button>
           </el-tooltip>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="4">
           <el-input v-model="keyword" class="keyword" placeholder="根据电话搜索">
           </el-input>
         </el-col>
