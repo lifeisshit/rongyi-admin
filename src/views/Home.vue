@@ -55,7 +55,7 @@
 <script>
 import axios from 'axios'
 import API from '../api/api'
-// import router from './router'
+import { mapGetters } from 'vuex'
 
 import '../assets/css/app.less'
 
@@ -69,10 +69,11 @@ export default {
     })
   },
   data() {
+    const defaultTabName = localStorage.getItem('activeTab') || 'Welcome'
     return {
       subMenuItemCls: 'custom-sub-item',
-      activeTabsValue: 'Welcome',
-      activeMenuItemName: this.$route.name,
+      activeTabsValue: defaultTabName,
+      activeMenuItemName: defaultTabName,
       isTabClosable: true
       // adminName:localStorage.getItem('AdmInCookies'),
     }
@@ -88,26 +89,7 @@ export default {
     }
   },
   computed: {
-    menuList: {
-      get() {
-        return this.$store.getters.menuList
-      }
-    },
-    tabs: {
-      get() {
-        return this.$store.getters.tabs
-      }
-    },
-    tabComponents: {
-      get() {
-        return this.$store.getters.tabComponents
-      }
-    },
-    loginUserName: {
-      get() {
-        return this.$store.getters.loginUserName
-      }
-    }
+    ...mapGetters(['menuList', 'tabs', 'tabComponents', 'loginUserName'])
   },
   methods: {
     checkLogin() {
@@ -220,11 +202,12 @@ export default {
     },
     /*
      * 跳转到指定name的页面
-     * 
+     *
      */
     changeToPage(name) {
       this.activeTabsValue = name
       this.activeMenuItemName = name
+      localStorage.setItem('activeTab', name)
     },
     /*
      * 菜单项选中事件
@@ -240,7 +223,7 @@ export default {
       this.addTab(key)
     },
     tabClick(tab) {
-      console.log("tabClick tab: ", tab.name)
+      // console.log("tabClick tab: ", tab.name)
       this.changeToPage(tab.name)
     },
     loginOut() {
@@ -259,6 +242,7 @@ export default {
         localStorage.removeItem('loginUserId')
         localStorage.removeItem('loginUserName')
         localStorage.removeItem('loginUserRole')
+        localStorage.removeItem('activeTab')
         this.$message({
           'message': '您已安全退出登录',
           'type': 'success'

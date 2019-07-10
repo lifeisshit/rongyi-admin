@@ -5,7 +5,8 @@ const getters = {
   isFullPage: state => state.isFullPage,
   menuList: state => state.menuList,
   tabs: state => state.tabs,
-  tabComponents: state => state.tabComponents
+  tabComponents: state => state.tabComponents,
+  staticData: state => state.staticData
 }
 
 export default getters

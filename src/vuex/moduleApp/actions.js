@@ -2,6 +2,8 @@
  * Created by Jeff on 18/08/07.
  */
 import * as types from '../mutation-types'
+import axios from "axios";
+import API from "../../api/api";
 
 const actions = {
   setLoginUserId: ({commit}, payload) => {
@@ -27,7 +29,14 @@ const actions = {
   },
   removeTab: ({commit}, payload) => {
     commit(types.REMOVE_TAB, payload.tabName)
-  }
+  },
+  getStatics({commit}) {
+    return new Promise(async (resolve, reject) => {
+      const { data } = await axios.get(API.StatisticsClientInfo)
+      commit(types.GET_STATIC, data)
+      resolve(data)
+    })
+  },
 }
 
 export default actions

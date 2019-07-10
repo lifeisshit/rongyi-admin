@@ -7,47 +7,47 @@
 
 <script>
 import '../assets/css/welcome.less'
-import axios from 'axios'
-import API from '../api/api.js'
 import echarts from '../plugins/echarts'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'Welcome',
   data() {
     return {
-      staticData: null
+      myChart: null
     }
   },
-  mounted() {
-    this.getStatics()
+  computed: {
+    ...mapGetters(['staticData'])
+  },
+  async mounted() {
+    await this.getStatics()
+    // console.log('staticData: ', this.staticData)
+    this.draw()
+  },
+  watch: {
+    staticData() {
+      // console.log('watch staticData: ', this.staticData)
+      this.draw()
+    }
   },
   methods: {
-    // 获取统计信息
-    getStatics() {
-      axios.get(API.StatisticsClientInfo)
-        .then(res => {
-          console.log(res)
-          if (res.status === 0) {
-            this.staticData = res.data
-            this.draw()
-          }
-        })
-        .catch(() => {
-          this.$message.error('获取销售人员列表失败')
-        })
-    },
+    ...mapActions(['getStatics']),
     draw() {
       // 实例化echarts对象
-      const myChart = echarts.init(this.$refs.myChart)
+      if(!this.myChart) {
+        this.myChart = echarts.init(this.$refs.myChart)
+      }
+      const totalText = '总资源数('+ (this.staticData.totalCount || 0) +')'
       const option = {
         title : {
           text: '我的客户资源',
-          subtext: '总资源数('+ (this.staticData.totalCount || 0) +')',
+          subtext: totalText,
           x:'center'
         },
         tooltip : {
           trigger: 'item',
-          formatter: "{a} <br/>{b} : {c} ({d}%)"
+          formatter: totalText + "<br/>{b} : ({d}%)"
         },
         legend: {
           orient: 'vertical',
@@ -76,7 +76,7 @@ export default {
         ]
       }
       // 绘制条形图
-      myChart.setOption(option)
+      this.myChart.setOption(option)
     }
   }
 }

@@ -53,11 +53,20 @@
         provinces: allRegion,
         citys: [],
         regions: [],
-        chooseProv: '',
+        chooseProv: this.province,
         isShowError: false
       }
     },
     mounted() {
+      // 初始化省市区下拉框
+      // 市
+      if(this.province) {
+        this.citys = this.getChildren(this.province, allRegion, 0);
+      }
+      // 区
+      if(this.city) {
+        this.regions = this.getChildren(this.city, allRegion, 1)
+      }
     },
     methods: {
       getProv: function (prov) {

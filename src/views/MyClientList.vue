@@ -57,6 +57,16 @@
       <add-client :initRecord="selectedRow" @onSubmit="onEditSubmit" @onCancel="onEditClose"></add-client>
     </div>
     <div v-if="pageMode === 'trace'">
+      <ul class="client-info">
+        <li>
+          <span>姓名：</span>
+          <span>{{ selectedRow.name }}</span>
+        </li>
+        <li>
+          <span>电话：</span>
+          <span>{{ selectedRow.phone }}</span>
+        </li>
+      </ul>
       <el-row class="trace-table">
         <el-table :data="traceList" border stype="width: 100%">
           <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
@@ -130,6 +140,7 @@
   import { Industries, ClientTypes, CommunicationTypes, TraceWays, OfferSituations } from '../common/constant'
   import { find, forEach } from 'lodash'
   import AddClient from './AddClient'
+  import { mapActions } from 'vuex'
 
   export default {
     name: "MyClientList",
@@ -197,6 +208,7 @@
       this.getDataList(1)
     },
     methods: {
+      ...mapActions(['getStatics']),
       // 跟踪取消
       traceClickOnCancel() {
         this.pageMode = 'list'
@@ -219,6 +231,10 @@
               this.getTraceList()
               // 新增成功，重置表单
               this.resetTraceForm()
+              // 如果客户类型有变化，则刷新首页饼状图
+              if(this.traceFormData.clientType !== this.selectedRow.type) {
+                this.getStatics()
+              }
             }
           }).catch(err => console.log(err))
         }).catch(err => console.log(err))
@@ -278,6 +294,8 @@
       onTraceClick(row) {
         this.selectedRow = row
         this.pageMode = 'trace'
+        // 设置客户类型
+        this.traceFormData.clientType = row.type
         this.getTraceList()
       },
       // 获取跟踪列表信息

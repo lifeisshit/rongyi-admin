@@ -88,6 +88,7 @@
   import API from '../api/api.js'
   import FormCitySelect from '../components/FormCitySelect'
   import { ClientTypes, Industries, Amounts, ClientSources, ClientDuties, Genders } from '../common/constant'
+  import { mapActions } from 'vuex'
 
   export default {
     name: 'AddClient',
@@ -174,6 +175,7 @@
       }
     },
     methods: {
+      ...mapActions(['getStatics']),
       // 保存
       clickOnSubmit() {
         var url = this.initRecord ? API.ClientUpdate : API.ClientAdd;
@@ -190,6 +192,16 @@
             } else {
               this.$message.success(msg + '成功')
               this.$emit('onSubmit')
+              // 如果客户类型有变化，则刷新首页饼状图
+              if(this.initRecord) {
+                // 修改
+                if(this.formData.type !== this.initRecord.type) {
+                  this.getStatics()
+                }
+              } else {
+                // 新增，直接刷新
+                this.getStatics()
+              }
             }
           }).catch(err => {
             console.log(err)

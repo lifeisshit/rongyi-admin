@@ -2,6 +2,7 @@
  * Created by Jeff on 17/10/29.
  */
 import * as types from '../mutation-types'
+import { clone, find } from "lodash";
 
 const mutations = {
   [types.SET_LOGIN_USER_ID](state, loginUserId) {
@@ -30,22 +31,41 @@ const mutations = {
   },
   [types.ADD_TAB](state, tabItem) {
     console.log('add tab: ', tabItem)
-    let isTabExisted = false
-
-    state.tabs.forEach((tab) => {
-      if (tab.name === tabItem.name) {
-        isTabExisted = true
-      }
-    })
-    // 不存在才加入列表中
-    if (!isTabExisted) {
-      state.tabs.push(tabItem)
+    let newTabs = clone(state.tabs)
+    let isTabExist = find(state.tabs, tabItem)
+    if(isTabExist) {
+      return
     }
+
+    if(tabItem.name === 'Welcome') {
+      // 如果是首页，放在tab列表的第一个位置
+      newTabs.unshift(tabItem)
+    } else {
+      newTabs.push(tabItem)
+    }
+
+    // state.tabs.forEach((tab) => {
+    //   if (tab.name === tabItem.name) {
+    //     // 已经存在则不重复添加
+    //     return
+    //   }
+    //   if(tabItem.name === 'Welcome') {
+    //     // 如果是首页，放在tab列表的第一个位置
+    //     newTabs.unshift(tabItem)
+    //   } else {
+    //     newTabs.push(tabItem)
+    //   }
+    // })
+    console.log('add newTabs: ', newTabs)
+    state.tabs = newTabs
   },
   [types.REMOVE_TAB](state, tabName) {
     console.log('remove tab: ', tabName)
     state.tabs = state.tabs.filter(tab => tab.name !== tabName)
-  }
+  },
+  [types.GET_STATIC](state, payload) {
+    state.staticData = payload
+  },
 }
 
 export default mutations

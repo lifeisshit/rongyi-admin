@@ -2,7 +2,9 @@
 const echarts = equire([
   // 写上你需要的
   'pie',
-  'title'
+  'title',
+  'legend',
+  'tooltip'
 ])
 
 export default echarts
