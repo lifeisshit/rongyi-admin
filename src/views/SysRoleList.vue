@@ -17,7 +17,7 @@
                     <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
                     <el-table-column prop="name" label="角色名"></el-table-column>
                     <el-table-column prop="desc" label="角色描述"></el-table-column>
-                    <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
+                    <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
                     <el-table-column fixed="right" label="操作" width="100">
                         <template slot-scope="scope">
                             <!--<el-button @click="deleteRow(scope.row.id)" type="text" size="small">删除</el-button>-->

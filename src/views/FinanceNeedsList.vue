@@ -21,7 +21,7 @@
           <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
           <el-table-column prop="phone" label="联系人电话"></el-table-column>
           <el-table-column prop="amount" label="融资金额"></el-table-column>
-          <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
+          <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
         </el-table>
         <el-pagination class="pagination" layout="prev, pager, next" :page-count="totalPage" background @current-change="currentPageChanged">
         </el-pagination>

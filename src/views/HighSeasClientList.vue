@@ -32,7 +32,7 @@
         <el-table-column prop="userData.industry" label="行业"></el-table-column>
         <el-table-column prop="userData.compName" label="公司"></el-table-column>
         <el-table-column prop="userData.department" label="部门"></el-table-column>
-        <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
+        <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
         <el-table-column fixed="right" label="操作" width="100">
           <template slot-scope="scope">
             <el-button @click="grab(scope.row)" type="text" size="small">抓取</el-button>

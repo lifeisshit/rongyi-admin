@@ -27,7 +27,7 @@
           <el-table-column prop="user.phone" label="投递人性别"></el-table-column>
           <el-table-column prop="fund.personName" label="资金方姓名"></el-table-column>
           <el-table-column prop="fund.title" label="资金方标题"></el-table-column>
-          <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
+          <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
         </el-table>
         <el-pagination class="pagination" layout="prev, pager, next" :page-count="totalPage" background @current-change="currentPageChanged">
         </el-pagination>
