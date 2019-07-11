@@ -52,34 +52,39 @@ export default {
         return false
       }
       //ajax提交表单
-        axios.post(API.Login, 'login=' + login + '&password=' + password)
-        .then((res) => {
-          this.$store.dispatch('setLoginUserName', {
-            loginUserName: login
-          })
-          this.$store.dispatch('setLoginUserRole', {
-            loginUserRole: res.data.sysRoleInfo.name
-          })
-          this.$store.dispatch('setLoginUserId', {
-            loginUserId: res.data.sysUserInfo.id
-          })
-          localStorage.setItem('loginUserName', login)
-          localStorage.setItem('loginUserRole', res.data.sysRoleInfo.name)
-          localStorage.setItem('loginUserId', res.data.sysUserInfo.id)
-          this.$message({
-            'message': '登录成功',
-            'type': 'success'
-          });
-          router.push({
-            name: 'home'
-          })
-        }).catch((error) => {
-          console.log(error)
-          this.$message.error('登录失败，请确认用户名密码！')
-          router.push({
-            name: 'login'
-          })
+      const params = {
+        login: login,
+        password: password
+      }
+      let qs = require('qs')
+      axios.post(API.Login, qs.stringify(params))
+      .then((res) => {
+        this.$store.dispatch('setLoginUserName', {
+          loginUserName: login
         })
+        this.$store.dispatch('setLoginUserRole', {
+          loginUserRole: res.data.sysRoleInfo.name
+        })
+        this.$store.dispatch('setLoginUserId', {
+          loginUserId: res.data.sysUserInfo.id
+        })
+        localStorage.setItem('loginUserName', login)
+        localStorage.setItem('loginUserRole', res.data.sysRoleInfo.name)
+        localStorage.setItem('loginUserId', res.data.sysUserInfo.id)
+        this.$message({
+          'message': '登录成功',
+          'type': 'success'
+        });
+        router.push({
+          name: 'home'
+        })
+      }).catch((error) => {
+        console.log(error)
+        this.$message.error('登录失败，请确认用户名密码！')
+        router.push({
+          name: 'login'
+        })
+      })
     }
   }
 }
