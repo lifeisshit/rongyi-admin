@@ -1,7 +1,7 @@
 <template>
 <div class="personal-info">
   <el-row>
-    <el-col :span="12">
+    <el-col :span="6">
       <el-form ref="userForm" :model="formData" :rules="formRule" label-width="100px">
         <el-form-item label="账号:" prop="login">
           <el-input v-model="formData.login" :disabled="true"></el-input>
@@ -25,12 +25,12 @@
 </template>
 
 <script>
-import '../assets/css/sys-user-list.less'
+import '../assets/css/personal-info.less'
 import axios from 'axios'
 import API from '../api/api.js'
 
 export default {
-  name: 'SysUserList',
+  name: 'PersonalInfo',
   data() {
     return {
       formData: {
@@ -51,9 +51,6 @@ export default {
     }
   },
   methods: {
-    clickOnCancel() {
-      this.listMode = true
-    },
     clickOnSubmit() {
       this.$refs.userForm.validate().then(() => {
         let api = API.SysUserUpdate
@@ -75,23 +72,23 @@ export default {
           this.$router.push({
             name: 'login'
           })
-        } else {
-          axios.get(API.SysUserGetById, {
-            params: {
-              id: sysUserId
-            }
-          }).then(res => {
-            if (res.status !== 0) {
-              this.$message.error(res.msg)
-            } else {
-              this.formData = res.data
-              console.log(res.data)
-            }
-          }).catch(() => {
-            this.$message.error('获取个人信息失败')
-          })
         }
       }
+
+      axios.get(API.SysUserGetById, {
+        params: {
+          id: sysUserId
+        }
+      }).then(res => {
+        if (res.status !== 0) {
+          this.$message.error(res.msg)
+        } else {
+          this.formData = res.data
+          console.log(res.data)
+        }
+      }).catch(() => {
+        this.$message.error('获取个人信息失败')
+      })
     }
   },
   mounted() {

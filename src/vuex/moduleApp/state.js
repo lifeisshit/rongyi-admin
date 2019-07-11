@@ -17,6 +17,9 @@ const state = {
     subItems: [{
       name: 'PersonalInfo',
       title: '个人信息'
+    }, {
+      name: 'ModifyPassword',
+      title: '修改密码'
     }]
   }, {
     name: 'ClientManagement',
@@ -121,7 +124,8 @@ const state = {
     'HighSeasClientList',
     'AddClient',
     'MyClientList',
-    'PersonalInfo'
+    'PersonalInfo',
+    'ModifyPassword'
   ],
   staticData: null, // 首页饼状图统计信息
 }
