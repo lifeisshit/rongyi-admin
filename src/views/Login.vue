@@ -60,7 +60,7 @@ export default {
           this.$store.dispatch('setLoginUserRole', {
             loginUserRole: res.data.sysRoleInfo.name
           })
-          this.$store.dispatch('loginUserId', {
+          this.$store.dispatch('setLoginUserId', {
             loginUserId: res.data.sysUserInfo.id
           })
           localStorage.setItem('loginUserName', login)
