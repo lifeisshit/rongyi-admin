@@ -3,13 +3,13 @@
   <el-row>
     <el-col :span="6">
       <el-form ref="pwdForm" :model="formData" :rules="formRule" label-width="100px">
-        <el-form-item label="旧密码:" prop="name">
+        <el-form-item label="旧密码:" prop="oldPwd">
           <el-input v-model="formData.oldPwd" placeHolder="请输入旧密码" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="新密码:" prop="phone">
+        <el-form-item label="新密码:" prop="newPwd">
           <el-input v-model="formData.newPwd" placeHolder="请输入新密码" type="password"></el-input>
         </el-form-item>
-        <el-form-item label="确认新密码:" prop="phone">
+        <el-form-item label="确认新密码:" prop="confirmPwd">
           <el-input v-model="formData.confirmPwd" placeHolder="请再次输入新密码" type="password"></el-input>
         </el-form-item>
       </el-form>
