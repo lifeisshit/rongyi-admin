@@ -241,7 +241,7 @@
             if (res.status !== 0) {
               this.$message.error('保存失败')
             } else {
-              this.$message.success(res.msg)
+              this.$message.success('保存成功')
               this.getDataList(1)
               this.listMode = true
             }

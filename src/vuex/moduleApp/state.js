@@ -10,6 +10,15 @@ const state = {
     icon: 'el-icon-d-arrow-right',
     title: '首页'
   }, {
+    name: 'PersonalManagement',
+    icon: 'el-icon-info',
+    title: '个人信息',
+    role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
+    subItems: [{
+      name: 'PersonalInfo',
+      title: '个人信息'
+    }]
+  }, {
     name: 'ClientManagement',
     icon: 'el-icon-phone',
     title: '公司客户',
@@ -111,7 +120,8 @@ const state = {
     'InvestOrgList',
     'HighSeasClientList',
     'AddClient',
-    'MyClientList'
+    'MyClientList',
+    'PersonalInfo'
   ],
   staticData: null, // 首页饼状图统计信息
 }

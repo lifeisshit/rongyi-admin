@@ -15,6 +15,7 @@ const API = {
   SysUserInsert:'/sys-user/add',
   SysUserUpdate:'/sys-user/update',
   SysUserDelete:'/sys-user/deleteById',
+  SysUserGetById:'/sys-user/getById',
   SysUserGrabHighSeasClient:'/sys-user/grabHighSeasClient',
   SysUserListSales: '/sys-user/listSales',
   SysUserResetPwd: '/sys-user/resetPwd',
