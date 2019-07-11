@@ -32,9 +32,10 @@
         <el-table-column prop="phone" label="联系电话">
         </el-table-column>
         <el-table-column prop="gmtCreate" label="创建时间"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column fixed="right" label="操作" width="120">
           <template slot-scope="scope">
             <!--<el-button @click="deleteRow(scope.row.id)" type="text" size="small">删除</el-button>-->
+            <el-button @click="resetPwd(scope.row)" type="text" size="small">重置密码</el-button>
             <el-button @click="updateRow(scope.row)" type="text" size="small">编辑</el-button>
           </template>
         </el-table-column>
@@ -166,6 +167,38 @@ export default {
         this.$message({
           type: 'info',
           message: '已取消删除'
+        })
+      })
+    },
+    resetPwd(row) {
+      this.$confirm(`确定重置"${row.name}"的密码吗？`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        const params = {
+          id: row.id
+        }
+        let qs = require('qs')
+        axios.post(API.SysUserResetPwd, qs.stringify(params)).
+        then(res => {
+          if (res.status !== 0) {
+            this.$message.error(res.msg)
+          } else {
+            this.$message({
+              type: 'success',
+              message: '重置成功!'
+            })
+          }
+          this.getDataList(1)
+        }).catch(() => {
+          this.$message.error('重置失败')
+        })
+
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消重置'
         })
       })
     },

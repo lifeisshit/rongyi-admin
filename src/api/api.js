@@ -1,10 +1,13 @@
 const API = {
+  // ================阿里云OSS================
   AbsOSSUrl: 'http://47.103.55.170:28080/sys/aliyun-oss/getSign',
   OSSUrl: '/aliyun-oss/getSign',
   OSSUrlDelete: '/aliyun-oss/deleteObject',
+  // ================登录================
   Login: '/sys-user/login',
   Logout: '/sys-user/logout',
   Welcome: '/welcome',
+  // ================系统用户================
   SysRolePageList:'/sys-role/pageList',
   SysRoleInsert:'/sys-role/add',
   SysRoleUpdate:'/sys-role/update',
@@ -14,33 +17,42 @@ const API = {
   SysUserDelete:'/sys-user/deleteById',
   SysUserGrabHighSeasClient:'/sys-user/grabHighSeasClient',
   SysUserListSales: '/sys-user/listSales',
+  SysUserResetPwd: '/sys-user/resetPwd',
+  // ================成功案例================
   SuccessCaseAdd:'/success-case/add',
   SuccessCaseDelete:'/success-case/deleteById',
   SuccessCaseGet:'/success-case/getById',
   SuccessCaseUpdate:'/success-case/update',
   SuccessCasePageList:'/success-case/pageList',
+  // ================项目方================
   ProjectAdd:'/project/add',
   ProjectDelete:'/project/deleteById',
   ProjectGet:'/project/getById',
   ProjectUpdate:'/project/update',
   ProjectPageList:'/project/pageList',
+  // ================资金方================
   FundAdd:'/fund/add',
   FundDelete:'/fund/deleteById',
   FundGet:'/fund/getById',
   FundUpdate:'/fund/update',
   FundPageList:'/fund/pageList',
+  // ================资讯================
   NewsAdd:'/news/add',
   NewsDelete:'/news/deleteById',
   NewsGet:'/news/getById',
   NewsUpdate:'/news/update',
   NewsPageList:'/news/pageList',
+  // ================投递项目================
   AppointmentProjectPageList:'/appointment-project/pageList',
+  // ================融资需求================
   FinanceNeedsPageList:'/finance-needs/pageList',
+  // ================投资人================
   InvestorAdd:'/investor/add',
   InvestorDelete:'/investor/deleteById',
   InvestorGet:'/investor/getById',
   InvestorUpdate:'/investor/update',
   InvestorPageList:'/investor/pageList',
+  // ================投资机构================
   InvestOrgAdd:'/invest-org/add',
   InvestOrgDelete:'/invest-org/deleteById',
   InvestOrgGet:'/invest-org/getById',
