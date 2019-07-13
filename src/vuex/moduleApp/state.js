@@ -10,16 +10,13 @@ const state = {
     icon: 'el-icon-d-arrow-right',
     title: '首页'
   }, {
-    name: 'PersonalManagement',
-    icon: 'el-icon-info',
-    title: '个人信息',
-    role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
+    name: 'SalesManagement',
+    icon: 'el-icon-view',
+    title: '销售管理',
+    role: 'sys_admin,gen_mgr',
     subItems: [{
-      name: 'PersonalInfo',
-      title: '个人信息'
-    }, {
-      name: 'ModifyPassword',
-      title: '修改密码'
+      name: 'SalesList',
+      title: '销售列表'
     }]
   }, {
     name: 'ClientManagement',
@@ -35,15 +32,6 @@ const state = {
     }, {
       name: 'FinanceNeedsList',
       title: '融资需求'
-    }]
-  }, {
-    name: 'SalesManagement',
-    icon: 'el-icon-tickets',
-    title: '销售管理',
-    role: 'sys_admin,gen_mgr',
-    subItems: [{
-      name: 'SalesList',
-      title: '销售列表'
     }]
   }, {
     name: 'MyClientManagement',
@@ -100,6 +88,18 @@ const state = {
         name: 'NewsList',
         title: '资讯列表'
       }]
+  }, {
+    name: 'PersonalManagement',
+    icon: 'el-icon-info',
+    title: '个人信息',
+    role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
+    subItems: [{
+      name: 'PersonalInfo',
+      title: '个人信息'
+    }, {
+      name: 'ModifyPassword',
+      title: '修改密码'
+    }]
   }, {
     name: 'SysUserManagement',
     icon: 'el-icon-setting',
