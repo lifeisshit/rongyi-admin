@@ -12,6 +12,7 @@ const API = {
   SysRoleInsert:'/sys-role/add',
   SysRoleUpdate:'/sys-role/update',
   SysUserPageList:'/sys-user/pageList',
+  SysUserPageListSalesStat:'/sys-user/pageListSalesStatistics',
   SysUserInsert:'/sys-user/add',
   SysUserUpdate:'/sys-user/update',
   SysUserDelete:'/sys-user/deleteById',

@@ -37,6 +37,15 @@ const state = {
       title: '融资需求'
     }]
   }, {
+    name: 'SalesManagement',
+    icon: 'el-icon-tickets',
+    title: '销售管理',
+    role: 'sys_admin,gen_mgr',
+    subItems: [{
+      name: 'SalesList',
+      title: '销售列表'
+    }]
+  }, {
     name: 'MyClientManagement',
     icon: 'el-icon-star-on',
     title: '我的客户',
@@ -125,7 +134,8 @@ const state = {
     'AddClient',
     'MyClientList',
     'PersonalInfo',
-    'ModifyPassword'
+    'ModifyPassword',
+    'SalesList'
   ],
   staticData: null, // 首页饼状图统计信息
 }
