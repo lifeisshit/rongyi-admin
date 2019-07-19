@@ -70,7 +70,7 @@
               <!--<el-input type="textarea" :rows="8" v-model="formData.content" placeHolder="请输入项目信息"></el-input>-->
               <UEditor :config=config ref="ueditor" :id="'1'"></UEditor>
             </el-form-item>
-            <el-form-item label="阅读次数:" prop="viewCount">
+            <el-form-item label="阅读次数:" prop="readCount">
               <el-input v-model="formData.readCount" placeHolder="请输入阅读次数" type="number"></el-input>
             </el-form-item>
             <el-form-item label="是否推荐:" prop="recommend">
