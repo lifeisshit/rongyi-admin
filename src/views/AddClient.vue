@@ -128,17 +128,17 @@
         },
         formRule: {
           compName: [{
-            required: true,
+            required: false,
             message: '请输入单位名称',
             trigger: 'blur'
           }],
           name: [{
-            required: true,
+            required: false,
             message: '请输入姓名',
             trigger: 'blur'
           }],
           gender: [{
-            required: true,
+            required: false,
             message: '请选择性别',
             trigger: 'blur'
           }],
@@ -152,22 +152,22 @@
             pattern: /^\d{11}$/
           }],
           industry: [{
-            required: true,
+            required: false,
             message: '请选择主营行业',
             trigger: 'blur'
           }],
           type: [{
-            required: true,
+            required: false,
             message: '请选择客户类型',
             trigger: 'blur'
           }],
           source: [{
-            required: true,
+            required: false,
             message: '请选择客户来源',
             trigger: 'blur'
           }],
           region: [{
-            required: true,
+            required: false,
             trigger: 'blur',
             message: '请选择完整的省市区'
           }]

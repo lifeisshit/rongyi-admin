@@ -70,21 +70,21 @@
             <el-form-item label="人名:" prop="personName">
               <el-input v-model="formData.personName" placeHolder="请输入人名"></el-input>
             </el-form-item>
-            <el-form-item label="投资地区（最多只能选择五个）:" prop="inventRegion">
-              <el-checkbox-group v-model="formData.inventRegion" :min="1" :max="5">
+            <el-form-item label="投资地区:" prop="inventRegion">
+              <el-checkbox-group v-model="formData.inventRegion" :min="1">
                 <el-checkbox v-for="item in regions" :label="item" :key="item">{{item}}</el-checkbox>
               </el-checkbox-group>
             </el-form-item>
-            <el-form-item label="投资行业（最多只能选择五个）:" prop="investIndustry">
-              <el-checkbox-group v-model="formData.investIndustry" :min="1" :max="5">
+            <el-form-item label="投资行业:" prop="investIndustry">
+              <el-checkbox-group v-model="formData.investIndustry" :min="1">
                 <el-checkbox v-for="item in industries" :label="item" :key="item">{{item}}</el-checkbox>
               </el-checkbox-group>
             </el-form-item>
             <el-form-item label="投资资金:" prop="investAmount">
               <el-input v-model="formData.investAmount" placeHolder="请输入投资资金"></el-input>
             </el-form-item>
-            <el-form-item label="投资类型:（股权投资专用，最多只能选择五个）" prop="investType">
-              <el-checkbox-group v-model="formData.investType" :min="1" :max="5">
+            <el-form-item label="投资类型:（股权投资专用）" prop="investType">
+              <el-checkbox-group v-model="formData.investType" :min="1">
                 <el-checkbox v-for="item in investTypes" :label="item" :key="item">{{item}}</el-checkbox>
               </el-checkbox-group>
             </el-form-item>
