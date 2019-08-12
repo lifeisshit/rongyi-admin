@@ -39,7 +39,7 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-pagination class="pagination" layout="prev, pager, next" :page-count="totalPage" background @current-chage="currentPageChanged"></el-pagination>
+      <el-pagination class="pagination" layout="prev, pager, next" :page-count="totalPage" background @current-change="currentPageChanged"></el-pagination>
     </el-row>
   </div>
 </template>
