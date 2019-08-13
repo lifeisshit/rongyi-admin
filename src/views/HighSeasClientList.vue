@@ -24,17 +24,17 @@
     <br>
     <el-row class="table-div">
       <el-table :data="tableData" border stype="width: 100%">
-        <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
-        <el-table-column prop="phone" label="电话"></el-table-column>
-        <el-table-column prop="name" label="姓名"></el-table-column>
-        <el-table-column prop="gender" label="性别"></el-table-column>
-        <el-table-column prop="email" label="邮箱"></el-table-column>
-        <el-table-column prop="userData.industry" label="行业"></el-table-column>
-        <el-table-column prop="userData.compName" label="公司"></el-table-column>
-        <el-table-column prop="userData.department" label="部门"></el-table-column>
+        <el-table-column type="index" label="序号" width="60px" header-align="center" align="center"></el-table-column>
+        <el-table-column prop="phone" label="电话" width="120px"></el-table-column>
+        <el-table-column prop="name" label="姓名" width="120px"></el-table-column>
+        <el-table-column prop="gender" label="性别" width="60px"></el-table-column>
+        <el-table-column prop="userData.industry" label="行业" width="140px" show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="userData.compName" label="公司" width="200px" show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="userData.comment" label="小计" show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
-        <el-table-column fixed="right" label="操作" width="100">
+        <el-table-column fixed="right" label="操作" width="120">
           <template slot-scope="scope">
+            <el-button @click="showInfo(scope.row)" type="text" size="small">查看小计</el-button>
             <el-button @click="grab(scope.row)" type="text" size="small">抓取</el-button>
           </template>
         </el-table-column>
@@ -125,6 +125,11 @@
             message: '已取消抓取'
           })
         })
+      },
+      showInfo(row) {
+        this.$alert(row.userData.comment, '用户小计：' + row.name, {
+          confirmButtonText: '确定'
+        });
       }
     },
     mounted: function () {
