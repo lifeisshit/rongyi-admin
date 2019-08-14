@@ -71,6 +71,7 @@
         <el-table :data="traceList" border stype="width: 100%">
           <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
           <el-table-column prop="way" label="跟踪方式"></el-table-column>
+          <el-table-column prop="tracerName" label="跟踪人"></el-table-column>
           <el-table-column prop="offerSituation" label="报价情况"></el-table-column>
           <el-table-column prop="firstCommuDetail" label="沟通详情1"></el-table-column>
           <el-table-column prop="secondCommuDetail" label="沟通详情2"></el-table-column>

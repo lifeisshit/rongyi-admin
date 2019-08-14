@@ -30,6 +30,8 @@
         <el-table-column prop="gender" label="性别" width="60px"></el-table-column>
         <el-table-column prop="userData.industry" label="行业" width="140px" show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="userData.compName" label="公司" width="200px" show-overflow-tooltip="true"></el-table-column>
+        <el-table-column prop="lastTracerName" label="剔除人员"></el-table-column>
+        <el-table-column prop="lastFlushTime" label="剔除时间" width="160px"></el-table-column>
         <el-table-column prop="userData.comment" label="小计" show-overflow-tooltip="true"></el-table-column>
         <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
         <el-table-column fixed="right" label="操作" width="120">

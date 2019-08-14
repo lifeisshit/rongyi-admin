@@ -48,8 +48,8 @@
           <el-form-item label="企业介绍:" prop="compDes">
             <el-input type="textarea" :rows="5" v-model="formData.compDes" placeHolder="请输入企业介绍"></el-input>
           </el-form-item>
-          <el-form-item label="备注:" prop="comment">
-            <el-input type="textarea" :rows="5" v-model="formData.comment" placeHolder="请输入备注"></el-input>
+          <el-form-item label="小计:" prop="comment">
+            <el-input type="textarea" :rows="5" v-model="formData.comment" placeHolder="请输入小计"></el-input>
           </el-form-item>
           <el-form-item label="姓名:" prop="name" class="inline-item">
             <el-input v-model="formData.name" placeHolder="请输入姓名"></el-input>
