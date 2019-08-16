@@ -80,7 +80,6 @@
         if (this.industry) {
           params.industry = this.industry
         }
-        console.log(this.lastFlushTime)
         if (this.lastFlushTime) {
           params.lastFlushTime = this.lastFlushTime
         }
