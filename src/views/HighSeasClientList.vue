@@ -31,11 +31,11 @@
         <el-table-column prop="phone" label="电话" width="120px"></el-table-column>
         <el-table-column prop="name" label="姓名" width="120px"></el-table-column>
         <el-table-column prop="gender" label="性别" width="60px"></el-table-column>
-        <el-table-column prop="userData.industry" label="行业" width="140px" show-overflow-tooltip=:"true"></el-table-column>
-        <el-table-column prop="userData.compName" label="公司" width="200px" show-overflow-tooltip=:"true"></el-table-column>
-        <el-table-column prop="lastTracerName" label="剔除人员"></el-table-column>
+        <el-table-column prop="userData.industry" label="行业" width="140px" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="userData.compName" label="公司" width="200px" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="lastTracerName" label="剔除人员" width="140px"></el-table-column>
         <el-table-column prop="lastFlushTime" label="剔除时间" width="160px"></el-table-column>
-        <el-table-column prop="userData.comment" label="小计" show-overflow-tooltip=:"true"></el-table-column>
+        <el-table-column prop="userData.comment" label="小计" show-overflow-tooltip></el-table-column>
         <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
         <el-table-column fixed="right" label="操作" width="120">
           <template slot-scope="scope">
@@ -136,6 +136,11 @@
         })
       },
       showInfo(row) {
+        if (!row.userData || !row.userData.comment) {
+          this.$message.info('无用户小计')
+          return
+        }
+
         this.$alert(row.userData.comment, '用户小计：' + row.name, {
           confirmButtonText: '确定'
         });
