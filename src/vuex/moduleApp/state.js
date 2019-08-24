@@ -58,7 +58,7 @@ const state = {
     name: 'BusinessManagement',
     icon: 'el-icon-edit',
     title: '业务管理',
-    role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
+    role: 'sys_admin,gen_mgr,sales_mgr',
     subItems: [{
       name: 'FundList',
       title: '资金方'
@@ -79,7 +79,7 @@ const state = {
     name: 'NewsManagement',
     icon: 'el-icon-news',
     title: '资讯管理',
-    role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
+    role: 'sys_admin,gen_mgr,sales_mgr',
     subItems: [{
       name: 'SlideNewsList',
       title: '资讯幻灯片'
