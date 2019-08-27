@@ -33,18 +33,19 @@
       <el-table :data="tableData" border stype="width: 100%">
         <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
         <el-table-column prop="type" label="客户类型" :formatter="formatterType"></el-table-column>
-        <el-table-column prop="phone" label="电话"></el-table-column>
-        <el-table-column prop="name" label="姓名" width="120px"></el-table-column>
+        <el-table-column prop="phone" label="电话" width="120px"></el-table-column>
+        <el-table-column prop="name" label="姓名" width="100px"></el-table-column>
         <el-table-column prop="gender" label="性别" width="60px"></el-table-column>
-        <el-table-column prop="userData.industry" label="行业"></el-table-column>
-        <el-table-column prop="userData.compName" label="公司"></el-table-column>
-        <el-table-column prop="userData.department" label="部门"></el-table-column>
-        <el-table-column prop="owner.name" label="所属销售"></el-table-column>
+        <el-table-column prop="userData.industry" label="行业" width="120px" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="userData.compName" label="公司" width="160px" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="owner.name" label="所属销售" width="100px" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="userData.comment" label="小计" show-overflow-tooltip></el-table-column>
         <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
         <el-table-column fixed="right" label="操作" width="180">
           <template slot-scope="scope">
-            <el-button @click="assignClient(scope.row)" type="primary" size="small">分 配</el-button>
-            <el-button @click="pushToHighSeas(scope.row)" type="primary" size="small">设为公海</el-button>
+            <el-button @click="assignClient(scope.row)" type="text" size="small">分配</el-button>
+            <el-button @click="pushToHighSeas(scope.row)" type="text" size="small">设为公海</el-button>
+            <el-button @click="showInfo(scope.row)" type="text" size="small">查看小计</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -199,6 +200,16 @@
         }).catch(() => {
           this.$message.info('已取消')
         })
+      },
+      showInfo(row) {
+        if (!row.userData || !row.userData.comment) {
+          this.$message.info('无用户小计')
+          return
+        }
+
+        this.$alert(row.userData.comment, '用户小计：' + row.name + ' ' + row.phone, {
+          confirmButtonText: '确定'
+        });
       }
     },
     mounted: function () {
