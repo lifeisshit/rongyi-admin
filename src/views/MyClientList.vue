@@ -159,6 +159,7 @@
         commu2List: [],
         commu3List: [],
         listMode: false,
+        currentPage: 1,
         tableData: [],
         totalPage: 1,
         keyword: '',
@@ -214,6 +215,7 @@
       traceClickOnCancel() {
         this.pageMode = 'list'
         this.resetTraceForm()
+        this.getDataList(this.currentPage)
       },
       // 跟踪提交
       traceClickOnSubmit() {
@@ -281,6 +283,7 @@
         this.getDataList(1)
       },
       currentPageChanged(cp) {
+        this.currentPage = cp
         this.getDataList(cp)
       },
       formatterType(row) {

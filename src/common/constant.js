@@ -101,6 +101,9 @@ export const ClientTypes = [{
 }, {
   value: 8,
   label: '公海客户'
+}, {
+  value: 9,
+  label: '移交总监'
 }]
 // 客户来源
 export const ClientSources = ['搜索引擎', '报纸', '朋友介绍', '公众号', '其他']
