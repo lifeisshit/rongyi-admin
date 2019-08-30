@@ -10,10 +10,17 @@
         <el-input v-model="keyword" class="keyword" placeholder="根据姓名，电话，公司，小计搜索">
         </el-input>
       </el-col>
-      <el-col :span="3">
+      <el-col :span="4">
         <el-select v-model="clientType" placeholder="请选择客户类型">
           <el-option label="全部客户" value="0"></el-option>
           <el-option v-for="item in clientTypes" :key="item.value" :label="item.label" :value="item.value">
+          </el-option>
+        </el-select>
+      </el-col>
+      <el-col :span="3">
+        <el-select v-model="searchSalesId" placeholder="请选择销售人员">
+          <el-option label="全部销售" value="0"></el-option>
+          <el-option v-for="item in salesList" :key="item.id" :label="item.name" :value="item.id">
           </el-option>
         </el-select>
       </el-col>
@@ -91,7 +98,8 @@
         },
         salesList: [],
         assignClientId: 0,
-        currentPage: 1
+        currentPage: 1,
+        searchSalesId: null
       }
     },
     methods: {
@@ -108,6 +116,9 @@
         }
         if (this.industry) {
           params.industry = this.industry
+        }
+        if (this.searchSalesId && this.searchSalesId > 0) {
+          params.ownerId = this.searchSalesId
         }
         axios.post(API.ClientPageList, params)
           .then(res => {
