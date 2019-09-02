@@ -27,6 +27,9 @@ const state = {
       name: 'ClientList',
       title: '所有公司客户'
     }, {
+      name: 'DirectorClientList',
+      title: '移交总监客户'
+    }, {
       name: 'AppointmentProjectList',
       title: '投递项目'
     }, {
@@ -124,6 +127,7 @@ const state = {
     'ProjectList',
     'SuccessCaseList',
     'ClientList',
+    'DirectorClientList',
     'AppointmentProjectList',
     'FinanceNeedsList',
     'SlideNewsList',

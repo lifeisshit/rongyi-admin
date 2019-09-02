@@ -135,3 +135,11 @@ export const CommunicationTypes = [{
   name: '未接通',
   sub: [{ name: '无人接听' }, { name: '停机' }, { name: '空号(自动剔除)', isToHighSeas: true }]
 }]
+// 移交总监的客户的提交到投资公司的状态
+export const DeliverStatus = [{
+  value: 1,
+  label: '未上交'
+}, {
+  value: 2,
+  label: '已上交'
+}]
