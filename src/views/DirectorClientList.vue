@@ -1,5 +1,5 @@
 <template>
-  <div class="client-list">
+  <div class="director-client-list">
     <el-row :gutter="20">
       <el-col :span="1">
         <el-tooltip placement="right" content="刷新">
@@ -69,7 +69,7 @@
   import * as constant from '../common/constant'
 
   export default {
-    name: "ClientList",
+    name: "DirectorClientList",
     data() {
       return {
         tableData: [],
