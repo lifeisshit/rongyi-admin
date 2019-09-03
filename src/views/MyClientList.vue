@@ -57,29 +57,43 @@
       <add-client :initRecord="selectedRow" @onSubmit="onEditSubmit" @onCancel="onEditClose"></add-client>
     </div>
     <div v-if="pageMode === 'trace'">
-      <ul class="client-info">
-        <li>
-          <span>姓名：</span>
-          <span>{{ selectedRow.name }}</span>
-        </li>
-        <li>
-          <span>电话：</span>
-          <span>{{ selectedRow.phone }}</span>
-        </li>
-      </ul>
-      <el-row class="trace-table">
-        <el-table :data="traceList" border stype="width: 100%">
-          <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
-          <el-table-column prop="way" label="跟踪方式"></el-table-column>
-          <el-table-column prop="tracerName" label="跟踪人"></el-table-column>
-          <el-table-column prop="offerSituation" label="报价情况"></el-table-column>
-          <el-table-column prop="firstCommuDetail" label="沟通详情1"></el-table-column>
-          <el-table-column prop="secondCommuDetail" label="沟通详情2"></el-table-column>
-          <el-table-column prop="thirdCommuDetail" label="沟通详情3"></el-table-column>
-          <el-table-column prop="comment" label="备注"></el-table-column>
-          <el-table-column prop="nextRemind" label="下次跟踪提醒"></el-table-column>
-        </el-table>
-      </el-row>
+      <el-card>
+        <div slot="header" class="clearfix">
+          <span>客户信息</span>
+        </div>
+        <el-row>
+          <el-col :span="12">
+            <el-form ref="clientInfoForm" label-width="100px">
+              <el-form-item label="姓名:">
+                <el-input v-model="selectedRow.name" :disabled="true"></el-input>
+              </el-form-item>
+              <el-form-item label="电话:">
+                <el-input v-model="selectedRow.phone" :disabled="true"></el-input>
+              </el-form-item>
+              <el-form-item label="企业介绍:">
+                <el-input v-model="selectedRow.userData.compDes" :disabled="true"></el-input>
+              </el-form-item>
+              <el-form-item label="小计:">
+                <el-input type="textarea" :rows="5" v-model="selectedRow.userData.comment" :disabled="true"></el-input>
+              </el-form-item>
+            </el-form>
+          </el-col>
+        </el-row>
+        <el-row class="trace-table">
+          <el-table :data="traceList" border stype="width: 100%">
+            <el-table-column type="index" label="序号" width="100" header-align="center" align="center"></el-table-column>
+            <el-table-column prop="way" label="跟踪方式"></el-table-column>
+            <el-table-column prop="tracerName" label="跟踪人"></el-table-column>
+            <el-table-column prop="offerSituation" label="报价情况"></el-table-column>
+            <el-table-column prop="firstCommuDetail" label="沟通详情1"></el-table-column>
+            <el-table-column prop="secondCommuDetail" label="沟通详情2"></el-table-column>
+            <el-table-column prop="thirdCommuDetail" label="沟通详情3"></el-table-column>
+            <el-table-column prop="comment" label="备注"></el-table-column>
+            <el-table-column prop="nextRemind" label="下次跟踪提醒"></el-table-column>
+          </el-table>
+        </el-row>
+      </el-card>
+      <br/>
       <el-card>
         <div slot="header" class="clearfix">
           <span>新增跟踪信息</span>
