@@ -143,3 +143,11 @@ export const DeliverStatus = [{
   value: 2,
   label: '已上交'
 }]
+// 客户是否投递过项目
+export const AppointmentProjectStatus = [{
+  value: 1,
+  label: '未投递'
+}, {
+  value: 2,
+  label: '已投递'
+}]

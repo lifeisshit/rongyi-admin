@@ -49,6 +49,7 @@
         <el-table-column prop="userData.compName" label="公司" width="160px" show-overflow-tooltip></el-table-column>
         <el-table-column prop="owner.name" label="所属销售" width="80px" show-overflow-tooltip></el-table-column>
         <el-table-column prop="userData.comment" label="小计" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="apmtStatus" label="投递项目" width="70px" :formatter="formatterApmtStatus"></el-table-column>
         <el-table-column prop="gmtCreate" label="创建时间" width="140px"></el-table-column>
         <el-table-column fixed="right" label="操作" width="180">
           <template slot-scope="scope">
@@ -97,6 +98,7 @@
         clientTypes: constant.ClientTypes,
         industry: null,
         industries: constant.Industries,
+        apmtStatus: constant.AppointmentProjectStatus,
         dialogFormVisible: false,
         form: {
         },
@@ -154,6 +156,9 @@
       },
       formatterType(row) {
         return this.clientTypes[row.type - 1].label
+      },
+      formatterApmtStatus(row) {
+        return this.apmtStatus[row.apmtStatus - 1].label
       },
       getSalesList() {
         axios.get(API.SysUserListSales)
