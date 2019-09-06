@@ -6,30 +6,33 @@
           <el-button icon="el-icon-refresh" circle size="mini" type="primary" plain @click="clickOnRefresh"/>
         </el-tooltip>
       </el-col>
-      <el-col :span="6">
+      <el-col :span="5">
         <el-input v-model="keyword" class="keyword" placeholder="根据姓名，电话，公司，小计搜索">
         </el-input>
       </el-col>
-      <el-col :span="4">
-        <el-select v-model="clientType" placeholder="请选择客户类型">
+      <el-col :span="3">
+        <el-select v-model="clientType" placeholder="客户类型">
           <el-option label="全部客户" value="0"></el-option>
           <el-option v-for="item in clientTypes" :key="item.value" :label="item.label" :value="item.value">
           </el-option>
         </el-select>
       </el-col>
       <el-col :span="3">
-        <el-select v-model="searchSalesId" placeholder="请选择销售人员">
+        <el-select v-model="searchSalesId" placeholder="销售人员">
           <el-option label="全部销售" value="0"></el-option>
           <el-option v-for="item in salesList" :key="item.id" :label="item.name" :value="item.id">
           </el-option>
         </el-select>
       </el-col>
-      <el-col :span="3">
-        <el-select v-model="industry" placeholder="请选择行业">
+      <el-col :span="2">
+        <el-select v-model="industry" placeholder="行业">
           <el-option label="全部行业" value=""></el-option>
           <el-option v-for="(item, index) in industries" :key="index" :label="item" :value="item">
           </el-option>
         </el-select>
+      </el-col>
+      <el-col :span="7" class="daterang-div">
+        <el-date-picker v-model="dateRange" type="daterange" range-separator="至" start-placeholder="起始创建日期" end-placeholder="结束创建日期" value-format="yyyy-MM-dd"></el-date-picker>
       </el-col>
       <el-col :span="2">
         <el-button type="primary" icon="el-icon-search" @click="clickOnSearch">搜索</el-button>
@@ -79,6 +82,7 @@
 <script>
   import '../assets/css/sys-user-list.less'
   import axios from 'axios'
+  import moment from 'moment'
   import API from '../api/api.js'
   import * as constant from '../common/constant'
 
@@ -99,7 +103,8 @@
         salesList: [],
         assignClientId: 0,
         currentPage: 1,
-        searchSalesId: null
+        searchSalesId: null,
+        dateRange: []
       }
     },
     methods: {
@@ -119,6 +124,10 @@
         }
         if (this.searchSalesId && this.searchSalesId > 0) {
           params.ownerId = this.searchSalesId
+        }
+        if (this.dateRange && this.dateRange.length === 2) {
+          params.startDate = moment(this.dateRange[0]).format('YYYY-MM-DD')
+          params.endDate = moment(this.dateRange[1]).format('YYYY-MM-DD')
         }
         axios.post(API.ClientPageList, params)
           .then(res => {
