@@ -52,7 +52,7 @@ const state = {
     name: 'HighSeasClientManagement',
     icon: 'el-icon-goods',
     title: '公海客户',
-    role: 'sys_admin,gen_mgr,sales_mgr,sales_man',
+    role: 'sys_admin,gen_mgr,sales_mgr',
     subItems: [{
       name: 'HighSeasClientList',
       title: '所有公海客户'

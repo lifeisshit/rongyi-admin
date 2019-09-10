@@ -42,8 +42,9 @@
           <el-table-column prop="userData.compName" label="公司"></el-table-column>
           <el-table-column prop="userData.department" label="部门"></el-table-column>
           <el-table-column prop="gmtCreate" label="创建时间" width="160px"></el-table-column>
-          <el-table-column fixed="right" label="操作" width="100">
+          <el-table-column fixed="right" label="操作" width="120">
             <template slot-scope="scope">
+              <el-button @click="assignClient(scope.row)" type="text" size="small" v-if="isManager">分配</el-button>
               <el-button @click="onEditClick(scope.row)" type="text" size="small">编辑</el-button>
               <el-button @click="onTraceClick(scope.row)" type="text" size="small">跟踪</el-button>
             </template>
@@ -145,6 +146,20 @@
         </el-row>
       </el-card>
     </div>
+    <el-dialog title="分配销售人员" :visible.sync="dialogFormVisible" :modal-append-to-body='false' width="30%">
+      <el-form :model="assignForm">
+        <el-form-item label="销售人员">
+          <el-select v-model="assignForm.salesmanId" placeholder="销售人员" width="20%">
+            <el-option v-for="item in salesList" :key="item.id" :label="item.name" :value="item.id">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="assignToSales">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -217,10 +232,18 @@
             message: '请完善沟通详情',
             trigger: 'blur'
           }]
-        }
+        },
+        dialogFormVisible: false,
+        assignForm: {
+        },
+        salesList: [],
+        assignClientId: 0,
+        isManager: false
       }
     },
     mounted () {
+      this.initRoleInfo()
+      this.getSalesmenList()
       this.getDataList(1)
     },
     methods: {
@@ -364,6 +387,55 @@
         })
         this.traceFormData.thirdCommuDetail = ''
         this.thirdCommuChecks = []
+      },
+      getSalesmenList() {
+        axios.get(API.SysUserListSalesmen)
+          .then(res => {
+            if (res.status != 0) {
+              this.$message.error('获取销售人员列表失败')
+            } else {
+              this.salesList = res.data
+            }
+          })
+          .catch(() => {
+            this.$message.error('获取销售人员列表失败')
+          })
+      },
+      assignClient(row) {
+        this.assignClientId = row.id
+        this.dialogFormVisible = true
+      },
+      assignToSales() {
+        if (!this.assignForm.salesmanId) {
+          this.$message.warning('请选择销售人员')
+          return
+        }
+        const params = {
+          userId: this.assignClientId,
+          ownerId: this.assignForm.salesmanId
+        }
+        let qs = require('qs')
+        axios.post(API.ClientAssignOwner, qs.stringify(params)).then((res) => {
+          if (res.status != 0) {
+            this.$message.error(res.msg)
+          } else {
+            this.$message.success('分配成功')
+            this.getDataList(this.currentPage)
+          }
+        }).catch(() => {
+          this.$message.error('分配失败')
+        })
+
+        this.dialogFormVisible = false
+      },
+      initRoleInfo() {
+        let loginUserRole = this.$store.getters.loginUserRole
+        if (!loginUserRole || !loginUserRole) {
+          loginUserRole = localStorage.getItem('loginUserRole')
+        }
+        if (loginUserRole == "sales_mgr") {
+          this.isManager = true;
+        }
       }
     }
   }

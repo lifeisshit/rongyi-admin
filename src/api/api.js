@@ -19,6 +19,7 @@ const API = {
   SysUserGetById:'/sys-user/getById',
   SysUserGrabHighSeasClient:'/sys-user/grabHighSeasClient',
   SysUserListSales: '/sys-user/listSales',
+  SysUserListSalesmen: '/sys-user/listSalesmen',
   SysUserResetPwd: '/sys-user/resetPwd',
   SysUserModifyPwd: '/sys-user/modifyPwd',
   // ================成功案例================
